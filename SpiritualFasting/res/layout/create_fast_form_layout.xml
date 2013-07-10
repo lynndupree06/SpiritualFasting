@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/create_fragment"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:paddingBottom="40dp"
+    style="@style/FragmentLayout" >
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        style="@style/FormLayout">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:text="@string/CreateFastForm_TypeText"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                style="@style/FormLabelText" />
+
+            <Spinner
+                android:id="@+id/type_of_fast_spinner"
+                style="@style/Spinner"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:entries="@array/types_of_fasts" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:text="@string/CreateFastForm_StartText"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                style="@style/FormLabelText" />
+
+            <EditText
+                android:id="@+id/start_fast_date"
+                style="@style/FormInputText"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:inputType="date"
+                android:selectAllOnFocus="false" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

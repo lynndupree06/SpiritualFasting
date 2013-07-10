@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primary_color">#133AAC</color>
+    <color name="secondary_color_a">#600CAC</color>
+    <color name="secondary_color_b">#FFF200</color>
+    <color name="complementary_color">#FFAE00</color>
+    
+    <color name="background_color">#efece3</color>
+    <color name="actionbar_background">#2B4181</color>
+    <color name="actionbar_text">#ffffff</color>
+    <color name="actionbar_pressed_background">#062170</color>
+    
+    <color name="navigation_menu_background">#5E5E5E</color>
+    <color name="navigation_menu_text">#FFFFFF</color>
+    <color name="navigation_menu_item_pressed_background">#FFAE00</color>
+    <color name="list_item_pressed_background">#6D87D6</color>
+    <color name="action_button_background">#FFAE00</color>
+    <color name="action_button_text">#FFFFFF</color>
+    <color name="action_button_pressed_background">#A67100</color>
+    <color name="blue_button_background">#476BD6</color>
+    <color name="blue_button_text">#FFFFFF</color>
+    <color name="blue_button_pressed_background">#6D87D6</color>
+    <color name="purple_button_background">#8E41D5</color>
+    <color name="purple_button_text">#FFFFFF</color>
+    <color name="purple_button_pressed_background">#A168D5</color>
+    <color name="red_button_background">#D80000 </color>
+    <color name="red_button_text">#FFFFFF</color>
+    <color name="red_button_pressed_background">#660000</color>
+    <color name="image_button_border">#5E5E5E</color>
+    <color name="image_button_normal_background">#476BD6</color>
+    <color name="image_button_pressed_background">#6D87D6</color>
+    
+    
+    <color name="form_text">#3C0470</color>
+    <color name="transparent">#00000000</color>
+    <color name="black">#000000</color>
+    <color name="white">#ffffff</color>
+</resources>

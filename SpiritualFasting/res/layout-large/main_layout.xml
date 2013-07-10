@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/home_container"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:baselineAligned="false" >
+
+    <ListView android:id="@+id/navigation_list"
+	    style="@style/NavigationMenu"
+	    android:layout_width="0dp"
+	    android:layout_height="match_parent"
+        android:layout_weight="1" />
+    
+    <fragment
+        android:id="@+id/home_fragment"
+        android:name="com.lynn.spiritualfasting.fragments.HomeFragment"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="2" />
+
+</LinearLayout>

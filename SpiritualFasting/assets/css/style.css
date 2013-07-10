@@ -1,0 +1,16 @@
+body {
+	background: #efece3;
+	font-size: 18px;
+	color: #3C0470;
+	margin: 10px;
+}
+
+#define {
+	color: #FFAE00;
+	text-transform: uppercase;
+	font-weight: bold;
+}
+
+h1, h2, h3 {
+	font-variant:small-caps;
+}

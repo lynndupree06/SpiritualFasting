@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+	android:layout_height="wrap_content"
+	android:orientation="horizontal"
+	style="@style/FastListItem" >
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/calendar"
+        android:contentDescription="@drawable/calendar"/>
+
+	<LinearLayout
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/type_of_fast_title"
+                    style="@style/FastListItem_Title"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:textIsSelectable="false" />
+
+                <TextView
+                    android:id="@+id/progress_subtitle"
+                    style="@style/FastListItem_Subtitle"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+	                android:textIsSelectable="false" />
+	</LinearLayout>
+</LinearLayout>

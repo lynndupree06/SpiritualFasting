@@ -1,0 +1,50 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    style="@style/FragmentLayout">
+
+	<LinearLayout 
+	    android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="vertical"
+		style="@style/FastLayout" >
+		
+		    <TextView
+		        android:id="@+id/fast_activity_title"
+		        style="@style/FastLayout_Title"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:textIsSelectable="false" />
+		    
+		    <LinearLayout
+		        android:layout_width="fill_parent"
+		        android:layout_height="2dp"
+		        android:background="@color/primary_color" />
+		
+		    <TextView
+		        android:id="@+id/fast_activity_subtitle"
+		        style="@style/FastLayout_Subtitle"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:textIsSelectable="false" />
+		
+		    <WebView
+		        android:id="@+id/fast_activity_webview"
+		        style="@style/FastLayout_Webview" />
+		
+		    <Button
+		        android:id="@+id/journal_entry_button"
+		        style="@style/PurpleButton"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:text="@string/journal_entry_button_text" />
+		    
+		    <Button
+		        android:id="@+id/fast_detail_button"
+		        style="@style/BlueButton"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:text="@string/fast_detail_button_text" />
+		
+	</LinearLayout>
+</ScrollView>

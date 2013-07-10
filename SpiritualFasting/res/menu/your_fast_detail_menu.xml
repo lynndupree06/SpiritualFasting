@@ -1,0 +1,15 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/edit_fast"
+        android:showAsAction="collapseActionView"
+        android:title="" >
+        <menu>
+            <item
+                android:id="@+id/journal_entries"
+        		android:showAsAction="ifRoom" 
+        		android:title="@string/journal_entries_menu_item"  />
+        </menu>
+	</item>
+
+</menu>

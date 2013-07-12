@@ -7,7 +7,7 @@ import java.util.List;
 
 import com.actionbarsherlock.app.SherlockFragment;
 import com.lynn.spiritualfasting.R;
-import com.lynn.spiritualfasting.YourFastsActivity;
+import com.lynn.spiritualfasting.YourFastDetailActivity;
 import com.lynn.spiritualfasting.database.YourFastDB;
 import com.lynn.spiritualfasting.model.YourFast;
 import com.lynn.spiritualfasting.util.Resources;
@@ -82,7 +82,7 @@ public class HomeFragment extends SherlockFragment {
 			public void onItemClick(AdapterView<?> arg0, View v, int position, long id) {
 				FragmentActivity activity = getSherlockActivity();
 				YourFastDB db = new YourFastDB(activity);
-				Intent intent = new Intent(activity, YourFastsActivity.class);
+				Intent intent = new Intent(activity, YourFastDetailActivity.class);
 
 				YourFast item = db.getItem((int)id);
 				intent.putExtra(Resources.YOUR_FAST_ID, (int)id);
@@ -90,7 +90,7 @@ public class HomeFragment extends SherlockFragment {
 				
 				long diffTime = Calendar.getInstance().getTime().getTime() - item.getStartDate().getTime();
 				long diffDays = diffTime / (1000 * 60 * 60 * 24);
-				intent.putExtra(Resources.PROGRESS, "Day " + (diffDays + 1) + " of " + item.getFast().getLength());
+				intent.putExtra(Resources.DAY, (int)(diffDays + 1));
 				
 				getSherlockActivity().startActivity(intent);
 			}

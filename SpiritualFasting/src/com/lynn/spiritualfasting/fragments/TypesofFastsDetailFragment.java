@@ -92,7 +92,7 @@ public class TypesofFastsDetailFragment extends SherlockFragment implements Acti
     }
     
     @Override
-    public void onDetach() {
+    public void onDetach() { 
     	super.onDetach();
     	actionBar.removeAllTabs();
     	actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);

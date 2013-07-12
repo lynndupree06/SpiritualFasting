@@ -17,6 +17,7 @@ public class MainActivity extends BaseActivity {
 		getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 		setupMenu();
 		setupDatabase();
+		setSlidingActionBarEnabled(false);
 		
 		if (findViewById(R.id.fragment_container) != null) {
 

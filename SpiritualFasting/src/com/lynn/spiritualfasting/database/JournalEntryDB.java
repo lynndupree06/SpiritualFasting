@@ -4,8 +4,6 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
 
@@ -23,7 +21,8 @@ public class JournalEntryDB extends DatabaseHandler<JournalEntry> {
     private static final String KEY_ID = "id";
     private static final String KEY_ENTRY = "entry";
     private static final String KEY_YOUR_FAST_ID = "yourFastId";
-    private static final String KEY_DATE = "date";
+    private static final String KEY_DATE = "lastUpdated";
+	private static final String KEY_DAY = "dayInFast";
 	
 	public JournalEntryDB(Context context) {
 		super(context);
@@ -32,7 +31,8 @@ public class JournalEntryDB extends DatabaseHandler<JournalEntry> {
 	            + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
 	            + KEY_ENTRY + " TEXT, "
 	            + KEY_YOUR_FAST_ID + " INTEGER, " 
-	            + KEY_DATE + " TIMESTAMP)";
+	            + KEY_DATE + " TIMESTAMP,"
+	            + KEY_DAY + " INTEGER)";
 	}
 
 	public long addItem(JournalEntry journalEntry) {
@@ -46,6 +46,8 @@ public class JournalEntryDB extends DatabaseHandler<JournalEntry> {
 			values.putNull(KEY_ID);
 			values.put(KEY_YOUR_FAST_ID, journalEntry.getYourFast().getId());
 			values.put(KEY_ENTRY, journalEntry.getEntry());
+			values.put(KEY_DAY, journalEntry.getDay());
+			values.put(KEY_DATE, journalEntry.getLastUpdated().getTime());
 	
 			// Insert the new row, returning the primary key value of the new row
 			newRowId = db.insert(TABLE, KEY_ID, values);
@@ -78,12 +80,13 @@ public class JournalEntryDB extends DatabaseHandler<JournalEntry> {
 		String sql = "SELECT * FROM " + TABLE 
 				+ " LEFT JOIN yourFasts ON " + TABLE + "." + KEY_YOUR_FAST_ID + " = yourFasts.id "
         		+ " LEFT JOIN fasts ON yourFasts." + YourFastDB.KEY_FAST_ID + " = fasts.id"
-        		+ " WHERE id = ?";
+        		+ " WHERE " + TABLE + ".id = ?";
 		Cursor cursor = db.rawQuery(sql, selectionArgs);
 		
 		if(cursor.moveToFirst()) {
 			String entry = cursor.getString(cursor.getColumnIndexOrThrow(KEY_ENTRY));
-			String entryDate = cursor.getString(cursor.getColumnIndexOrThrow(KEY_DATE));
+			int entryDay = cursor.getInt(cursor.getColumnIndexOrThrow(KEY_DAY));
+			String entryLastUpdated = cursor.getString(cursor.getColumnIndexOrThrow(KEY_DATE));
 			String start = cursor.getString(cursor.getColumnIndexOrThrow(YourFastDB.KEY_START));
 			String end = cursor.getString(cursor.getColumnIndexOrThrow(YourFastDB.KEY_END));
 			String name = cursor.getString(cursor.getColumnIndexOrThrow(FastDB.KEY_NAME));
@@ -96,14 +99,14 @@ public class JournalEntryDB extends DatabaseHandler<JournalEntry> {
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS", Locale.US);
 				startDate = new Timestamp(sdf.parse(start).getTime());
 				endDate = new Timestamp(sdf.parse(end).getTime());
-				date = new Timestamp(sdf.parse(entryDate).getTime());
+				date = new Timestamp(sdf.parse(entryLastUpdated).getTime());
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
 			
 			Fast fast = new Fast(name, length, url);
 			YourFast yourFast = new YourFast(fast, startDate, endDate);
-			newJournalEntry = new JournalEntry(id, entry, yourFast, date);
+			newJournalEntry = new JournalEntry(id, entry, yourFast, entryDay, date);
 		}
 		
 		return newJournalEntry;
@@ -125,6 +128,7 @@ public class JournalEntryDB extends DatabaseHandler<JournalEntry> {
             do {
             	int id = cursor.getInt(cursor.getColumnIndexOrThrow(KEY_ID));
             	String entry = cursor.getString(cursor.getColumnIndexOrThrow(KEY_ENTRY));
+    			int entryDay = cursor.getInt(cursor.getColumnIndexOrThrow(KEY_DAY));
     			String entryDate = cursor.getString(cursor.getColumnIndexOrThrow(KEY_DATE));
     			String start = cursor.getString(cursor.getColumnIndexOrThrow(YourFastDB.KEY_START));
     			String end = cursor.getString(cursor.getColumnIndexOrThrow(YourFastDB.KEY_END));
@@ -145,7 +149,7 @@ public class JournalEntryDB extends DatabaseHandler<JournalEntry> {
     			
     			Fast fast = new Fast(name, length, url);
     			YourFast yourFast = new YourFast(fast, startDate, endDate);
-                JournalEntry journalEntry = new JournalEntry(id, entry, yourFast, date);
+                JournalEntry journalEntry = new JournalEntry(id, entry, yourFast, entryDay, date);
                 fastList.add(journalEntry);
             } while (cursor.moveToNext());
         }

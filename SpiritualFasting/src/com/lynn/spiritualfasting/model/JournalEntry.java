@@ -1,18 +1,25 @@
 package com.lynn.spiritualfasting.model;
 
 import java.sql.Timestamp;
+import java.util.Calendar;
 
 public class JournalEntry {
 	public int id;
-	public Timestamp date;
+	public Timestamp lastUpdated;
 	public String entry;
 	private YourFast fast;
+	private int day;
 	
-	public JournalEntry(int id, String entry, YourFast fast, Timestamp date) {
+	public JournalEntry(String entry, YourFast fast, int day) {
+		this(0, entry, fast, day, new Timestamp(Calendar.getInstance().getTime().getTime()));
+	}
+	
+	public JournalEntry(int id, String entry, YourFast fast, int day, Timestamp date) {
 		setId(id);
 		setEntry(entry);
 		setYourFast(fast);
-		setDate(date);
+		setDay(day);
+		setLastUpdated(date);
 	}
 
 	public int getId() {
@@ -23,12 +30,12 @@ public class JournalEntry {
 		this.id = id;
 	}
 	
-	public Timestamp getDate() {
-		return date;
+	public Timestamp getLastUpdated() {
+		return lastUpdated;
 	}
 	
-	public void setDate(Timestamp date) {
-		this.date = date;
+	public void setLastUpdated(Timestamp date) {
+		this.lastUpdated = date;
 	}
 	
 	public String getEntry() {
@@ -45,5 +52,13 @@ public class JournalEntry {
 
 	public void setYourFast(YourFast fast) {
 		this.fast = fast;
+	}
+
+	public int getDay() {
+		return day;
+	}
+
+	public void setDay(int day) {
+		this.day = day;
 	}
 }

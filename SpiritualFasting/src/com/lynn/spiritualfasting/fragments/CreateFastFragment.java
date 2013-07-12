@@ -5,17 +5,12 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Locale;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -31,7 +26,7 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.lynn.spiritualfasting.R;
-import com.lynn.spiritualfasting.YourFastsActivity;
+import com.lynn.spiritualfasting.YourFastDetailActivity;
 import com.lynn.spiritualfasting.database.FastDB;
 import com.lynn.spiritualfasting.database.YourFastDB;
 import com.lynn.spiritualfasting.model.Fast;
@@ -152,7 +147,7 @@ public class CreateFastFragment extends SherlockFragment {
 				db = new YourFastDB(activity);
 				db.addItem(newFast);
 
-				Intent intent = new Intent(activity, YourFastsActivity.class);
+				Intent intent = new Intent(activity, YourFastDetailActivity.class);
 				Timestamp today = new Timestamp(Calendar.getInstance().getTime().getTime());
 				if(newFast.getStartDate().equals(today)) {
 					intent.putExtra(Resources.PROGRESS, 

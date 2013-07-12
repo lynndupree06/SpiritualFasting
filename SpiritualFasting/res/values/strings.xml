@@ -28,6 +28,7 @@
 	<string name="journal_entries_menu_item">Journal Entries</string>
 	<string name="start_fast">Start Fast</string>
 	<string name="cancel_fast">Cancel</string>
+	<string name="start_fast_date_hint">Set Start Date</string>
     
     <string-array name="navigation">
         <item>Home</item>

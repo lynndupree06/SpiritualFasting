@@ -29,7 +29,8 @@ public abstract class DatabaseHandler<T> extends SQLiteOpenHelper {
             + "id INTEGER PRIMARY KEY AUTOINCREMENT,"
             + "entry TEXT, "
             + "yourFastId INTEGER, " 
-            + "date TIMESTAMP)";
+            + "lastUpdated TIMESTAMP"
+            + "dayInFast INTEGER)";
     
     protected String CREATE_TABLE_RECIPE = "CREATE TABLE recipes("
             + "id INTEGER PRIMARY KEY AUTOINCREMENT,"

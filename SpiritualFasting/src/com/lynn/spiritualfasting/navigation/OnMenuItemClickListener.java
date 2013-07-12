@@ -5,7 +5,7 @@ import com.lynn.spiritualfasting.MainActivity;
 import com.lynn.spiritualfasting.R;
 import com.lynn.spiritualfasting.TypesOfFastsActivity;
 import com.lynn.spiritualfasting.WhyActivity;
-import com.lynn.spiritualfasting.YourFastsActivity;
+import com.lynn.spiritualfasting.YourFastsListActivity;
 import com.slidingmenu.lib.SlidingMenu;
 
 import android.content.Intent;
@@ -33,7 +33,7 @@ public class OnMenuItemClickListener implements OnItemClickListener {
 	    		  intent = new Intent(context, MainActivity.class);
 	    		  break;
 	    	  case 1:
-	    		  intent = new Intent(context, YourFastsActivity.class);
+	    		  intent = new Intent(context, YourFastsListActivity.class);
 	    		  break;
 	    	  case 2:
 	    		  intent = new Intent(context, TypesOfFastsActivity.class);

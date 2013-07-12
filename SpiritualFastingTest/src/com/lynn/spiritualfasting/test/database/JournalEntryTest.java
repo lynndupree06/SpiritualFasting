@@ -44,7 +44,7 @@ public class JournalEntryTest extends ActivityInstrumentationTestCase2<MainActiv
 		assertEquals(entry.getId(), actual.getId());
 		assertEquals(entry.getEntry(), actual.getEntry());
 		assertEquals(entry.getFast(), actual.getFast());
-		assertEquals(entry.getDate(), actual.getDate());
+		assertEquals(entry.getLastUpdated(), actual.getLastUpdated());
 		
 		db.deleteItem(entry);
 	}

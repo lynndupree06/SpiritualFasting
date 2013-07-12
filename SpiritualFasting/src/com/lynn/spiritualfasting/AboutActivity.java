@@ -11,6 +11,7 @@ public class AboutActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView (R.layout.webview_layout);
 		setupMenu();
+		setSlidingActionBarEnabled(false);
 		
 		getSupportActionBar().setHomeButtonEnabled(true);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(false);

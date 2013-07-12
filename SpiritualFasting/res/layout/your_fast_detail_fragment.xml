@@ -9,6 +9,7 @@
 		android:orientation="vertical"
 		style="@style/FastLayout" >
 		
+	    
 		    <TextView
 		        android:id="@+id/fast_activity_title"
 		        style="@style/FastLayout_Title"
@@ -30,7 +31,7 @@
 		
 		    <WebView
 		        android:id="@+id/fast_activity_webview"
-		        style="@style/FastLayout_Webview" />
+		        style="@style/FastLayout_Webview" />		    
 		
 		    <Button
 		        android:id="@+id/journal_entry_button"

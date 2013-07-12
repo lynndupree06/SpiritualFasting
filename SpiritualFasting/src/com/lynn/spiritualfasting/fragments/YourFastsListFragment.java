@@ -2,6 +2,7 @@ package com.lynn.spiritualfasting.fragments;
 
 import java.util.List;
 
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -20,6 +21,7 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.lynn.spiritualfasting.R;
+import com.lynn.spiritualfasting.YourFastDetailActivity;
 import com.lynn.spiritualfasting.database.YourFastDB;
 import com.lynn.spiritualfasting.model.YourFast;
 import com.lynn.spiritualfasting.util.Resources;
@@ -80,21 +82,16 @@ public class YourFastsListFragment extends SherlockListFragment implements Actio
 		if(mActionMode == null) {
 			FragmentActivity activity = getSherlockActivity();
 			YourFastDB db = new YourFastDB(activity);
-			YourFastDetailFragment detailFragment = new YourFastDetailFragment();
+			Intent intent = new Intent(activity, YourFastDetailActivity.class);
 	
 			YourFast item = db.getItem((int)id);
-			activity.getIntent().putExtra(Resources.YOUR_FAST_ID, (int)id);
-			activity.getIntent().putExtra(Resources.FAST_NAME, item.getFast().getName());
+			intent.putExtra(Resources.YOUR_FAST_ID, (int)id);
+			intent.putExtra(Resources.FAST_NAME, item.getFast().getName());
 			
 			TextView progress = (TextView)v.findViewById (R.id.progress_subtitle);
-			activity.getIntent().putExtra(Resources.PROGRESS, progress.getText());
+			intent.putExtra(Resources.PROGRESS, progress.getText());
 			
-			detailFragment.setArguments(activity.getIntent().getExtras());
-			
-			FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
-			transaction.replace(((ViewGroup)getView().getParent()).getId(), detailFragment);
-			transaction.addToBackStack(null);
-			transaction.commit();
+			activity.startActivity(intent);
 			db.close();
 		} else {
 	        onListItemCheck(position); 
@@ -131,7 +128,7 @@ public class YourFastsListFragment extends SherlockListFragment implements Actio
     	switch (item.getItemId()) {
     		case R.id.add_fast:
     			CreateFastFragment createFragment = new CreateFastFragment();
-				transaction.replace(R.id.fragment_container, createFragment);
+				transaction.replace(((ViewGroup)getView().getParent()).getId(), createFragment);
 				transaction.addToBackStack(null);
 				transaction.commit();
     			return true;

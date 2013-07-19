@@ -3,12 +3,15 @@ package com.lynn.spiritualfasting.fragments;
 import java.util.List;
 
 import com.actionbarsherlock.app.SherlockListFragment;
+import com.lynn.spiritualfasting.AboutActivity;
 import com.lynn.spiritualfasting.R;
+import com.lynn.spiritualfasting.TypesOfFastsDetailActivity;
 import com.lynn.spiritualfasting.database.FastDB;
 import com.lynn.spiritualfasting.model.Fast;
 import com.lynn.spiritualfasting.util.FastListAdapter;
 import com.lynn.spiritualfasting.util.Resources;
 
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
@@ -47,13 +50,8 @@ public class TypesofFastsListFragment extends SherlockListFragment {
 	
 	@Override
     public void onListItemClick(ListView l, View v, int position, long id) {
-		TypesofFastsDetailFragment detailFragment = new TypesofFastsDetailFragment();
-		getSherlockActivity().getIntent().putExtra(Resources.FAST_ID, (int)id);
-		detailFragment.setArguments(getSherlockActivity().getIntent().getExtras());
-		
-		FragmentTransaction transaction = getSherlockActivity().getSupportFragmentManager().beginTransaction();
-		transaction.replace(((ViewGroup)getView().getParent()).getId(), detailFragment);
-		transaction.addToBackStack(null);
-		transaction.commit();
+		Intent intent = new Intent(getSherlockActivity(), TypesOfFastsDetailActivity.class);
+		intent.putExtra(Resources.FAST_ID, (int)id);
+		getSherlockActivity().startActivity(intent);
     }
 }

@@ -1,4 +1,4 @@
-package com.lynn.spiritualfasting.fragments;
+package com.lynn.spiritualfasting;
 
 import java.sql.Timestamp;
 import java.text.ParseException;
@@ -8,9 +8,7 @@ import java.util.Calendar;
 import java.util.Locale;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -20,20 +18,16 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 
-import com.actionbarsherlock.app.SherlockFragment;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.lynn.spiritualfasting.R;
-import com.lynn.spiritualfasting.YourFastDetailActivity;
 import com.lynn.spiritualfasting.database.FastDB;
 import com.lynn.spiritualfasting.database.YourFastDB;
 import com.lynn.spiritualfasting.model.Fast;
 import com.lynn.spiritualfasting.model.YourFast;
 import com.lynn.spiritualfasting.util.Resources;
 
-public class CreateFastFragment extends SherlockFragment {
+public class CreateFastActivity extends BaseActivity {
 	
 	private static TextView startDate;
     private static int day;
@@ -47,18 +41,14 @@ public class CreateFastFragment extends SherlockFragment {
 
     @Override
 	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
-	}
-	
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.create_fast_form_layout,
-				container, false);
-
-		getSherlockActivity().setTitle(R.string.title_activity_start_fast);
-		getSherlockActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+    	super.onCreate(savedInstanceState);
+		setContentView (R.layout.create_fast_form_layout);
+		
+		getSupportActionBar().setHomeButtonEnabled(true);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+		setupMenu();
+		
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		
 		list = new ArrayList<String>();
 		String[] fastTypesList = getResources().getStringArray(R.array.types_of_fasts);
@@ -67,24 +57,21 @@ public class CreateFastFragment extends SherlockFragment {
 			list.add(name);
 		
 		String fastName = "";
-		fastType = (Spinner) rootView.findViewById(R.id.type_of_fast_spinner);
+		fastType = (Spinner) findViewById(R.id.type_of_fast_spinner);
 		
-		if(getArguments() != null) {
-			fastName = getArguments().getString(Resources.FAST_NAME);
+		if(getIntent().getExtras() != null) {
+			fastName = getIntent().getExtras().getString(Resources.FAST_NAME);
 			if(!fastName.equals(""))
 				fastType.setSelection(list.indexOf(fastName));
 		}	
 		
-		startDate = (TextView) rootView.findViewById(R.id.start_fast_date);
+		startDate = (TextView) findViewById(R.id.start_fast_date);
         startDate.setOnClickListener(new View.OnClickListener() {			
 			@Override
 			public void onClick(View v) {
-				getActivity().showDialog(DATE_PICKER_ID);
+				showDialog(DATE_PICKER_ID);
 			}
 		});
-		
-		
-		return rootView;
 	}
     
     public static DatePickerDialog.OnDateSetListener datePickerListener 
@@ -105,9 +92,10 @@ public class CreateFastFragment extends SherlockFragment {
     };
     
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-    	super.onCreateOptionsMenu(menu, inflater);
-		inflater.inflate(R.menu.create_fasts_menu, menu);
+    public boolean onCreateOptionsMenu(Menu menu) {
+    	super.onCreateOptionsMenu(menu);
+		getSupportMenuInflater().inflate(R.menu.create_fasts_menu, menu);
+		return true;
     }
     
     @Override
@@ -117,7 +105,7 @@ public class CreateFastFragment extends SherlockFragment {
     			createNewFast();
     			return true;
     		case R.id.cancel_fast:
-    			getSherlockActivity().getSupportFragmentManager().popBackStack();
+    			finish();
     			return true;
 		    default:
 		        return super.onOptionsItemSelected(item);
@@ -128,14 +116,13 @@ public class CreateFastFragment extends SherlockFragment {
 		String name = fastType.getSelectedItem().toString();
 		String date = startDate.getText().toString();
 
-		SherlockFragmentActivity activity = getSherlockActivity();
 		if(!name.equals("Select a fast...") && !date.equals("")) {
 			SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy", Locale.US);
 			
 			try {	
 				Timestamp start = new Timestamp(sdf.parse(date).getTime()); 
 				
-				FastDB fastDb = new FastDB(activity);
+				FastDB fastDb = new FastDB(this);
 				Fast fast = fastDb.getItemByName(name);
 				
 				Calendar c = Calendar.getInstance();
@@ -144,10 +131,10 @@ public class CreateFastFragment extends SherlockFragment {
 				Timestamp end = new Timestamp(c.getTime().getTime());
 				
 				YourFast newFast = new YourFast(fast, start, end);
-				db = new YourFastDB(activity);
+				db = new YourFastDB(this);
 				db.addItem(newFast);
 
-				Intent intent = new Intent(activity, YourFastDetailActivity.class);
+				Intent intent = new Intent(this, YourFastDetailActivity.class);
 				Timestamp today = new Timestamp(Calendar.getInstance().getTime().getTime());
 				if(newFast.getStartDate().equals(today)) {
 					intent.putExtra(Resources.PROGRESS, 
@@ -159,16 +146,16 @@ public class CreateFastFragment extends SherlockFragment {
 				
 				intent.putExtra(Resources.FAST_NAME, fast.getName());
 				intent.putExtra(Resources.YOUR_FAST_ID, fast.getId());
-				activity.startActivity(intent);
+				this.startActivity(intent);
 				
-				if(!activity.getTitle().equals(activity.getString(R.string.app_name)))
-					activity.finish();
+				if(!this.getTitle().equals(this.getString(R.string.app_name)))
+					this.finish();
 				
 			}  catch (ParseException e) {
 				e.printStackTrace();
 			}
 		} else {
-			AlertDialog.Builder alert = new AlertDialog.Builder(activity);
+			AlertDialog.Builder alert = new AlertDialog.Builder(this);
 		    alert.setTitle("Some of the required fields are missing.");
 		    
 		    String message = "";

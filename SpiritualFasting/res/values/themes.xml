@@ -111,9 +111,6 @@
 	<style name="FastListItem_Subtitle">
 	    <item name="android:textSize">14sp</item>
 	</style>
-	<style name="FastLayout">
-	    <item name="android:padding">20dp</item>
-	</style>
 	<style name="FastLayout_Title">
 	    <item name="android:textSize">20sp</item>
 	</style>
@@ -125,6 +122,7 @@
 	    <item name="android:layout_margin">20dp</item>
 	    <item name="android:layout_width">fill_parent</item>
 	    <item name="android:layout_height">wrap_content</item>
+	    <item name="android:maxHeight">100dp</item>
 	</style>
 	<style name="EmptyListText">
 	    <item name="android:padding">10dp</item>

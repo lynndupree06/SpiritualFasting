@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -44,8 +45,6 @@ import com.lynn.spiritualfasting.util.ScreenSlidePagerAdapter;
 public class YourFastDetailFragment extends SherlockFragment implements OnNavigationListener {
 
 	private int yourFastId;
-	private ViewPager mPager;
-	private ScreenSlidePagerAdapter mPagerAdapter;
 	private String fastName;
 	private int day;
 	private int num_days;
@@ -83,77 +82,15 @@ public class YourFastDetailFragment extends SherlockFragment implements OnNaviga
 		TextView subtitle = (TextView) rootView.findViewById(R.id.fast_activity_subtitle);
 		SimpleDateFormat sdf = new SimpleDateFormat("MMMM dd, yyyy", Locale.US);
 		subtitle.setText(progress); //sdf.format(Calendar.getInstance().getTime())
+		
+		String url = fastDb.getItemByName(fastName).getUrl();
+		WebView scripture = (WebView) rootView.findViewById(R.id.fast_activity_webview);
+		scripture.loadUrl("file:///android_asset/types_of_fasts/" + url);
 
-		wireButtons(rootView);
-
+		fastDb.close();
 		return rootView;
 	}
-
-	public void wireButtons(View rootView) {
-		
-		Button addJournalEntry = (Button) rootView.findViewById(R.id.journal_entry_button);
-		addJournalEntry.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				JournalEntryDB db = new JournalEntryDB(getSherlockActivity());
-				List<JournalEntry> entries = db.getAllItems();
-				
-				for(JournalEntry e : entries) {
-					if(e.getYourFast().getId() == yourFastId &&
-							e.getDay() == day) {
-						getSherlockActivity().getIntent().putExtra(Resources.ENTRY_ID, e.getId());
-					}
-				}
-				
-				JournalEntryFragment fragment = new JournalEntryFragment();
-				FragmentTransaction transaction = getSherlockActivity().getSupportFragmentManager().beginTransaction();
-				getSherlockActivity().getIntent().putExtra(Resources.YOUR_FAST_ID, yourFastId);
-				fragment.setArguments(getSherlockActivity().getIntent().getExtras()); 
-				transaction.replace(R.id.your_fast_detail_fragment_container, fragment);
-				transaction.addToBackStack(null);
-				transaction.commit();
-				((YourFastDetailActivity)getSherlockActivity()).toggleNavigationButtons(View.INVISIBLE);
-			}
-		});
-
-        Button fastDetail = (Button) rootView.findViewById(R.id.fast_detail_button);
-        fastDetail.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				TypesofFastsDetailFragment fragment = new TypesofFastsDetailFragment();
-				FragmentTransaction transaction = getSherlockActivity().getSupportFragmentManager().beginTransaction();
-				
-				FastDB fastDb = new FastDB(getSherlockActivity());
-				Fast fast = fastDb.getItemByName(fastName);
-				
-				getSherlockActivity().getIntent().putExtra(Resources.FAST_ID, fast.getId());
-				fragment.setArguments(getSherlockActivity().getIntent().getExtras());
-				transaction.replace(R.id.your_fast_detail_fragment_container, fragment);
-				transaction.addToBackStack(null);
-				transaction.commit();
-				fastDb.close();
-				((YourFastDetailActivity)getSherlockActivity()).toggleNavigationButtons(View.INVISIBLE);
-			}
-		});
-        
-//        Button button = (Button) rootView.findViewById(R.id.previous);
-//		button.setOnClickListener(new OnClickListener() {
-//		    public void onClick(View v) {
-//		    	
-////		        mPager.setCurrentItem(day - 1);
-//		    }
-//		});
-//		button = (Button) rootView.findViewById(R.id.next);
-//		button.setOnClickListener(new OnClickListener() {
-//		    public void onClick(View v) {
-//		    	YourFastDetailActivity activity = (YourFastDetailActivity) getSherlockActivity();
-//		    	int position = ((day + 1) <= num_days) ? (day + 1) : num_days;
-//		    	activity.getmPager().setCurrentItem(position);
-//		    }
-//		});
-	}
+	
 	
 	@Override
 	public void onDetach() {

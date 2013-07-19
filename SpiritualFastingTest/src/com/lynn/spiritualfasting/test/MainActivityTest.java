@@ -1,9 +1,9 @@
 package com.lynn.spiritualfasting.test;
 
+import com.lynn.spiritualfasting.CreateFastActivity;
 import com.lynn.spiritualfasting.MainActivity;
 import com.lynn.spiritualfasting.R;
 import com.lynn.spiritualfasting.fragments.AboutFragment;
-import com.lynn.spiritualfasting.fragments.CreateFastFragment;
 import com.lynn.spiritualfasting.fragments.HomeFragment;
 import com.lynn.spiritualfasting.fragments.TypesofFastsListFragment;
 import com.lynn.spiritualfasting.fragments.YourFastsListFragment;
@@ -79,7 +79,7 @@ public class MainActivityTest extends
 		assertTrue(startButton.performClick());
 		
 		Fragment createFastFragment = fragmentManager.findFragmentById(R.id.create_fragment);
-		assertTrue(createFastFragment instanceof CreateFastFragment);
+		assertTrue(createFastFragment instanceof CreateFastActivity);
 	}
 	
 	public void testAboutFragment() {

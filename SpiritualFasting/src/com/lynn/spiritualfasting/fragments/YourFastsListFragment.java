@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +19,7 @@ import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
+import com.lynn.spiritualfasting.CreateFastActivity;
 import com.lynn.spiritualfasting.R;
 import com.lynn.spiritualfasting.YourFastDetailActivity;
 import com.lynn.spiritualfasting.database.YourFastDB;
@@ -123,14 +123,11 @@ public class YourFastsListFragment extends SherlockListFragment implements Actio
     
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-    	FragmentTransaction transaction = getSherlockActivity().getSupportFragmentManager().beginTransaction();
     	
     	switch (item.getItemId()) {
     		case R.id.add_fast:
-    			CreateFastFragment createFragment = new CreateFastFragment();
-				transaction.replace(((ViewGroup)getView().getParent()).getId(), createFragment);
-				transaction.addToBackStack(null);
-				transaction.commit();
+    			Intent intent = new Intent(getSherlockActivity(), CreateFastActivity.class);
+				getSherlockActivity().startActivity(intent);
     			return true;
     		case R.id.edit_fast:
     			mActionMode = getSherlockActivity().startActionMode(this);

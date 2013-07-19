@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import com.actionbarsherlock.app.SherlockFragment;
+import com.lynn.spiritualfasting.CreateFastActivity;
 import com.lynn.spiritualfasting.R;
 import com.lynn.spiritualfasting.YourFastDetailActivity;
 import com.lynn.spiritualfasting.database.YourFastDB;
@@ -17,7 +18,6 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,11 +54,8 @@ public class HomeFragment extends SherlockFragment {
 			
 			@Override
 			public void onClick(View v) {
-				CreateFastFragment fragment = new CreateFastFragment();
-				FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-				transaction.replace(R.id.fragment_container, fragment);
-				transaction.addToBackStack(null);
-				transaction.commit();
+				Intent intent = new Intent(getSherlockActivity(), CreateFastActivity.class);
+				getSherlockActivity().startActivity(intent);
 			}
 		});
 		

@@ -23,7 +23,9 @@
         </activity>
         
         <activity android:name=".AboutActivity" android:label="@string/title_activity_about" />
+        <activity android:name=".CreateFastActivity" android:label="@string/title_activity_start_fast" />
         <activity android:name=".TypesOfFastsActivity" android:label="@string/title_types_of_fasts" />
+        <activity android:name=".TypesOfFastsDetailActivity" />
         <activity android:name=".WhyActivity" android:label="@string/title_activity_why" />
         <activity android:name=".YourFastsListActivity" android:label="@string/title_your_fasts_list" />
         <activity android:name=".YourFastDetailActivity" android:logo="@drawable/abs__ic_ab_back_holo_dark" />

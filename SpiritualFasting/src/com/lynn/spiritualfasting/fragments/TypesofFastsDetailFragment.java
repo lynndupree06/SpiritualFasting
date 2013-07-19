@@ -1,16 +1,16 @@
 package com.lynn.spiritualfasting.fragments;
 
-import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.ActionBar.Tab;
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
+import com.lynn.spiritualfasting.CreateFastActivity;
 import com.lynn.spiritualfasting.R;
 import com.lynn.spiritualfasting.database.FastDB;
 import com.lynn.spiritualfasting.util.Resources;
 
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -20,11 +20,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 
-public class TypesofFastsDetailFragment extends SherlockFragment implements ActionBar.TabListener {
+public class TypesofFastsDetailFragment extends SherlockFragment {
 
-	private int fastId;
-	private String fastName;
-	private ActionBar actionBar;
+	protected int fastId;
+	protected String fastName;
 
 	public TypesofFastsDetailFragment() {
     }
@@ -33,18 +32,6 @@ public class TypesofFastsDetailFragment extends SherlockFragment implements Acti
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        
-        actionBar = getSherlockActivity().getSupportActionBar();
-
-        // Specify that tabs should be displayed in the action bar.
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-        
-        actionBar.addTab(actionBar.newTab()
-                .setText("Details")
-                .setTabListener(this));
-        actionBar.addTab(actionBar.newTab()
-                .setText("Restrictions")
-                .setTabListener(this));
     }
 
     @Override
@@ -77,42 +64,12 @@ public class TypesofFastsDetailFragment extends SherlockFragment implements Acti
     public boolean onOptionsItemSelected(MenuItem item) {
     	switch (item.getItemId()) {
     		case R.id.start_current_fast:
-    			CreateFastFragment fragment = new CreateFastFragment();
-    			FragmentManager manager = getActivity().getSupportFragmentManager();
-				FragmentTransaction transaction = manager.beginTransaction();
-				getActivity().getIntent().putExtra(Resources.FAST_NAME, fastName);
-				fragment.setArguments(getActivity().getIntent().getExtras());
-				transaction.replace(((ViewGroup)getView().getParent()).getId(), fragment);
-				transaction.addToBackStack(null);
-				transaction.commit();
+    			Intent intent = new Intent(getSherlockActivity(), CreateFastActivity.class);
+    			intent.putExtra(Resources.FAST_NAME, fastName);
+				getSherlockActivity().startActivity(intent);
     			return true; 
 		    default:
 		        return super.onOptionsItemSelected(item);
 		}
     }
-    
-    @Override
-    public void onDetach() { 
-    	super.onDetach();
-    	actionBar.removeAllTabs();
-    	actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-    }
-
-	@Override
-	public void onTabSelected(Tab tab, FragmentTransaction ft) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onTabUnselected(Tab tab, FragmentTransaction ft) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onTabReselected(Tab tab, FragmentTransaction ft) {
-		// TODO Auto-generated method stub
-		
-	}
 }

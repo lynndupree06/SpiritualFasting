@@ -10,7 +10,6 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import com.actionbarsherlock.view.MenuItem;
-import com.lynn.spiritualfasting.fragments.CreateFastFragment;
 import com.lynn.spiritualfasting.navigation.MenuListAdapter;
 import com.lynn.spiritualfasting.navigation.OnMenuItemClickListener;
 import com.slidingmenu.lib.SlidingMenu;
@@ -74,7 +73,7 @@ public class BaseActivity extends SlidingFragmentActivity {
         
 		switch (id) {
 			case DATE_DIALOG_ID:
-				DatePickerDialog picker = new DatePickerDialog(this, CreateFastFragment.datePickerListener, 
+				DatePickerDialog picker = new DatePickerDialog(this, CreateFastActivity.datePickerListener, 
                         year, month,day);
 				picker.getDatePicker().setMinDate(c.getTime().getTime());
 			    return picker;

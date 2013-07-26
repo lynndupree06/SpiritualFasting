@@ -2,40 +2,27 @@ package com.lynn.spiritualfasting.fragments;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.List;
 import java.util.Locale;
 
-import android.app.Activity;
 import android.content.pm.ActivityInfo;
-import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.View.OnClickListener;
 import android.webkit.WebView;
-import android.widget.Button;
 import android.widget.TextView;
 
-import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.ActionBar.OnNavigationListener;
 import com.actionbarsherlock.app.SherlockFragment;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.lynn.spiritualfasting.R;
 import com.lynn.spiritualfasting.YourFastDetailActivity;
 import com.lynn.spiritualfasting.YourFastsListActivity;
 import com.lynn.spiritualfasting.database.FastDB;
-import com.lynn.spiritualfasting.database.JournalEntryDB;
+import com.lynn.spiritualfasting.database.ScriptureDB;
 import com.lynn.spiritualfasting.model.Fast;
-import com.lynn.spiritualfasting.model.JournalEntry;
 import com.lynn.spiritualfasting.util.Resources;
-import com.lynn.spiritualfasting.util.ScreenSlidePagerAdapter;
 
 /**
  * A fragment representing a single Fast detail screen. This fragment is either
@@ -44,10 +31,8 @@ import com.lynn.spiritualfasting.util.ScreenSlidePagerAdapter;
  */
 public class YourFastDetailFragment extends SherlockFragment implements OnNavigationListener {
 
-	private int yourFastId;
 	private String fastName;
 	private int day;
-	private int num_days;
 
 	public YourFastDetailFragment() { }
 
@@ -55,8 +40,6 @@ public class YourFastDetailFragment extends SherlockFragment implements OnNaviga
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true); 
-		ActionBar actionBar = getSherlockActivity().getSupportActionBar();
-//        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 	} 
 
 	@Override
@@ -65,28 +48,41 @@ public class YourFastDetailFragment extends SherlockFragment implements OnNaviga
 		View rootView = inflater.inflate(R.layout.your_fast_detail_fragment,
 				container, false);
 
-		yourFastId = getArguments().getInt(Resources.YOUR_FAST_ID);
 		fastName = getArguments().getString(Resources.FAST_NAME);
 		day = getArguments().getInt(Resources.DAY);
+		String progress = getArguments().getString(Resources.PROGRESS);
 		
-		FastDB fastDb = new FastDB(getSherlockActivity());
-		num_days = fastDb.getItemByName(fastName).getLength();
-		String progress = "Day " + day + " of " + num_days;
+		YourFastDetailActivity activity = (YourFastDetailActivity) getSherlockActivity();
+		FastDB fastDb = new FastDB(activity);
+		Fast currentFast = fastDb.getItemByName(fastName);
 		
-		getSherlockActivity().setTitle(fastName);
-		getSherlockActivity().setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
-		
-		TextView title = (TextView) rootView.findViewById(R.id.fast_activity_title);
-		title.setText("Day " + day);
+		activity.setTitle(fastName);
+		activity.setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		
 		TextView subtitle = (TextView) rootView.findViewById(R.id.fast_activity_subtitle);
 		SimpleDateFormat sdf = new SimpleDateFormat("MMMM dd, yyyy", Locale.US);
-		subtitle.setText(progress); //sdf.format(Calendar.getInstance().getTime())
+		subtitle.setText(sdf.format(Calendar.getInstance().getTime()));
 		
-		String url = fastDb.getItemByName(fastName).getUrl();
 		WebView scripture = (WebView) rootView.findViewById(R.id.fast_activity_webview);
-		scripture.loadUrl("file:///android_asset/types_of_fasts/" + url);
+		
+		if(progress.startsWith("Set")) {
+			activity.toggleNavigationButtons(View.INVISIBLE);
+			scripture.loadUrl("file:///android_asset/not_started.html");
+		} else if (progress.startsWith("Ended")) {
+			activity.toggleNavigationButtons(View.INVISIBLE);
+			scripture.loadUrl("file:///android_asset/ended.html");
+		} else {
+			progress = "Day " + day + " of " + currentFast.getLength();
+			ScriptureDB scriptDB = new ScriptureDB(activity);
+			String url = scriptDB.getItemByUniqueId(day, currentFast.getId()).getUrl();
+			scripture.loadUrl("file:///android_asset/scriptures/" 
+					+ currentFast.getUrl().substring(0, currentFast.getUrl().indexOf(".")) 
+					+ "/" + url);
+		}
 
+		TextView title = (TextView) rootView.findViewById(R.id.fast_activity_title);
+		title.setText(progress);
+		
 		fastDb.close();
 		return rootView;
 	}

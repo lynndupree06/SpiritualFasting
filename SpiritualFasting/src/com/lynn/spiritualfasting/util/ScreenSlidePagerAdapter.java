@@ -20,7 +20,8 @@ public class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
     
 	@Override
     public Fragment getItem(int position) {
-		bundle.putInt(Resources.DAY, position + 1);
+		position = (position == 0) ? 1 : position;
+		bundle.putInt(Resources.DAY, position);
         return new YourFastDetailFragment().newInstance(bundle);
     }
 

@@ -5,7 +5,10 @@ import java.util.Calendar;
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.os.Build;
 import android.view.KeyEvent;
+import android.widget.DatePicker;
+import android.widget.DatePicker.OnDateChangedListener;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
@@ -66,16 +69,39 @@ public class BaseActivity extends SlidingFragmentActivity {
 	@SuppressLint("NewApi")
 	@Override
 	protected Dialog onCreateDialog(int id) {
-		Calendar c = Calendar.getInstance();
-        year = c.get(Calendar.YEAR);
-        month = c.get(Calendar.MONTH);
-        day = c.get(Calendar.DAY_OF_MONTH);
+		final Calendar calendar = Calendar.getInstance();
+        year = calendar.get(Calendar.YEAR);
+        month = calendar.get(Calendar.MONTH);
+        day = calendar.get(Calendar.DAY_OF_MONTH);
         
 		switch (id) {
 			case DATE_DIALOG_ID:
 				DatePickerDialog picker = new DatePickerDialog(this, CreateFastActivity.datePickerListener, 
                         year, month,day);
-				picker.getDatePicker().setMinDate(c.getTime().getTime());
+				
+				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+					picker.getDatePicker().setMinDate(calendar.getTime().getTime());
+				} else {
+				    final int minYear = calendar.get(Calendar.YEAR);
+				    final int minMonth = calendar.get(Calendar.MONTH);
+				    final int minDay = calendar.get(Calendar.DAY_OF_MONTH);
+
+				    picker.getDatePicker().init(minYear, minMonth, minDay,
+				            new OnDateChangedListener() {
+
+				                public void onDateChanged(DatePicker view, int year,
+				                        int month, int day) {
+				                    Calendar newDate = calendar;
+				                    newDate.set(year, month, day);
+
+				                    if (calendar.after(newDate)) {
+				                        view.init(minYear, minMonth, minDay, this);
+				                    }
+				                }
+				            });
+				}
+				
+				
 			    return picker;
 		}
 		return null;

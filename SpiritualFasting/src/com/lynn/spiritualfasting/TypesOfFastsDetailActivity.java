@@ -11,8 +11,8 @@ import com.lynn.spiritualfasting.fragments.TypesofFastsDetailRestrictionFragment
 
 public class TypesOfFastsDetailActivity extends BaseActivity implements ActionBar.TabListener {
 
+	private static final String BACKGROUND = "Background";
 	private static final String DETAILS = "Details";
-	private static final String RESTRICTIONS = "Restrictions";
 	private ActionBar actionBar;
 	
 	@Override
@@ -23,6 +23,7 @@ public class TypesOfFastsDetailActivity extends BaseActivity implements ActionBa
 		getSupportActionBar().setHomeButtonEnabled(true);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 		setupMenu();
+//		setSlidingActionBarEnabled(false);
 		
 		actionBar = getSupportActionBar();
 
@@ -30,10 +31,10 @@ public class TypesOfFastsDetailActivity extends BaseActivity implements ActionBa
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         
         actionBar.addTab(actionBar.newTab()
-                .setText(DETAILS)
+                .setText(BACKGROUND)
                 .setTabListener(this));
         actionBar.addTab(actionBar.newTab()
-                .setText(RESTRICTIONS)
+                .setText(DETAILS)
                 .setTabListener(this));
 	}
 	
@@ -41,9 +42,9 @@ public class TypesOfFastsDetailActivity extends BaseActivity implements ActionBa
 	public void onTabSelected(Tab tab, FragmentTransaction ft) {
 		SherlockFragment fragment = null;
 		
-		if(tab.getText().equals(DETAILS)) {
+		if(tab.getText().equals(BACKGROUND)) {
 			fragment = new TypesofFastsDetailFragment();
-		} else if (tab.getText().equals(RESTRICTIONS)) {
+		} else if (tab.getText().equals(DETAILS)) {
 			fragment = new TypesofFastsDetailRestrictionFragment();
 		}
 		

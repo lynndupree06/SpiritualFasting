@@ -79,6 +79,7 @@ public class YourFastDB extends DatabaseHandler<YourFast> {
 			String start = cursor.getString(cursor.getColumnIndexOrThrow(KEY_START));
 			String end = cursor.getString(cursor.getColumnIndexOrThrow(KEY_END));
 			String name = cursor.getString(cursor.getColumnIndexOrThrow(FastDB.KEY_NAME));
+			String desc = cursor.getString(cursor.getColumnIndexOrThrow(FastDB.KEY_DESC));
 			int length = cursor.getInt(cursor.getColumnIndexOrThrow(FastDB.KEY_LENGTH));
 			String url = cursor.getString(cursor.getColumnIndexOrThrow(FastDB.KEY_URL));
 	
@@ -92,7 +93,7 @@ public class YourFastDB extends DatabaseHandler<YourFast> {
 				e.printStackTrace();
 			}
 
-			Fast fast = new Fast(fastId, name, length, url);			
+			Fast fast = new Fast(fastId, name, desc, length, url);			
 			newFast = new YourFast((Integer) id, fast, startDate, endDate);
 		}
 		return newFast;
@@ -104,7 +105,8 @@ public class YourFastDB extends DatabaseHandler<YourFast> {
         // Select All Query
         String selectQuery = "SELECT yourFasts.id AS YourFastsID, "
         		+ KEY_FAST_ID + ", " + KEY_START + ", " + KEY_END + ", " 
-        		+ FastDB.KEY_NAME + ", " + FastDB.KEY_LENGTH + ", " + FastDB.KEY_URL
+        		+ FastDB.KEY_NAME + ", " + FastDB.KEY_DESC + ", " 
+        		+ FastDB.KEY_LENGTH + ", " + FastDB.KEY_URL
         		+ " FROM " + TABLE
 				+ " LEFT JOIN fasts ON yourFasts." + YourFastDB.KEY_FAST_ID + " = fasts.id";
      
@@ -119,6 +121,7 @@ public class YourFastDB extends DatabaseHandler<YourFast> {
     			String start = cursor.getString(cursor.getColumnIndexOrThrow(KEY_START));
     			String end = cursor.getString(cursor.getColumnIndexOrThrow(KEY_END));
     			String name = cursor.getString(cursor.getColumnIndexOrThrow(FastDB.KEY_NAME));
+    			String desc = cursor.getString(cursor.getColumnIndexOrThrow(FastDB.KEY_DESC));
     			int length = cursor.getInt(cursor.getColumnIndexOrThrow(FastDB.KEY_LENGTH));
     			String url = cursor.getString(cursor.getColumnIndexOrThrow(FastDB.KEY_URL));
     	
@@ -132,7 +135,7 @@ public class YourFastDB extends DatabaseHandler<YourFast> {
     				e.printStackTrace();
     			}
 
-    			Fast fast = new Fast(fastId, name, length, url);			
+    			Fast fast = new Fast(fastId, name, desc, length, url);			
         		YourFast yourFast = new YourFast((Integer) id, fast, startDate, endDate);
                 fastList.add(yourFast);
             } while (cursor.moveToNext());

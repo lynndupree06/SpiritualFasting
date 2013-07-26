@@ -16,6 +16,7 @@ public abstract class DatabaseHandler<T> extends SQLiteOpenHelper {
     protected String CREATE_TABLE_FAST = "CREATE TABLE fasts("
             + "id INTEGER PRIMARY KEY AUTOINCREMENT,"
             + "name TEXT," 
+            + "description TEXT,"
             + "length INTEGER,"
             + "url TEXT)";
     
@@ -29,7 +30,7 @@ public abstract class DatabaseHandler<T> extends SQLiteOpenHelper {
             + "id INTEGER PRIMARY KEY AUTOINCREMENT,"
             + "entry TEXT, "
             + "yourFastId INTEGER, " 
-            + "lastUpdated TIMESTAMP"
+            + "lastUpdated TIMESTAMP,"
             + "dayInFast INTEGER)";
     
     protected String CREATE_TABLE_RECIPE = "CREATE TABLE recipes("
@@ -40,6 +41,13 @@ public abstract class DatabaseHandler<T> extends SQLiteOpenHelper {
 			+ "servingSize INTEGER,"
 			+ "imgUrl TEXT"
 			+ "yourFastId INTEGER)";
+    
+    protected String CREATE_TABLE_SCRIPTURES = "CREATE TABLE scriptures("
+            + "id INTEGER PRIMARY KEY AUTOINCREMENT,"
+            + "day INTEGER,"
+			+ "scripture TEXT,"
+			+ "fastId INTEGER, "
+			+ "url TEXT)";
     
     public abstract long addItem(T item);
 	public abstract int getItemCount();
@@ -61,6 +69,7 @@ public abstract class DatabaseHandler<T> extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_YOUR_FAST);
         db.execSQL(CREATE_TABLE_JOURNAL);
         db.execSQL(CREATE_TABLE_RECIPE);
+        db.execSQL(CREATE_TABLE_SCRIPTURES);
         init(db);
     }
     

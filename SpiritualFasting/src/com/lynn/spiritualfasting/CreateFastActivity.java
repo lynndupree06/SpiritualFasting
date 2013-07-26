@@ -5,6 +5,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 import android.os.Bundle;
@@ -133,15 +134,22 @@ public class CreateFastActivity extends BaseActivity {
 				YourFast newFast = new YourFast(fast, start, end);
 				db = new YourFastDB(this);
 				db.addItem(newFast);
+				db.close();
 
 				Intent intent = new Intent(this, YourFastDetailActivity.class);
 				Timestamp today = new Timestamp(Calendar.getInstance().getTime().getTime());
-				if(newFast.getStartDate().equals(today)) {
+				String todaysDate = new SimpleDateFormat("yyyy-MM-dd").format(new Date (today.getTime()));
+				String fastStartDate = new SimpleDateFormat("yyyy-MM-dd").format(new Date(newFast.getStartDate().getTime()));
+				
+				if(fastStartDate.equals(todaysDate)) {
 					intent.putExtra(Resources.PROGRESS, 
 							"Day 1 of " + newFast.getFast().getLength());
 				} else {
+					long diffTime = newFast.getStartDate().getTime() - Calendar.getInstance().getTime().getTime();
+					long diffDays = diffTime / (1000 * 60 * 60 * 24);
+					String dayText = (diffDays + 1 > 1) ? " days" : " day";
 					intent.putExtra(Resources.PROGRESS,
-							"Set to start on: " + sdf.format(newFast.getStartDate()));
+							"Set to start in " + (diffDays + 1) + dayText);
 				}
 				
 				intent.putExtra(Resources.FAST_NAME, fast.getName());

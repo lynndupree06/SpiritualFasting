@@ -41,6 +41,7 @@ public class TypesofFastsListFragment extends SherlockListFragment {
 		
 		FastDB db = new FastDB(getSherlockActivity());
 	    List<Fast> fasts = db.getAllItems();
+	    db.close();
 	    
 	    ListAdapter adapter = new FastListAdapter(getSherlockActivity(), R.layout.types_of_fast_list_item, fasts);
 		setListAdapter(adapter);

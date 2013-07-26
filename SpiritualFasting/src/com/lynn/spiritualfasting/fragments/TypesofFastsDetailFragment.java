@@ -44,6 +44,7 @@ public class TypesofFastsDetailFragment extends SherlockFragment {
         
         fastName = db.getItem(fastId).getName();
         String url = db.getItem(fastId).getUrl();
+        db.close();
         
         getSherlockActivity().setTitle(fastName);
 		getSherlockActivity().setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);

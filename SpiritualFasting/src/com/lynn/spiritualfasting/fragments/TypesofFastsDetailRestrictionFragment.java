@@ -25,9 +25,10 @@ public class TypesofFastsDetailRestrictionFragment extends TypesofFastsDetailFra
         
         fastName = db.getItem(fastId).getName();
         String url = db.getItem(fastId).getUrl();
+        db.close();
         
         WebView webView = (WebView) rootView.findViewById(R.id.types_of_fast_detail_webview);
-		webView.loadUrl("file:///android_asset/types_of_fasts/restrictions_" + url);
+		webView.loadUrl("file:///android_asset/types_of_fasts/purpose_" + url);
 		
         return rootView;
     }

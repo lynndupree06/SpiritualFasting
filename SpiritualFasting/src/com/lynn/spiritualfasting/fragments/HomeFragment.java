@@ -25,10 +25,13 @@ import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
-import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 public class HomeFragment extends SherlockFragment {
+
+	private YourFastListAdapter adapter;
+	private ListView listView;
 
 	public HomeFragment() { }
 	
@@ -59,7 +62,36 @@ public class HomeFragment extends SherlockFragment {
 			}
 		});
 		
-		ListView listView = (ListView) rootView.findViewById(R.id.your_fasts_list);
+		listView = (ListView) rootView.findViewById(R.id.your_fasts_list);
+		setListAdapter();
+	    listView.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View v, int position, long id) {
+				FragmentActivity activity = getSherlockActivity();
+				YourFastDB db = new YourFastDB(activity);
+				Intent intent = new Intent(activity, YourFastDetailActivity.class);
+		
+				YourFast item = db.getItem((int)id);
+				intent.putExtra(Resources.YOUR_FAST_ID, (int)id);
+				intent.putExtra(Resources.FAST_NAME, item.getFast().getName());
+				
+				TextView progress = (TextView)v.findViewById (R.id.progress_subtitle);
+				intent.putExtra(Resources.PROGRESS, progress.getText());
+				
+				long diffTime = Calendar.getInstance().getTime().getTime() - item.getStartDate().getTime();
+				long diffDays = diffTime / (1000 * 60 * 60 * 24);
+				intent.putExtra(Resources.DAY, (int)(diffDays + 1));
+
+				db.close();
+				activity.startActivity(intent);
+			}
+		});
+	    
+		return rootView;
+	}
+
+	public void setListAdapter() {
 		YourFastDB db = new YourFastDB(getSherlockActivity());
 	    List<YourFast> fasts = db.getAllItems();
 	    List<YourFast> newList = new ArrayList<YourFast>();
@@ -71,28 +103,14 @@ public class HomeFragment extends SherlockFragment {
 	    		newList.add(f);
 	    }
 	    
-		ListAdapter adapter = new YourFastListAdapter(getSherlockActivity(), R.layout.your_fast_list_item, newList);
+	    adapter = new YourFastListAdapter(getSherlockActivity(), R.layout.your_fast_list_item, newList);
 	    listView.setAdapter(adapter);
-	    listView.setOnItemClickListener(new OnItemClickListener() {
-
-			@Override
-			public void onItemClick(AdapterView<?> arg0, View v, int position, long id) {
-				FragmentActivity activity = getSherlockActivity();
-				YourFastDB db = new YourFastDB(activity);
-				Intent intent = new Intent(activity, YourFastDetailActivity.class);
-
-				YourFast item = db.getItem((int)id);
-				intent.putExtra(Resources.YOUR_FAST_ID, (int)id);
-				intent.putExtra(Resources.FAST_NAME, item.getFast().getName());
-				
-				long diffTime = Calendar.getInstance().getTime().getTime() - item.getStartDate().getTime();
-				long diffDays = diffTime / (1000 * 60 * 60 * 24);
-				intent.putExtra(Resources.DAY, (int)(diffDays + 1));
-				
-				getSherlockActivity().startActivity(intent);
-			}
-		});
-		
-		return rootView;
+	}
+	
+	@Override
+	public void onResume() {
+		super.onResume();
+		setListAdapter();
+		adapter.notifyDataSetChanged();
 	}
 }

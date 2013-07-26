@@ -1,9 +1,13 @@
 package com.lynn.spiritualfasting;
 
+import java.io.IOException;
+import java.io.InputStream;
+
 import com.lynn.spiritualfasting.database.FastDB;
 import com.lynn.spiritualfasting.fragments.*;
 import com.lynn.spiritualfasting.util.FragmentNames;
 
+import android.content.res.AssetManager;
 import android.os.Bundle;
 
 public class MainActivity extends BaseActivity {
@@ -17,7 +21,7 @@ public class MainActivity extends BaseActivity {
 		getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 		setupMenu();
 		setupDatabase();
-		setSlidingActionBarEnabled(false);
+//		setSlidingActionBarEnabled(false);
 		
 		if (findViewById(R.id.fragment_container) != null) {
 
@@ -45,5 +49,6 @@ public class MainActivity extends BaseActivity {
 	private void setupDatabase() {
 		FastDB fastDB = new FastDB(getApplicationContext());
 		fastDB.getReadableDatabase();
+		fastDB.close();
 	}
 }

@@ -2,6 +2,7 @@ package com.lynn.spiritualfasting;
 
 import java.util.List;
 
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
@@ -16,7 +17,6 @@ import com.actionbarsherlock.view.MenuItem;
 import com.lynn.spiritualfasting.database.FastDB;
 import com.lynn.spiritualfasting.database.JournalEntryDB;
 import com.lynn.spiritualfasting.fragments.JournalEntryFragment;
-import com.lynn.spiritualfasting.fragments.TypesofFastsDetailFragment;
 import com.lynn.spiritualfasting.model.Fast;
 import com.lynn.spiritualfasting.model.JournalEntry;
 import com.lynn.spiritualfasting.util.Resources;
@@ -65,7 +65,7 @@ public class YourFastDetailActivity extends BaseActivity {
     		mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager(), 
     				num_pages, getIntent().getExtras());
     		getmPager().setAdapter(mPagerAdapter);
-    		getmPager().setCurrentItem(dayInProgress - 1);
+    		getmPager().setCurrentItem(dayInProgress);
     		getmPager().setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
     		    @Override
     		    public void onPageSelected(int position) {
@@ -87,10 +87,11 @@ public class YourFastDetailActivity extends BaseActivity {
 			public void onClick(View v) {
 				JournalEntryDB db = new JournalEntryDB(YourFastDetailActivity.this);
 				List<JournalEntry> entries = db.getAllItems();
+				getIntent().putExtra(Resources.ENTRY_ID, 0);
 				
 				for(JournalEntry e : entries) {
 					if(e.getYourFast().getId() == yourFastId &&
-							e.getDay() == dayInProgress) {
+							e.getDay() == getmPager().getCurrentItem()) {
 						getIntent().putExtra(Resources.ENTRY_ID, e.getId());
 					}
 				}
@@ -111,19 +112,13 @@ public class YourFastDetailActivity extends BaseActivity {
 			
 			@Override
 			public void onClick(View v) {
-				TypesofFastsDetailFragment fragment = new TypesofFastsDetailFragment();
-				FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-				
+				Intent intent = new Intent(YourFastDetailActivity.this, TypesOfFastsDetailActivity.class);
 				FastDB fastDb = new FastDB(YourFastDetailActivity.this);
 				Fast fast = fastDb.getItemByName(fastName);
 				
-				getIntent().putExtra(Resources.FAST_ID, fast.getId());
-				fragment.setArguments(getIntent().getExtras());
-				transaction.replace(R.id.your_fast_detail_fragment_container, fragment);
-				transaction.addToBackStack(null);
-				transaction.commit();
+				intent.putExtra(Resources.FAST_ID, fast.getId());
+				startActivity(intent);
 				fastDb.close();
-				toggleNavigationButtons(View.INVISIBLE);
 			}
 		});
         
@@ -131,14 +126,14 @@ public class YourFastDetailActivity extends BaseActivity {
 		previousBtn.setOnClickListener(new OnClickListener() {
 		    public void onClick(View v) {
 		    	dayInProgress = ((dayInProgress - 1) > 0) ? (dayInProgress - 1) : 1;
-		        mPager.setCurrentItem(dayInProgress - 1);
+		        mPager.setCurrentItem(dayInProgress);
 		    }
 		});
 		nextBtn = (ImageButton) findViewById(R.id.next);
 		nextBtn.setOnClickListener(new OnClickListener() {
 		    public void onClick(View v) {
 		    	dayInProgress = ((dayInProgress + 1) <= num_pages) ? (dayInProgress + 1) : num_pages;
-		    	getmPager().setCurrentItem(dayInProgress - 1);
+		    	getmPager().setCurrentItem(dayInProgress);
 		    }
 		});
 	}

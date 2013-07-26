@@ -15,6 +15,7 @@ public class YourFastsListActivity extends BaseActivity {
 		getSupportActionBar().setHomeButtonEnabled(true);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(false);
     	setupMenu();
+//		setSlidingActionBarEnabled(false);
 		
 		if (findViewById(R.id.your_fasts_fragment_container) != null) {
             if (savedInstanceState != null) {

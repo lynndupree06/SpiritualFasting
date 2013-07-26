@@ -11,4 +11,12 @@
         android:layout_height="wrap_content"
         android:textIsSelectable="false"
         style="@style/FastListItem_Text" />
+	
+	<TextView
+	    android:id="@+id/type_of_fast_description"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:textIsSelectable="false"
+	    style="@style/FastListItem_Subtitle" />
+	
 </LinearLayout>

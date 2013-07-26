@@ -94,6 +94,7 @@ public class RecipeDB extends DatabaseHandler<Recipe> {
 			String start = cursor.getString(cursor.getColumnIndexOrThrow(YourFastDB.KEY_START));
 			String end = cursor.getString(cursor.getColumnIndexOrThrow(YourFastDB.KEY_END));
 			String fastName = cursor.getString(cursor.getColumnIndexOrThrow(FastDB.KEY_NAME));
+			String desc = cursor.getString(cursor.getColumnIndexOrThrow(FastDB.KEY_DESC));
 			int length = cursor.getInt(cursor.getColumnIndexOrThrow(FastDB.KEY_LENGTH));
 			String url = cursor.getString(cursor.getColumnIndexOrThrow(FastDB.KEY_URL));
 			
@@ -110,7 +111,7 @@ public class RecipeDB extends DatabaseHandler<Recipe> {
 			//TODO: Get ingredients
 			String[] ingredients = new String[]{};
 			
-			Fast fast = new Fast(fastName, length, url);
+			Fast fast = new Fast(fastName, desc, length, url);
 			YourFast yourFast = new YourFast(fast, startDate, endDate);
 			recipe = new Recipe(id, name, instructions, ingredients, 
 					prepTime, servingSize, imgURL, yourFast);
@@ -140,6 +141,7 @@ public class RecipeDB extends DatabaseHandler<Recipe> {
     			String start = cursor.getString(cursor.getColumnIndexOrThrow(YourFastDB.KEY_START));
     			String end = cursor.getString(cursor.getColumnIndexOrThrow(YourFastDB.KEY_END));
     			String fastName = cursor.getString(cursor.getColumnIndexOrThrow(FastDB.KEY_NAME));
+    			String desc = cursor.getString(cursor.getColumnIndexOrThrow(FastDB.KEY_DESC));
     			int length = cursor.getInt(cursor.getColumnIndexOrThrow(FastDB.KEY_LENGTH));
     			String url = cursor.getString(cursor.getColumnIndexOrThrow(FastDB.KEY_URL));
     			
@@ -156,7 +158,7 @@ public class RecipeDB extends DatabaseHandler<Recipe> {
     			//TODO: Get ingredients
     			String[] ingredients = new String[]{};
     			
-    			Fast fast = new Fast(fastName, length, url);
+    			Fast fast = new Fast(fastName, desc, length, url);
     			YourFast yourFast = new YourFast(fast, startDate, endDate);
         		Recipe recipe = new Recipe(id, name, instructions, ingredients, 
         				prepTime, servingSize, imgURL, yourFast);

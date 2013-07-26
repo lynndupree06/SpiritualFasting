@@ -90,6 +90,7 @@ public class JournalEntryDB extends DatabaseHandler<JournalEntry> {
 			String start = cursor.getString(cursor.getColumnIndexOrThrow(YourFastDB.KEY_START));
 			String end = cursor.getString(cursor.getColumnIndexOrThrow(YourFastDB.KEY_END));
 			String name = cursor.getString(cursor.getColumnIndexOrThrow(FastDB.KEY_NAME));
+			String desc = cursor.getString(cursor.getColumnIndexOrThrow(FastDB.KEY_DESC));
 			int length = cursor.getInt(cursor.getColumnIndexOrThrow(FastDB.KEY_LENGTH));
 			String url = cursor.getString(cursor.getColumnIndexOrThrow(FastDB.KEY_URL));
 			
@@ -104,7 +105,7 @@ public class JournalEntryDB extends DatabaseHandler<JournalEntry> {
 				e.printStackTrace();
 			}
 			
-			Fast fast = new Fast(name, length, url);
+			Fast fast = new Fast(name, desc, length, url);
 			YourFast yourFast = new YourFast(fast, startDate, endDate);
 			newJournalEntry = new JournalEntry(id, entry, yourFast, entryDay, date);
 		}
@@ -130,9 +131,11 @@ public class JournalEntryDB extends DatabaseHandler<JournalEntry> {
             	String entry = cursor.getString(cursor.getColumnIndexOrThrow(KEY_ENTRY));
     			int entryDay = cursor.getInt(cursor.getColumnIndexOrThrow(KEY_DAY));
     			String entryDate = cursor.getString(cursor.getColumnIndexOrThrow(KEY_DATE));
+    			int yourFastId = cursor.getInt(cursor.getColumnIndexOrThrow(YourFastDB.KEY_ID));
     			String start = cursor.getString(cursor.getColumnIndexOrThrow(YourFastDB.KEY_START));
     			String end = cursor.getString(cursor.getColumnIndexOrThrow(YourFastDB.KEY_END));
     			String name = cursor.getString(cursor.getColumnIndexOrThrow(FastDB.KEY_NAME));
+    			String desc = cursor.getString(cursor.getColumnIndexOrThrow(FastDB.KEY_DESC));
     			int length = cursor.getInt(cursor.getColumnIndexOrThrow(FastDB.KEY_LENGTH));
     			String url = cursor.getString(cursor.getColumnIndexOrThrow(FastDB.KEY_URL));
     			
@@ -147,8 +150,8 @@ public class JournalEntryDB extends DatabaseHandler<JournalEntry> {
     				e.printStackTrace();
     			}
     			
-    			Fast fast = new Fast(name, length, url);
-    			YourFast yourFast = new YourFast(fast, startDate, endDate);
+    			Fast fast = new Fast(name, desc, length, url);
+    			YourFast yourFast = new YourFast(yourFastId, fast, startDate, endDate);
                 JournalEntry journalEntry = new JournalEntry(id, entry, yourFast, entryDay, date);
                 fastList.add(journalEntry);
             } while (cursor.moveToNext());

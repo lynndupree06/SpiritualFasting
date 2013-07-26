@@ -11,7 +11,7 @@ public class WhyActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView (R.layout.webview_layout);
 		setupMenu();
-		setSlidingActionBarEnabled(false);
+//		setSlidingActionBarEnabled(false);
 		
 		getSupportActionBar().setHomeButtonEnabled(true);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(false);

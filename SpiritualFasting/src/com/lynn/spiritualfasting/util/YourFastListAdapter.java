@@ -52,7 +52,10 @@ public class YourFastListAdapter extends IFastListAdapter<YourFast> {
 				progress.setText("Day " + (diffDays + 1) + " of " + yourFast.getFast().getLength());
 			}
 		} else {
-			progress.setText("Set to start on: " + sdf.format(startDate.getTime()));
+			long diffTime = startDate.getTime() - Calendar.getInstance().getTime().getTime();
+			long diffDays = diffTime / (1000 * 60 * 60 * 24);
+			String dayText = (diffDays + 1 > 1) ? " days" : " day";
+			progress.setText("Set to start in " + (diffDays + 1) + dayText);
 		}
 
 		convertView.setBackgroundColor(mSelectedItemsIds.get(position)? 0x9934B5E4: Color.TRANSPARENT);         

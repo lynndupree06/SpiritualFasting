@@ -8,10 +8,11 @@
     <EditText
         android:id="@+id/journal_entry_text"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="fill_parent"
         android:gravity="top"
         android:height="300dp"
         android:lines="300"
-        android:inputType="textMultiLine" />
+        android:inputType="textMultiLine"
+        android:hint="@string/journal_entry_hint" />
 
 </LinearLayout>

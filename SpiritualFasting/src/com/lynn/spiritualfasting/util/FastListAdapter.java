@@ -22,7 +22,9 @@ public class FastListAdapter extends IFastListAdapter<Fast> {
 	{
 		convertView = (ViewGroup)Inflater.inflate (ResourceId, null);
 		TextView name = (TextView)convertView.findViewById (R.id.type_of_fast_title);
+		TextView description = (TextView)convertView.findViewById(R.id.type_of_fast_description);
 		name.setText(Items.get(position).getName()); 
+		description.setText(Items.get(position).getDescription());
 		return convertView;
 	}
 
@@ -31,6 +33,7 @@ public class FastListAdapter extends IFastListAdapter<Fast> {
 	{
 		FastDB db = new FastDB(getContext());
 		Fast fast = db.getItemByName(Items.get(position).getName());
+		db.close();
 		return fast.getId();
 	}
 }

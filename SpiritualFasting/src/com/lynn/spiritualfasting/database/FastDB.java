@@ -1,75 +1,127 @@
 package com.lynn.spiritualfasting.database;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.res.AssetManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.lynn.spiritualfasting.model.Fast;
+import com.lynn.spiritualfasting.model.Scripture;
 
 public class FastDB extends DatabaseHandler<Fast> {
 
 	protected static final String KEY_ID = "id";
     protected static final String KEY_NAME = "name";
+    protected static final String KEY_DESC = "description";
     protected static final String KEY_LENGTH = "length";
     protected static final String KEY_URL = "url";
+	private Context context;
+	
+	private static final String TABLE_SCRIPTURES = "scriptures";
 	
 	public FastDB(Context context) {
 		super(context);
+		this.context = context;
 		TABLE = "fasts";
 		CREATE_TABLE = "CREATE TABLE " + TABLE + "("
 	            + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
 	            + KEY_NAME + " TEXT," 
+	            + KEY_DESC + " TEXT,"
 	            + KEY_LENGTH + " INTEGER,"
 	            + KEY_URL + " TEXT)";
 	}
 
 	protected void init(SQLiteDatabase db) {
-//		Fast fast = new Fast("Corporate Fasting", 10, "corporate_fast.html");
+//		Fast fast = new Fast("The Disciple’s Fast", "To break addiction", 7, "disciple_fast.html");
 //		addItem(fast, db);
 //		
-//		fast = new Fast("Full Fast", 0, "full_fast.html");
-//		addItem(fast, db);
-		
-		Fast fast = new Fast("The Daniel Fast", 21, "daniel_fast.html");
-		addItem(fast, db);
-		
-//		fast = new Fast("Fasting to Experience Gods Power", 10, "gods_power_fast.html");
-//		addItem(fast, db);
-		
-		fast = new Fast("John the Baptist Fast", 10, "john_baptist_fast.html");
-		addItem(fast, db);
-		
-//		fast = new Fast("The Normal Fast", 10, "normal_fast.html");
+//		fast = new Fast("The Ezra Fast", "To solve problems", 5, "ezra_fast.html");
 //		addItem(fast, db);
 //		
-//		fast = new Fast("Partial Fast", 10, "partial_fast.html");
+//		fast = new Fast("The Samuel Fast", "For evangelism and revival", 5, "samuel_fast.html");
+//		addItem(fast, db);
+//		
+//		fast = new Fast("The Elijah Fast", "To solve emotional problems", 5, "elijah_fast.html");
+//		addItem(fast, db);
+//		
+//		fast = new Fast("The Widow’s Fast", "For humanitarian needs", 5, "widow_fast.html");
+//		addItem(fast, db);
+//		
+//		fast = new Fast("The Saint Paul’s Fast", "To make decisions", 5, "saint_paul_fast.html");
 //		addItem(fast, db);
 		
-		fast = new Fast("Paul's Fast", 10, "pauls_fast.html");
+		Fast fast = new Fast("The Daniel Fast", "For health and healing", 21, "daniel_fast.html");
 		addItem(fast, db);
 		
-//		fast = new Fast("Radical Fast", 10, "radical_fast.html");
+//		fast = new Fast("The John the Baptist Fast", "For testimony", 5, "john_baptist_fast.html");
 //		addItem(fast, db);
-		
-		fast = new Fast("Samuel Fast", 10, "samuel_fast.html");
-		addItem(fast, db);
+//		
+//		fast = new Fast("The Esther Fast", "For protection from the evil one", 5, "esther_fast.html");
+//		addItem(fast, db);
 	}
 	
+	private void addScriptures(String fast, int fastId, SQLiteDatabase db) {
+		AssetManager assetManager = context.getAssets();
+		InputStream input;
+		try {
+			input = assetManager.open("scriptures/" + fast.replace("html", "txt"));
+
+			int size = input.available();
+		    byte[] buffer = new byte[size];
+		    input.read(buffer);
+		    input.close();
+
+		    String text = new String(buffer);
+		    String[] list = text.split("\n");
+		          
+		    int idx = 1;
+		    for(String i : list) {
+		    	String url = idx + "_" + fast;
+		    	Scripture scripture = new Scripture(idx, i, fastId, url);
+		    	addScripture(scripture, db);
+		    	idx++;
+		    }
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void addScripture(Scripture scripture, SQLiteDatabase db) {
+		long newRowId = 0;
+		
+		ContentValues values = new ContentValues();
+		values.putNull(ScriptureDB.KEY_ID);
+		values.put(ScriptureDB.KEY_DAY, scripture.getDay());
+		values.put(ScriptureDB.KEY_SCRIPTURE, scripture.getScripture());
+		values.put(ScriptureDB.KEY_FAST_ID, scripture.getFastId());
+		values.put(ScriptureDB.KEY_URL, scripture.getUrl());
+	
+		// Insert the new row, returning the primary key value of the new row
+		newRowId = db.insert(TABLE_SCRIPTURES, KEY_ID, values);
+	}
+
 	public void addItem(Fast fast, SQLiteDatabase db) {
 		if(!itemExists(fast, db)) {
 			// Create a new map of values, where column names are the keys
 			ContentValues values = new ContentValues();
 			values.putNull(KEY_ID);
 			values.put(KEY_NAME, fast.getName());
+			values.put(KEY_DESC, fast.getDescription());
 			values.put(KEY_LENGTH, fast.getLength());
 			values.put(KEY_URL, fast.getUrl());
 	
 			// Insert the new row, returning the primary key value of the new row
-			db.insert(TABLE, KEY_ID, values);
+			long fastId = db.insert(TABLE, KEY_ID, values);
+			addScriptures(fast.getUrl(), (int)fastId, db);
 		}
 	}
 
@@ -83,6 +135,7 @@ public class FastDB extends DatabaseHandler<Fast> {
 			ContentValues values = new ContentValues();
 			values.putNull(KEY_ID);
 			values.put(KEY_NAME, fast.getName());
+			values.put(KEY_DESC, fast.getDescription());
 			values.put(KEY_LENGTH, fast.getLength());
 			values.put(KEY_URL, fast.getUrl());
 	
@@ -127,9 +180,10 @@ public class FastDB extends DatabaseHandler<Fast> {
 		
 		if(cursor.moveToFirst()) {
 			String name = cursor.getString(cursor.getColumnIndexOrThrow(KEY_NAME));
+			String desc = cursor.getString(cursor.getColumnIndexOrThrow(KEY_DESC));
 			int length = cursor.getInt(cursor.getColumnIndexOrThrow(KEY_LENGTH));
 			String url = cursor.getString(cursor.getColumnIndexOrThrow(KEY_URL));
-			newFast = new Fast((int) id, name, length, url);
+			newFast = new Fast((int) id, name, desc, length, url);
 		}
 		
 		return newFast;
@@ -145,10 +199,11 @@ public class FastDB extends DatabaseHandler<Fast> {
 		
 		if(cursor.moveToFirst()) {
 			int itemId = cursor.getInt(cursor.getColumnIndexOrThrow(KEY_ID));
+			String desc = cursor.getString(cursor.getColumnIndexOrThrow(KEY_DESC));
 			int length = cursor.getInt(cursor.getColumnIndexOrThrow(KEY_LENGTH));
 			String url = cursor.getString(cursor.getColumnIndexOrThrow(KEY_URL));
 			
-			newFast = new Fast(itemId, name, length, url);
+			newFast = new Fast(itemId, name, desc, length, url);
 		}
 		return newFast;
 	}
@@ -157,7 +212,8 @@ public class FastDB extends DatabaseHandler<Fast> {
 		List<Fast> fastList = new ArrayList<Fast>();
 		
         // Select All Query
-        String selectQuery = "SELECT  * FROM " + TABLE;
+        String selectQuery = "SELECT  * FROM " + TABLE 
+        		+ " ORDER BY " + KEY_NAME + " ASC";
      
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -167,10 +223,11 @@ public class FastDB extends DatabaseHandler<Fast> {
             do {
                 int id = cursor.getInt(cursor.getColumnIndexOrThrow(KEY_ID));
                 String name = cursor.getString(cursor.getColumnIndexOrThrow(KEY_NAME));
+    			String desc = cursor.getString(cursor.getColumnIndexOrThrow(KEY_DESC));
     			int length = cursor.getInt(cursor.getColumnIndexOrThrow(KEY_LENGTH));
     			String url = cursor.getString(cursor.getColumnIndexOrThrow(KEY_URL));
                 
-                Fast fast = new Fast(id, name, length, url);
+                Fast fast = new Fast(id, name, desc, length, url);
                 fastList.add(fast);
             } while (cursor.moveToNext());
         }
@@ -185,6 +242,7 @@ public class FastDB extends DatabaseHandler<Fast> {
 		// New value for one column
 		ContentValues values = new ContentValues();
 		values.put(KEY_NAME, fast.getName());
+		values.put(KEY_DESC, fast.getDescription());
 		values.put(KEY_LENGTH, fast.getLength());
 		values.put(KEY_URL, fast.getUrl());
 

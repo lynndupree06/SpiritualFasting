@@ -10,6 +10,15 @@ package com.lynn.spiritualfasting;
 public final class R {
     public static final class array {
         public static final int navigation=0x7f0b0000;
+        /**  <item>The Disciple’s Fast</item>
+		<item>The Elijah Fast</item>
+		<item>The Esther Fast</item>
+		<item>The Ezra Fast</item>
+		<item>The John the Baptist Fast</item>
+		<item>The Saint Paul’s Fast</item>
+		<item>The Samuel Fast</item>
+		<item>The Widow’s Fast</item> 
+         */
         public static final int types_of_fasts=0x7f0b0001;
         public static final int your_fast_detail_action_list=0x7f0b0002;
     }
@@ -1151,24 +1160,24 @@ containing a value of this type.
         public static final int abs__title=0x7f040020;
         public static final int abs__titleDivider=0x7f040021;
         public static final int abs__up=0x7f040010;
-        public static final int add_fast=0x7f040060;
-        public static final int cancel_fast=0x7f04005a;
+        public static final int add_fast=0x7f040061;
+        public static final int cancel_fast=0x7f04005b;
         public static final int create_fragment=0x7f040038;
-        public static final int delete_fast=0x7f04005b;
+        public static final int delete_fast=0x7f04005c;
         public static final int disableHome=0x7f04000e;
-        public static final int edit_fast=0x7f04005e;
+        public static final int edit_fast=0x7f04005f;
         public static final int edit_query=0x7f04002c;
-        public static final int fast_activity_subtitle=0x7f04004e;
-        public static final int fast_activity_title=0x7f04004d;
-        public static final int fast_activity_webview=0x7f04004f;
-        public static final int fast_detail_button=0x7f040055;
+        public static final int fast_activity_subtitle=0x7f04004f;
+        public static final int fast_activity_title=0x7f04004e;
+        public static final int fast_activity_webview=0x7f040050;
+        public static final int fast_detail_button=0x7f040056;
         public static final int fragment_container=0x7f040041;
         public static final int fullscreen=0x7f040003;
         public static final int homeAsUp=0x7f04000b;
         public static final int home_container=0x7f04003b;
         public static final int home_fragment=0x7f040043;
-        public static final int journal_entries=0x7f04005f;
-        public static final int journal_entry_button=0x7f040054;
+        public static final int journal_entries=0x7f040060;
+        public static final int journal_entry_button=0x7f040055;
         public static final int journal_entry_text=0x7f04003f;
         public static final int left=0x7f040000;
         public static final int listMode=0x7f040007;
@@ -1176,37 +1185,38 @@ containing a value of this type.
         public static final int menu_item_image=0x7f040044;
         public static final int menu_item_text=0x7f040045;
         public static final int navigation_list=0x7f040042;
-        public static final int next=0x7f040052;
-        public static final int no_fasts=0x7f040056;
+        public static final int next=0x7f040053;
+        public static final int no_fasts=0x7f040057;
         public static final int no_journal_entries=0x7f040040;
         public static final int normal=0x7f040006;
-        public static final int pager=0x7f040053;
-        public static final int previous=0x7f040051;
-        public static final int progress_subtitle=0x7f040057;
+        public static final int pager=0x7f040054;
+        public static final int previous=0x7f040052;
+        public static final int progress_subtitle=0x7f040058;
         public static final int right=0x7f040001;
         public static final int selected_view=0x7f040004;
         public static final int showCustom=0x7f04000d;
         public static final int showHome=0x7f04000a;
         public static final int showTitle=0x7f04000c;
         public static final int slidingmenumain=0x7f040046;
-        public static final int start_current_fast=0x7f04005d;
-        public static final int start_fast=0x7f040059;
+        public static final int start_current_fast=0x7f04005e;
+        public static final int start_fast=0x7f04005a;
         public static final int start_fast_button=0x7f04003d;
         public static final int start_fast_date=0x7f04003a;
         public static final int tabMode=0x7f040008;
+        public static final int type_of_fast_description=0x7f040048;
         public static final int type_of_fast_spinner=0x7f040039;
         public static final int type_of_fast_title=0x7f040047;
-        public static final int types_of_fast_detail_restriction_webview=0x7f040049;
-        public static final int types_of_fast_detail_webview=0x7f040048;
-        public static final int types_of_fragment_container=0x7f04004a;
-        public static final int update_entry=0x7f04005c;
+        public static final int types_of_fast_detail_restriction_webview=0x7f04004a;
+        public static final int types_of_fast_detail_webview=0x7f040049;
+        public static final int types_of_fragment_container=0x7f04004b;
+        public static final int update_entry=0x7f04005d;
         public static final int useLogo=0x7f040009;
-        public static final int webView=0x7f04004c;
-        public static final int web_container=0x7f04004b;
+        public static final int webView=0x7f04004d;
+        public static final int web_container=0x7f04004c;
         public static final int welcome_webView=0x7f04003c;
         public static final int wrap_content=0x7f040005;
-        public static final int your_fast_detail_fragment_container=0x7f040050;
-        public static final int your_fasts_fragment_container=0x7f040058;
+        public static final int your_fast_detail_fragment_container=0x7f040051;
+        public static final int your_fasts_fragment_container=0x7f040059;
         public static final int your_fasts_list=0x7f04003e;
     }
     public static final class integer {
@@ -1325,6 +1335,7 @@ containing a value of this type.
         public static final int fast_detail_button_text=0x7f090020;
         public static final int journal_entries_menu_item=0x7f090027;
         public static final int journal_entry_button_text=0x7f09001f;
+        public static final int journal_entry_hint=0x7f09002b;
         public static final int no_current_fasts_text=0x7f090022;
         public static final int no_current_journal_entries_text=0x7f090023;
         public static final int start=0x7f09001a;

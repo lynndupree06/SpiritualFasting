@@ -137,7 +137,7 @@ public class YourFastDetailActivity extends BaseActivity {
 				
 				for(JournalEntry e : entries) {
 					if(e.getYourFast().getId() == yourFastId &&
-							e.getDay() == getmPager().getCurrentItem()) {
+							e.getDay() == getmPager().getCurrentItem() + 1) {
 						getIntent().putExtra(Resources.ENTRY_ID, e.getId());
 					}
 				}

@@ -1,5 +1,7 @@
 package com.lynn.spiritualfasting.fragments;
 
+import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.List;
 
 import android.content.Intent;
@@ -87,6 +89,18 @@ public class YourFastsListFragment extends SherlockListFragment implements Actio
 			YourFast item = db.getItem((int)id);
 			intent.putExtra(Resources.YOUR_FAST_ID, (int)id);
 			intent.putExtra(Resources.FAST_NAME, item.getFast().getName());
+			
+			Timestamp startDate = item.getStartDate();
+			Timestamp endDate = item.getEndDate();
+			Timestamp dateToday = new Timestamp(Calendar.getInstance().getTime().getTime());
+			
+			if(endDate.before(dateToday) || startDate.after(dateToday)) {
+				intent.putExtra(Resources.DAY, 0);
+			} else {
+				long diffTime = Calendar.getInstance().getTime().getTime() - startDate.getTime();
+				long diffDays = diffTime / (1000 * 60 * 60 * 24);
+				intent.putExtra(Resources.DAY, (diffDays + 1));
+			}
 			
 			TextView progress = (TextView)v.findViewById (R.id.progress_subtitle);
 			intent.putExtra(Resources.PROGRESS, progress.getText());

@@ -1,33 +1,30 @@
 package com.lynn.spiritualfasting.util;
 
-import com.lynn.spiritualfasting.fragments.YourFastDetailFragment;
+import java.util.List;
 
-import android.os.Bundle;
+import com.actionbarsherlock.app.SherlockFragment;
+
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 public class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
 
-	private int count;
-	private Bundle bundle;
+	private List<SherlockFragment> fragments;
 
-	public ScreenSlidePagerAdapter(FragmentManager fm, int count, Bundle bundle) {
+	public ScreenSlidePagerAdapter(FragmentManager fm, List<SherlockFragment> fragments) {
     	super(fm);
-    	this.count = count;
-    	this.bundle = bundle;
+    	this.fragments = fragments;
 	}
     
 	@Override
     public Fragment getItem(int position) {
-		position = (position == 0) ? 1 : position;
-		bundle.putInt(Resources.DAY, position);
-        return new YourFastDetailFragment().newInstance(bundle);
+        return fragments.get(position);
     }
 
     @Override
     public int getCount() {
-        return count;
+        return fragments.size();
     }
 
 }

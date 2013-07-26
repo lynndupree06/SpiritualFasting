@@ -107,7 +107,7 @@ public class YourFastDetailFragment extends SherlockFragment implements OnNaviga
 		inflater.inflate(R.menu.your_fast_detail_menu, menu);
     }
 
-	public YourFastDetailFragment newInstance(Bundle bundle) {
+	public static YourFastDetailFragment newInstance(Bundle bundle) {
 		YourFastDetailFragment f = new YourFastDetailFragment();
         f.setArguments(bundle);
 

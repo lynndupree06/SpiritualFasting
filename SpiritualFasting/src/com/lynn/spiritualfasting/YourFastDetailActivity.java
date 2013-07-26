@@ -1,5 +1,6 @@
 package com.lynn.spiritualfasting;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Intent;
@@ -13,10 +14,12 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageButton;
 
+import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.MenuItem;
 import com.lynn.spiritualfasting.database.FastDB;
 import com.lynn.spiritualfasting.database.JournalEntryDB;
 import com.lynn.spiritualfasting.fragments.JournalEntryFragment;
+import com.lynn.spiritualfasting.fragments.YourFastDetailFragment;
 import com.lynn.spiritualfasting.model.Fast;
 import com.lynn.spiritualfasting.model.JournalEntry;
 import com.lynn.spiritualfasting.util.Resources;
@@ -42,7 +45,6 @@ public class YourFastDetailActivity extends BaseActivity {
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		
 		fastName = getIntent().getExtras().getString(Resources.FAST_NAME);
-		dayInProgress = getIntent().getExtras().getInt(Resources.DAY);
 		yourFastId = getIntent().getExtras().getInt(Resources.YOUR_FAST_ID);
 		
 		setTitle(fastName);
@@ -62,10 +64,11 @@ public class YourFastDetailActivity extends BaseActivity {
     		num_pages = fast.getLength();
     		
     		setmPager((ViewPager) findViewById(R.id.pager));
+    		List<SherlockFragment> fragments = getFragments();
     		mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager(), 
-    				num_pages, getIntent().getExtras());
+    				fragments);
     		getmPager().setAdapter(mPagerAdapter);
-    		getmPager().setCurrentItem(dayInProgress);
+    		
     		getmPager().setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
     		    @Override
     		    public void onPageSelected(int position) {
@@ -78,6 +81,26 @@ public class YourFastDetailActivity extends BaseActivity {
         }
 	}
 	
+	/**
+	 * Setup list of fragments to put in the view pager.
+	 * @return list of fragments.
+	 */
+	private List<SherlockFragment> getFragments(){
+		  List<SherlockFragment> fList = new ArrayList<SherlockFragment>();
+		 
+		  for(int i = 1; i <= num_pages; i++) {
+			  getIntent().putExtra(Resources.PROGRESS, "Day " + i + " of " + num_pages);
+			  getIntent().putExtra(Resources.DAY, i);
+			  fList.add(YourFastDetailFragment.newInstance(getIntent().getExtras()));
+		  }
+		 
+		  return fList;
+	}
+	
+	/**
+	 * Method to set up listeners for all of the buttons in the 
+	 * YourFastDetailActivity.
+	 */
 	public void wireButtons() {
 		
 		addJournalEntry = (Button) findViewById(R.id.journal_entry_button);
@@ -125,14 +148,14 @@ public class YourFastDetailActivity extends BaseActivity {
         previousBtn = (ImageButton) findViewById(R.id.previous);
 		previousBtn.setOnClickListener(new OnClickListener() {
 		    public void onClick(View v) {
-		    	dayInProgress = ((dayInProgress - 1) > 0) ? (dayInProgress - 1) : 1;
+		    	dayInProgress = ((dayInProgress - 1) >= 0) ? (dayInProgress - 1) : 0;
 		        mPager.setCurrentItem(dayInProgress);
 		    }
 		});
 		nextBtn = (ImageButton) findViewById(R.id.next);
 		nextBtn.setOnClickListener(new OnClickListener() {
 		    public void onClick(View v) {
-		    	dayInProgress = ((dayInProgress + 1) <= num_pages) ? (dayInProgress + 1) : num_pages;
+		    	dayInProgress = ((dayInProgress + 1) < num_pages) ? (dayInProgress + 1) : num_pages - 1;
 		    	getmPager().setCurrentItem(dayInProgress);
 		    }
 		});
@@ -169,6 +192,10 @@ public class YourFastDetailActivity extends BaseActivity {
 		this.mPager = mPager;
 	}
 
+	/**
+	 * Add/Remove buttons in the view.
+	 * @param visibility The type of visibility.
+	 */
 	public void toggleNavigationButtons(int visibility) {
 		previousBtn.setVisibility(visibility);
 		nextBtn.setVisibility(visibility);

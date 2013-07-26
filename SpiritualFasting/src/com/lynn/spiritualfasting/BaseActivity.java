@@ -15,6 +15,7 @@ import android.widget.ListView;
 import com.actionbarsherlock.view.MenuItem;
 import com.lynn.spiritualfasting.navigation.MenuListAdapter;
 import com.lynn.spiritualfasting.navigation.OnMenuItemClickListener;
+import com.lynn.spiritualfasting.util.FastDatePickerDialog;
 import com.slidingmenu.lib.SlidingMenu;
 import com.slidingmenu.lib.app.SlidingFragmentActivity;
 
@@ -76,29 +77,11 @@ public class BaseActivity extends SlidingFragmentActivity {
         
 		switch (id) {
 			case DATE_DIALOG_ID:
-				DatePickerDialog picker = new DatePickerDialog(this, CreateFastActivity.datePickerListener, 
+				FastDatePickerDialog picker = new FastDatePickerDialog(this, CreateFastActivity.datePickerListener, 
                         year, month,day);
 				
 				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
 					picker.getDatePicker().setMinDate(calendar.getTime().getTime());
-				} else {
-				    final int minYear = calendar.get(Calendar.YEAR);
-				    final int minMonth = calendar.get(Calendar.MONTH);
-				    final int minDay = calendar.get(Calendar.DAY_OF_MONTH);
-
-				    picker.getDatePicker().init(minYear, minMonth, minDay,
-				            new OnDateChangedListener() {
-
-				                public void onDateChanged(DatePicker view, int year,
-				                        int month, int day) {
-				                    Calendar newDate = calendar;
-				                    newDate.set(year, month, day);
-
-				                    if (calendar.after(newDate)) {
-				                        view.init(minYear, minMonth, minDay, this);
-				                    }
-				                }
-				            });
 				}
 				
 				

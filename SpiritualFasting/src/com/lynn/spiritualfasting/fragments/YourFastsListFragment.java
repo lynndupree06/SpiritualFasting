@@ -189,8 +189,11 @@ public class YourFastsListFragment extends SherlockListFragment implements Actio
 	@Override
 	public void onResume() {
 		super.onResume();
-		setListAdapter();
-		adapter.notifyDataSetChanged();
+		
+		if(adapter != null) {
+			setListAdapter();
+			adapter.notifyDataSetChanged();
+		}
 	}
 
 	private void setListAdapter() {

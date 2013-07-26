@@ -110,7 +110,9 @@ public class HomeFragment extends SherlockFragment {
 	@Override
 	public void onResume() {
 		super.onResume();
-		setListAdapter();
-		adapter.notifyDataSetChanged();
+		if(adapter != null) {
+			setListAdapter();
+			adapter.notifyDataSetChanged();
+		}
 	}
 }

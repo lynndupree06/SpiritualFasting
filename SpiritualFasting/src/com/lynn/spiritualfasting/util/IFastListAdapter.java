@@ -3,7 +3,6 @@ package com.lynn.spiritualfasting.util;
 import java.util.List;
 
 import com.lynn.spiritualfasting.R;
-import com.lynn.spiritualfasting.database.FastDB;
 import com.lynn.spiritualfasting.model.Fast;
 
 import android.content.Context;

@@ -1,18 +1,12 @@
 package com.lynn.spiritualfasting.database;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.res.AssetManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.lynn.spiritualfasting.model.Fast;
 import com.lynn.spiritualfasting.model.Scripture;
 
 public class ScriptureDB extends DatabaseHandler<Scripture> {
@@ -22,11 +16,9 @@ public class ScriptureDB extends DatabaseHandler<Scripture> {
 	protected static final String KEY_SCRIPTURE = "scripture";
 	protected static final String KEY_FAST_ID = "fastId";
 	protected static final String KEY_URL = "url";
-	private Context context;
 
 	public ScriptureDB(Context context) {
 		super(context);
-		this.context = context;
 		TABLE = "scriptures";
 	}
 

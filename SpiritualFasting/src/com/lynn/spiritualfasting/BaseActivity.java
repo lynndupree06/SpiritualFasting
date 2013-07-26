@@ -3,12 +3,9 @@ package com.lynn.spiritualfasting;
 import java.util.Calendar;
 
 import android.annotation.SuppressLint;
-import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.os.Build;
 import android.view.KeyEvent;
-import android.widget.DatePicker;
-import android.widget.DatePicker.OnDateChangedListener;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 

@@ -1,13 +1,9 @@
 package com.lynn.spiritualfasting;
 
-import java.io.IOException;
-import java.io.InputStream;
-
 import com.lynn.spiritualfasting.database.FastDB;
 import com.lynn.spiritualfasting.fragments.*;
 import com.lynn.spiritualfasting.util.FragmentNames;
 
-import android.content.res.AssetManager;
 import android.os.Bundle;
 
 public class MainActivity extends BaseActivity {

@@ -73,7 +73,7 @@ public class YourFastDetailActivity extends BaseActivity {
     		YourFast yourFast = yourFastDb.getItem(yourFastId);
     		
     		setmPager((ViewPager) findViewById(R.id.pager));
-    		List<SherlockFragment> fragments = getFragments(yourFast.getStartDate());
+    		List<SherlockFragment> fragments = getFragments(yourFast.getStartDate(), yourFast.getEndDate());
     		mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager(), 
     				fragments);
     		getmPager().setAdapter(mPagerAdapter);
@@ -97,22 +97,26 @@ public class YourFastDetailActivity extends BaseActivity {
 	 * @param startDate Date that the fast starts.
 	 * @return List of fragments.
 	 */
-	private List<SherlockFragment> getFragments(Timestamp startDate){
+	private List<SherlockFragment> getFragments(Timestamp startDate, Timestamp endDate){
 		  List<SherlockFragment> fList = new ArrayList<SherlockFragment>();
 		  Timestamp today = new Timestamp(Calendar.getInstance().getTime().getTime());
 		  String todaysDate = new SimpleDateFormat("yyyy-MM-dd").format(new Date(today.getTime()));
 		  String fastStartDate = new SimpleDateFormat("yyyy-MM-dd").format(new Date(startDate.getTime()));
 
-		  if(startDate.before(today) || fastStartDate.equals(todaysDate)) {
+		  if((startDate.before(today) || fastStartDate.equals(todaysDate)) && !endDate.before(today)) {
 			  for(int i = 1; i <= num_pages; i++) {
 				  getIntent().putExtra(Resources.PROGRESS, "Day " + i + " of " + num_pages);
 				  getIntent().putExtra(Resources.DAY, i);
 				  fList.add(YourFastDetailFragment.newInstance(getIntent().getExtras()));
 			  }
 				
-			  long diffTime = today.getTime() - startDate.getTime();
-			  long diffDays = diffTime / (1000 * 60 * 60 * 24);
-			  dayInProgress = (int)diffDays;
+			  if(fastStartDate.equals(todaysDate)) {
+				  dayInProgress = 0; 
+			  } else {
+				  long diffTime = today.getTime() - startDate.getTime();
+				  long diffDays = diffTime / (1000 * 60 * 60 * 24);
+				  dayInProgress = (int)diffDays;
+			  }
 		  } else {
 			  fList.add(YourFastDetailFragment.newInstance(getIntent().getExtras()));
 		  }

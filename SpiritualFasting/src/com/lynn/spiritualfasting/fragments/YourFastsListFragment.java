@@ -167,17 +167,9 @@ public class YourFastsListFragment extends SherlockListFragment implements Actio
 	public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.delete_fast:
-				List<YourFast> deletedFasts = adapter.getSelectedItems();
-				YourFastDB db = new YourFastDB(getSherlockActivity());
-				for(YourFast f : deletedFasts) {
-					db.deleteItem(f);
-					fasts.remove(f);
-					adapter.remove(f);
-				}
-
+				setListAdapter();
 				adapter.notifyDataSetChanged();
 				mActionMode.finish();
-				db.close();
 				return true;
 		    default:
 		        return true;
@@ -192,5 +184,23 @@ public class YourFastsListFragment extends SherlockListFragment implements Actio
 				adapter.selectView(i, false);
 			}
 		}
+	}
+	
+	@Override
+	public void onResume() {
+		super.onResume();
+		setListAdapter();
+		adapter.notifyDataSetChanged();
+	}
+
+	private void setListAdapter() {
+		List<YourFast> deletedFasts = adapter.getSelectedItems();
+		YourFastDB db = new YourFastDB(getSherlockActivity());
+		for(YourFast f : deletedFasts) {
+			db.deleteItem(f);
+			fasts.remove(f);
+			adapter.remove(f);
+		}
+		db.close();
 	}
 }

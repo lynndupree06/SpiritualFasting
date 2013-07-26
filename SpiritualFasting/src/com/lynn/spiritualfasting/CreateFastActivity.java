@@ -133,7 +133,7 @@ public class CreateFastActivity extends BaseActivity {
 				
 				YourFast newFast = new YourFast(fast, start, end);
 				db = new YourFastDB(this);
-				db.addItem(newFast);
+				long newFastId = db.addItem(newFast);
 				db.close();
 
 				Intent intent = new Intent(this, YourFastDetailActivity.class);
@@ -142,18 +142,18 @@ public class CreateFastActivity extends BaseActivity {
 				String fastStartDate = new SimpleDateFormat("yyyy-MM-dd").format(new Date(newFast.getStartDate().getTime()));
 				
 				if(fastStartDate.equals(todaysDate)) {
-					intent.putExtra(Resources.PROGRESS, 
-							"Day 1 of " + newFast.getFast().getLength());
+					intent.putExtra(Resources.PROGRESS, "Day 1 of " + newFast.getFast().getLength());
+					intent.putExtra(Resources.DAY, 1);
 				} else {
 					long diffTime = newFast.getStartDate().getTime() - Calendar.getInstance().getTime().getTime();
 					long diffDays = diffTime / (1000 * 60 * 60 * 24);
 					String dayText = (diffDays + 1 > 1) ? " days" : " day";
-					intent.putExtra(Resources.PROGRESS,
-							"Set to start in " + (diffDays + 1) + dayText);
+					intent.putExtra(Resources.PROGRESS, "Set to start in " + (diffDays + 1) + dayText);
+					intent.putExtra(Resources.DAY, 0);
 				}
 				
 				intent.putExtra(Resources.FAST_NAME, fast.getName());
-				intent.putExtra(Resources.YOUR_FAST_ID, fast.getId());
+				intent.putExtra(Resources.YOUR_FAST_ID, (int)newFastId);
 				this.startActivity(intent);
 				
 				if(!this.getTitle().equals(this.getString(R.string.app_name)))

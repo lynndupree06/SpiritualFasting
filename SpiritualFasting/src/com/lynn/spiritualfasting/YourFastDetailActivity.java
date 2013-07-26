@@ -1,6 +1,10 @@
 package com.lynn.spiritualfasting;
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import android.content.Intent;
@@ -18,10 +22,12 @@ import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.MenuItem;
 import com.lynn.spiritualfasting.database.FastDB;
 import com.lynn.spiritualfasting.database.JournalEntryDB;
+import com.lynn.spiritualfasting.database.YourFastDB;
 import com.lynn.spiritualfasting.fragments.JournalEntryFragment;
 import com.lynn.spiritualfasting.fragments.YourFastDetailFragment;
 import com.lynn.spiritualfasting.model.Fast;
 import com.lynn.spiritualfasting.model.JournalEntry;
+import com.lynn.spiritualfasting.model.YourFast;
 import com.lynn.spiritualfasting.util.Resources;
 import com.lynn.spiritualfasting.util.ScreenSlidePagerAdapter;
 import com.slidingmenu.lib.SlidingMenu;
@@ -63,11 +69,15 @@ public class YourFastDetailActivity extends BaseActivity {
     		Fast fast = fastDb.getItemByName(fastName);
     		num_pages = fast.getLength();
     		
+    		YourFastDB yourFastDb = new YourFastDB(this);
+    		YourFast yourFast = yourFastDb.getItem(yourFastId);
+    		
     		setmPager((ViewPager) findViewById(R.id.pager));
-    		List<SherlockFragment> fragments = getFragments();
+    		List<SherlockFragment> fragments = getFragments(yourFast.getStartDate());
     		mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager(), 
     				fragments);
     		getmPager().setAdapter(mPagerAdapter);
+    		getmPager().setCurrentItem(dayInProgress);
     		
     		getmPager().setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
     		    @Override
@@ -76,6 +86,7 @@ public class YourFastDetailActivity extends BaseActivity {
     		    }
     		});
     		
+    		yourFastDb.close();
     		fastDb.close();
     		wireButtons();
         }
@@ -83,17 +94,29 @@ public class YourFastDetailActivity extends BaseActivity {
 	
 	/**
 	 * Setup list of fragments to put in the view pager.
-	 * @return list of fragments.
+	 * @param startDate Date that the fast starts.
+	 * @return List of fragments.
 	 */
-	private List<SherlockFragment> getFragments(){
+	private List<SherlockFragment> getFragments(Timestamp startDate){
 		  List<SherlockFragment> fList = new ArrayList<SherlockFragment>();
-		 
-		  for(int i = 1; i <= num_pages; i++) {
-			  getIntent().putExtra(Resources.PROGRESS, "Day " + i + " of " + num_pages);
-			  getIntent().putExtra(Resources.DAY, i);
+		  Timestamp today = new Timestamp(Calendar.getInstance().getTime().getTime());
+		  String todaysDate = new SimpleDateFormat("yyyy-MM-dd").format(new Date(today.getTime()));
+		  String fastStartDate = new SimpleDateFormat("yyyy-MM-dd").format(new Date(startDate.getTime()));
+
+		  if(startDate.before(today) || fastStartDate.equals(todaysDate)) {
+			  for(int i = 1; i <= num_pages; i++) {
+				  getIntent().putExtra(Resources.PROGRESS, "Day " + i + " of " + num_pages);
+				  getIntent().putExtra(Resources.DAY, i);
+				  fList.add(YourFastDetailFragment.newInstance(getIntent().getExtras()));
+			  }
+				
+			  long diffTime = today.getTime() - startDate.getTime();
+			  long diffDays = diffTime / (1000 * 60 * 60 * 24);
+			  dayInProgress = (int)diffDays;
+		  } else {
 			  fList.add(YourFastDetailFragment.newInstance(getIntent().getExtras()));
 		  }
-		 
+		  
 		  return fList;
 	}
 	
@@ -148,6 +171,7 @@ public class YourFastDetailActivity extends BaseActivity {
         previousBtn = (ImageButton) findViewById(R.id.previous);
 		previousBtn.setOnClickListener(new OnClickListener() {
 		    public void onClick(View v) {
+		    	dayInProgress = mPager.getCurrentItem();
 		    	dayInProgress = ((dayInProgress - 1) >= 0) ? (dayInProgress - 1) : 0;
 		        mPager.setCurrentItem(dayInProgress);
 		    }
@@ -155,6 +179,7 @@ public class YourFastDetailActivity extends BaseActivity {
 		nextBtn = (ImageButton) findViewById(R.id.next);
 		nextBtn.setOnClickListener(new OnClickListener() {
 		    public void onClick(View v) {
+		    	dayInProgress = mPager.getCurrentItem();
 		    	dayInProgress = ((dayInProgress + 1) < num_pages) ? (dayInProgress + 1) : num_pages - 1;
 		    	getmPager().setCurrentItem(dayInProgress);
 		    }

@@ -1,0 +1,19 @@
+package com.lynn.mobile.spiritualfasting.util;
+
+public enum FragmentNames {
+	HOME_FRAGMENT("HOME_FRAGMENT"), YOUR_FRAGMENT("YOUR_FRAGMENT"), 
+	TYPES_FRAGMENT("TYPES_FRAGMENT"), WHY_FRAGMENT("WHY_FRAGMENT"), 
+	ABOUT_FRAGMENT("ABOUT_FRAGMENT"), CREATE_FRAGMENT("CREATE_FRAGMENT"),
+	JOURNAL_FRAGMENT("JOURNAL_FRAGMENT"), JOURNAL_LIST_FRAGMENT("JOURNAL_LIST_FRAGMENT"), 
+	YOUR_DETAIL_FRAGMENT("YOUR_DETAIL_FRAGMENT"), FAST_DETAIL_FRAGMENT("FAST_DETAIL_FRAGMENT");
+	
+	private String value;
+	
+	FragmentNames(String value) {
+		this.value = value;
+	}
+	
+	public String getVaule() {
+		return value;
+	}
+}

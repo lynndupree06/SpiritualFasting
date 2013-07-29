@@ -5,11 +5,11 @@ import java.util.GregorianCalendar;
 
 import android.test.ActivityInstrumentationTestCase2;
 
-import com.lynn.spiritualfasting.MainActivity;
-import com.lynn.spiritualfasting.database.FastDB;
-import com.lynn.spiritualfasting.database.YourFastDB;
-import com.lynn.spiritualfasting.model.Fast;
-import com.lynn.spiritualfasting.model.YourFast;
+import com.lynn.mobile.spiritualfasting.MainActivity;
+import com.lynn.mobile.spiritualfasting.database.FastDB;
+import com.lynn.mobile.spiritualfasting.database.YourFastDB;
+import com.lynn.mobile.spiritualfasting.model.Fast;
+import com.lynn.mobile.spiritualfasting.model.YourFast;
 
 public class YourFastTest extends ActivityInstrumentationTestCase2<MainActivity> {
 

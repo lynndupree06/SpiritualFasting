@@ -4,10 +4,10 @@ import java.util.GregorianCalendar;
 
 import android.test.ActivityInstrumentationTestCase2;
 
-import com.lynn.spiritualfasting.MainActivity;
-import com.lynn.spiritualfasting.database.JournalEntryDB;
-import com.lynn.spiritualfasting.model.Fast;
-import com.lynn.spiritualfasting.model.JournalEntry;
+import com.lynn.mobile.spiritualfasting.MainActivity;
+import com.lynn.mobile.spiritualfasting.database.JournalEntryDB;
+import com.lynn.mobile.spiritualfasting.model.Fast;
+import com.lynn.mobile.spiritualfasting.model.JournalEntry;
 
 public class JournalEntryTest extends ActivityInstrumentationTestCase2<MainActivity> {
 

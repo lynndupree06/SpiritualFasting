@@ -46,9 +46,9 @@
 		<item>The Esther Fast</item>
 		<item>The Ezra Fast</item>
 		<item>The John the Baptist Fast</item>
-		<item>The Saint Paul’s Fast</item>
+		<item>The Saint Paul’s Fast</item>-->
 		<item>The Samuel Fast</item>
-		<item>The Widow’s Fast</item> -->
+		<!-- <item>The Widow’s Fast</item>  -->
     </string-array>
     <string-array name="your_fast_detail_action_list">
         <item>Journal Entries</item>

@@ -4,9 +4,9 @@ import java.util.List;
 
 import android.test.ActivityInstrumentationTestCase2;
 
-import com.lynn.spiritualfasting.MainActivity;
-import com.lynn.spiritualfasting.database.RecipeDB;
-import com.lynn.spiritualfasting.model.Recipe;
+import com.lynn.mobile.spiritualfasting.MainActivity;
+import com.lynn.mobile.spiritualfasting.database.RecipeDB;
+import com.lynn.mobile.spiritualfasting.model.Recipe;
 
 public class RecipeTest extends ActivityInstrumentationTestCase2<MainActivity> {
 

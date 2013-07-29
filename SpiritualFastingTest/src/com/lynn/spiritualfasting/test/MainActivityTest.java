@@ -1,12 +1,12 @@
 package com.lynn.spiritualfasting.test;
 
-import com.lynn.spiritualfasting.CreateFastActivity;
-import com.lynn.spiritualfasting.MainActivity;
+import com.lynn.mobile.spiritualfasting.CreateFastActivity;
+import com.lynn.mobile.spiritualfasting.MainActivity;
+import com.lynn.mobile.spiritualfasting.fragments.AboutFragment;
+import com.lynn.mobile.spiritualfasting.fragments.HomeFragment;
+import com.lynn.mobile.spiritualfasting.fragments.TypesofFastsListFragment;
+import com.lynn.mobile.spiritualfasting.fragments.YourFastsListFragment;
 import com.lynn.spiritualfasting.R;
-import com.lynn.spiritualfasting.fragments.AboutFragment;
-import com.lynn.spiritualfasting.fragments.HomeFragment;
-import com.lynn.spiritualfasting.fragments.TypesofFastsListFragment;
-import com.lynn.spiritualfasting.fragments.YourFastsListFragment;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

@@ -86,9 +86,12 @@ public class CreateFastActivity extends BaseActivity {
 			month = selectedMonth;
 			day = selectedDay;
 			
+			String monthPrefix = (month < 10) ? "0" : "";
+			String dayPrefix = (day < 10) ? "0" : "";
+			
 			// set selected date into textview
-			startDate.setText(new StringBuilder().append(month + 1)
-			   .append("/").append(day).append("/").append(year)
+			startDate.setText(new StringBuilder().append(monthPrefix).append(month + 1)
+			   .append("/").append(dayPrefix).append(day).append("/").append(year)
 			   .append(" "));
 		}
     };
@@ -116,16 +119,17 @@ public class CreateFastActivity extends BaseActivity {
 
 	public void createNewFast() {
 		String name = fastType.getSelectedItem().toString();
-		String date = startDate.getText().toString();
+		String date = startDate.getText().toString().trim();
 		Timestamp today = new Timestamp(Calendar.getInstance().getTime().getTime());
 		
 		Timestamp start = null;
+		String todaysDate = null;
 		try {
 			start = new Timestamp(new SimpleDateFormat("MM/dd/yyyy").parse(date).getTime());
-			String todaysDate = new SimpleDateFormat("yyyy-MM-dd").format(new Date (today.getTime()));
+			todaysDate = new SimpleDateFormat("MM/dd/yyyy").format(new Date (today.getTime())).trim();
 			
 			if(!name.equals("Select a fast...") && !date.equals("") 
-					&& (start.after(today) || startDate.equals(todaysDate))) {
+					&& (start.after(today) || date.equals(todaysDate))) {
 					
 				FastDB fastDb = new FastDB(this);
 				Fast fast = fastDb.getItemByName(name);
@@ -165,7 +169,7 @@ public class CreateFastActivity extends BaseActivity {
 			e1.printStackTrace();
 		}
 		
-		if(name.equals("Select a fast...") || date.equals("") || start.before(today)) {
+		if((name.equals("Select a fast...") || date.equals("")) && (start.before(today) || date.equals(todaysDate))) {
 			AlertDialog.Builder alert = new AlertDialog.Builder(this);
 			alert.setTitle("Some of the required fields are missing.");
 	    

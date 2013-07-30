@@ -40,7 +40,7 @@ public class JournalEntryDB extends DatabaseHandler<JournalEntry> {
 		SQLiteDatabase db = this.getWritableDatabase();
 		long newRowId = 0;
 		
-		if(!itemExists(journalEntry, db)) {
+//		if(!itemExists(journalEntry, db)) {
 			// Create a new map of values, where column names are the keys
 			ContentValues values = new ContentValues();
 			values.putNull(KEY_ID);
@@ -51,7 +51,7 @@ public class JournalEntryDB extends DatabaseHandler<JournalEntry> {
 	
 			// Insert the new row, returning the primary key value of the new row
 			newRowId = db.insert(TABLE, KEY_ID, values);
-		}
+//		}
 		
 		return newRowId;
 	}
@@ -117,7 +117,12 @@ public class JournalEntryDB extends DatabaseHandler<JournalEntry> {
 		List<JournalEntry> fastList = new ArrayList<JournalEntry>();
 		
         // Select All Query
-        String selectQuery = "SELECT  * FROM " + TABLE 
+        String selectQuery = "SELECT " + TABLE + ".id AS JournalEntryID, "
+        		+ KEY_ENTRY + ", " + KEY_DAY + ", " + KEY_DATE + ", " 
+        		+ "yourFasts.id, " + YourFastDB.KEY_START + ", " + YourFastDB.KEY_END + ", "
+        		+ FastDB.KEY_NAME + ", " + FastDB.KEY_DESC + ", " 
+        		+ FastDB.KEY_LENGTH + ", " + FastDB.KEY_URL
+        		+ " FROM " + TABLE
         		+ " LEFT JOIN yourFasts ON " + TABLE + "." + KEY_YOUR_FAST_ID + " = yourFasts.id "
         		+ " LEFT JOIN fasts ON yourFasts." + YourFastDB.KEY_FAST_ID + " = fasts.id";
      
@@ -127,7 +132,7 @@ public class JournalEntryDB extends DatabaseHandler<JournalEntry> {
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
-            	int id = cursor.getInt(cursor.getColumnIndexOrThrow(KEY_ID));
+            	int id = cursor.getInt(cursor.getColumnIndexOrThrow("JournalEntryID"));
             	String entry = cursor.getString(cursor.getColumnIndexOrThrow(KEY_ENTRY));
     			int entryDay = cursor.getInt(cursor.getColumnIndexOrThrow(KEY_DAY));
     			String entryDate = cursor.getString(cursor.getColumnIndexOrThrow(KEY_DATE));
@@ -189,8 +194,11 @@ public class JournalEntryDB extends DatabaseHandler<JournalEntry> {
 	}
 
 	protected boolean itemExists(JournalEntry entry, SQLiteDatabase db) {
-	    String[] selectionArgs = { entry.getEntry() };
-		String sql = "SELECT " + KEY_ID + " FROM " + TABLE + " WHERE " + KEY_ENTRY + " = ?";
+	    String[] selectionArgs = { String.valueOf(entry.getDay()), 
+	    		String.valueOf(entry.getYourFast().getId()) };
+		String sql = "SELECT * FROM " + TABLE + " WHERE " 
+	    		+ KEY_DAY + " = ? AND "
+	    		+ KEY_YOUR_FAST_ID + " = ?";
 		Cursor cursor = db.rawQuery(sql, selectionArgs);
 		
 		return cursor.moveToFirst();

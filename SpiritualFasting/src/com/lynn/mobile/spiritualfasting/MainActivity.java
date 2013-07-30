@@ -8,6 +8,7 @@ import com.lynn.mobile.spiritualfasting.model.Fast;
 import com.lynn.mobile.spiritualfasting.util.FragmentNames;
 import com.lynn.mobile.spiritualfasting.R;
 
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
 public class MainActivity extends BaseActivity {
@@ -48,13 +49,14 @@ public class MainActivity extends BaseActivity {
 
 	private void setupDatabase() {
 		FastDB fastDB = new FastDB(getApplicationContext());
-		List<Fast> fasts = fastDB.getAllItems();
+//		List<Fast> fasts = fastDB.getAllItems();
+//		
+//		for(Fast f : fasts) {
+//			fastDB.deleteItem(f);
+//		}
 		
-		for(Fast f : fasts) {
-			fastDB.deleteItem(f);
-		}
-		
-		fastDB.init(fastDB.getReadableDatabase());
+		SQLiteDatabase db = fastDB.getReadableDatabase();
+		fastDB.init(db);
 		fastDB.close();
 	}
 }

@@ -73,6 +73,8 @@ public class JournalEntryFragment extends SherlockFragment {
     			
     			String entry = journalEntry.getText().toString();
     			Timestamp date = new Timestamp(Calendar.getInstance().getTime().getTime());
+    			YourFastDetailActivity activity = (YourFastDetailActivity) getSherlockActivity();
+    			day = activity.getmPager().getCurrentItem() + 1;
     			
     			if(entryId != 0) {
 	    			JournalEntry newEntry = new JournalEntry(entryId, entry, yourFastDb.getItem(yourFastId), day, date);

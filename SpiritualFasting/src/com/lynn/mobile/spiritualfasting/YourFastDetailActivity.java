@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -231,5 +232,13 @@ public class YourFastDetailActivity extends BaseActivity {
 		nextBtn.setVisibility(visibility);
 		addJournalEntry.setVisibility(visibility);
 		fastDetail.setVisibility(visibility);
+	}
+	
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+	    if ( keyCode == KeyEvent.KEYCODE_MENU ) {
+	        return true;
+	    }
+	    return super.onKeyDown(keyCode, event);
 	}
 }

@@ -52,11 +52,14 @@ public class FastDB extends DatabaseHandler<Fast> {
 //		
 //		fast = new Fast("The Saint Paul’s Fast", "To make decisions", 5, "saint_paul_fast.html");
 //		addItem(fast, db);
+
+		db.execSQL("DROP TABLE IF EXISTS " + TABLE);
+		db.execSQL(CREATE_TABLE_FAST);
 		
 		Fast fast = new Fast("The Daniel Fast", "For health and healing", 21, "daniel_fast.html");
 		addItem(fast, db);
 		
-		fast = new Fast("The Samuel Fast", "For evangelism and revival", 5, "samuel_fast.html");
+		fast = new Fast("The Samuel Fast", "For evangelism and revival", 6, "samuel_fast.html");
 		addItem(fast, db);
 		
 //		fast = new Fast("The John the Baptist Fast", "For testimony", 5, "john_baptist_fast.html");

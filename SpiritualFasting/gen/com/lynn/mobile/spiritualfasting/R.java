@@ -10,14 +10,7 @@ package com.lynn.mobile.spiritualfasting;
 public final class R {
     public static final class array {
         public static final int navigation=0x7f0b0000;
-        /**  <item>The Disciple’s Fast</item>
-		<item>The Elijah Fast</item>
-		<item>The Esther Fast</item>
-		<item>The Ezra Fast</item>
-		<item>The John the Baptist Fast</item>
-		<item>The Saint Paul’s Fast</item>
-		<item>The Samuel Fast</item>
-		<item>The Widow’s Fast</item> 
+        /**  <item>The Widow’s Fast</item>  
          */
         public static final int types_of_fasts=0x7f0b0001;
         public static final int your_fast_detail_action_list=0x7f0b0002;

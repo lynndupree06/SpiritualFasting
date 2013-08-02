@@ -24,6 +24,7 @@ import com.actionbarsherlock.view.MenuItem;
 import com.lynn.mobile.spiritualfasting.database.FastDB;
 import com.lynn.mobile.spiritualfasting.database.JournalEntryDB;
 import com.lynn.mobile.spiritualfasting.database.YourFastDB;
+import com.lynn.mobile.spiritualfasting.fragments.ExitViewDialogFragment;
 import com.lynn.mobile.spiritualfasting.fragments.JournalEntryFragment;
 import com.lynn.mobile.spiritualfasting.fragments.YourFastDetailFragment;
 import com.lynn.mobile.spiritualfasting.model.Fast;
@@ -152,7 +153,7 @@ public class YourFastDetailActivity extends BaseActivity {
 				FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 				getIntent().putExtra(Resources.YOUR_FAST_ID, yourFastId);
 				fragment.setArguments(getIntent().getExtras()); 
-				transaction.replace(R.id.your_fast_detail_fragment_container, fragment);
+				transaction.replace(R.id.your_fast_detail_fragment_container, fragment, Resources.JOURNAL_FRAGMENT);
 				transaction.addToBackStack(null);
 				transaction.commit();
 				toggleNavigationButtons(View.INVISIBLE);
@@ -196,10 +197,15 @@ public class YourFastDetailActivity extends BaseActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		    case android.R.id.home:
-		    	if(!getSupportFragmentManager().popBackStackImmediate())
-		    		finish();
-		    	
-		    	toggleNavigationButtons(View.VISIBLE);
+		    	if(getSupportFragmentManager().findFragmentByTag(Resources.JOURNAL_FRAGMENT) != null) {
+		    		ExitViewDialogFragment dialog = new ExitViewDialogFragment();
+		        	dialog.show(getSupportFragmentManager(), null);
+		    	} else {
+			    	if(!getSupportFragmentManager().popBackStackImmediate())
+			    		finish();
+			    	
+			    	toggleNavigationButtons(View.VISIBLE);
+		    	}
 		        return true;
 		    default:
 		        return super.onOptionsItemSelected(item);
@@ -208,10 +214,15 @@ public class YourFastDetailActivity extends BaseActivity {
 	
 	@Override
 	public void onBackPressed() {
-    	if(getSupportFragmentManager().popBackStackImmediate()) {
-    		toggleNavigationButtons(View.VISIBLE);
+		if(getSupportFragmentManager().findFragmentByTag(Resources.JOURNAL_FRAGMENT) != null) {
+    		ExitViewDialogFragment dialog = new ExitViewDialogFragment();
+        	dialog.show(getSupportFragmentManager(), null);
     	} else {
-	    	finish();
+	    	if(getSupportFragmentManager().popBackStackImmediate()) {
+	    		toggleNavigationButtons(View.VISIBLE);
+	    	} else {
+		    	finish();
+	    	}
     	}
 	}
 

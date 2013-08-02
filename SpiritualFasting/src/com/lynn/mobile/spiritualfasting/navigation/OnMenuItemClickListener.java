@@ -2,6 +2,7 @@ package com.lynn.mobile.spiritualfasting.navigation;
 
 import com.lynn.mobile.spiritualfasting.AboutActivity;
 import com.lynn.mobile.spiritualfasting.MainActivity;
+import com.lynn.mobile.spiritualfasting.TermsOfUseActivity;
 import com.lynn.mobile.spiritualfasting.TypesOfFastsActivity;
 import com.lynn.mobile.spiritualfasting.WhyActivity;
 import com.lynn.mobile.spiritualfasting.YourFastsListActivity;
@@ -16,6 +17,8 @@ import android.widget.AdapterView.OnItemClickListener;
 
 public class OnMenuItemClickListener implements OnItemClickListener {
 
+	private static final String API_KEY = "5a9f171fcb500d8bd68cc4e8860c08c5f3b4fd71";
+	private static final String LOGIN = "53915effb58bc5d137ebb2a8dba72ec00eca92f4";
 	private FragmentActivity context;
 	private SlidingMenu menu;
 	
@@ -31,27 +34,41 @@ public class OnMenuItemClickListener implements OnItemClickListener {
 		switch(position) {
 	    	  case 0: 
 	    		  intent = new Intent(context, MainActivity.class);
+	    		  context.startActivity(intent);
 	    		  break;
 	    	  case 1:
 	    		  intent = new Intent(context, YourFastsListActivity.class);
 	    		  break;
 	    	  case 2:
 	    		  intent = new Intent(context, TypesOfFastsActivity.class);
+	    		  context.startActivity(intent);
 	    		  break;
 	    	  case 3:
 	    		  intent = new Intent(context, WhyActivity.class);
+	    		  context.startActivity(intent);
 	    		  break;
 	    	  case 4:
 	    		  intent = new Intent(context, AboutActivity.class);
+	    		  context.startActivity(intent);
 	    		  break;
+	    	  case 5:
+	    		  intent = new Intent(context, TermsOfUseActivity.class);
+	    		  context.startActivity(intent);
+	    		  break;
+	    	  case 6:
+	    		  intent = new Intent(Intent.ACTION_SEND);
+                  intent.setType("text/plain");
+				  String url = "http://bit.ly/143W7N9";
+                  intent.putExtra(Intent.EXTRA_TEXT, "Start a spiritual fast today with this app: " + url);
+                  intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Check out this app!");
+                  context.startActivity(Intent.createChooser(intent, "Share"));
+				  break;
   	  	}
   	  	
-		context.startActivity(intent);
 		
 		if(!context.getTitle().equals(context.getString(R.string.app_name)))
 			context.finish();
 		
   	  	menu.toggle();
     }
-
 }

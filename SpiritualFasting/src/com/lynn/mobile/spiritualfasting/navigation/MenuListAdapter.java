@@ -60,9 +60,7 @@ public class MenuListAdapter<T> extends ArrayAdapter<T>
 		
 		switch (position) {
 			case 0: 
-				uri = "drawable/ic_menu_home"; 
-				imageResource = Ctx.getResources().getIdentifier(uri, null, "android");
-				image = Ctx.getResources().getDrawable(imageResource);
+				image = Ctx.getResources().getDrawable(R.drawable.home_icon);
 				break;
 			case 1: 
 				uri = "drawable/ic_menu_star";
@@ -70,9 +68,7 @@ public class MenuListAdapter<T> extends ArrayAdapter<T>
 				image = Ctx.getResources().getDrawable(imageResource);
 				break;
 			case 2: 
-				uri = "drawable/ic_menu_goto";
-				imageResource = Ctx.getResources().getIdentifier(uri, null, "android");
-				image = Ctx.getResources().getDrawable(imageResource);
+				image = Ctx.getResources().getDrawable(R.drawable.list_icon);
 				break;
 			case 3:
 				uri = "drawable/ic_menu_help";
@@ -80,10 +76,14 @@ public class MenuListAdapter<T> extends ArrayAdapter<T>
 				image = Ctx.getResources().getDrawable(imageResource);
 				break;
 			case 4:
-				uri = "drawable/ic_menu_info_details";
-				imageResource = Ctx.getResources().getIdentifier(uri, null, "android");
-				image = Ctx.getResources().getDrawable(imageResource);
+				image = Ctx.getResources().getDrawable(R.drawable.info_icon);
 				break;
+			case 5:
+				image = Ctx.getResources().getDrawable(R.drawable.terms_icon);
+				break;
+			case 6:
+				image = Ctx.getResources().getDrawable(R.drawable.share_icon);
+				break;	
 		}
 
 		menu_image.setImageDrawable(image);

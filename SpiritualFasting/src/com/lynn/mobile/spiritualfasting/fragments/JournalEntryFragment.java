@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.actionbarsherlock.app.SherlockFragment;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
@@ -22,10 +23,10 @@ import com.lynn.mobile.spiritualfasting.util.Resources;
 import com.lynn.mobile.spiritualfasting.R;
 
 public class JournalEntryFragment extends SherlockFragment {
-	private EditText journalEntry;
-	private int yourFastId;
-	private int entryId;
-	private int day;
+	private static EditText journalEntry;
+	private static int yourFastId;
+	private static int entryId;
+	private static int day;
 
 	public JournalEntryFragment() {}
 	
@@ -68,29 +69,33 @@ public class JournalEntryFragment extends SherlockFragment {
     public boolean onOptionsItemSelected(MenuItem item) {
     	switch (item.getItemId()) {
     		case R.id.update_entry:
-    			JournalEntryDB db = new JournalEntryDB(getSherlockActivity());
-    			YourFastDB yourFastDb = new YourFastDB(getSherlockActivity());
-    			
-    			String entry = journalEntry.getText().toString();
-    			Timestamp date = new Timestamp(Calendar.getInstance().getTime().getTime());
-    			YourFastDetailActivity activity = (YourFastDetailActivity) getSherlockActivity();
-    			day = activity.getmPager().getCurrentItem() + 1;
-    			
-    			if(entryId != 0) {
-	    			JournalEntry newEntry = new JournalEntry(entryId, entry, yourFastDb.getItem(yourFastId), day, date);
-	    			db.updateItem(newEntry);
-    			} else {
-	    			JournalEntry newEntry = new JournalEntry(entry, yourFastDb.getItem(yourFastId), day);
-	    			db.addItem(newEntry);
-    			}
-    			db.close();
-    			yourFastDb.close();
-
-    			((YourFastDetailActivity)getSherlockActivity()).toggleNavigationButtons(View.VISIBLE);
-    			getSherlockActivity().getSupportFragmentManager().popBackStack();
+    			saveJournalEntry(getSherlockActivity());
     			return true;
 		    default:
 		        return super.onOptionsItemSelected(item);
 		}
     }
+
+	public static void saveJournalEntry(SherlockFragmentActivity sherlockActivity) {
+		JournalEntryDB db = new JournalEntryDB(sherlockActivity);
+		YourFastDB yourFastDb = new YourFastDB(sherlockActivity);
+		
+		String entry = journalEntry.getText().toString();
+		Timestamp date = new Timestamp(Calendar.getInstance().getTime().getTime());
+		YourFastDetailActivity activity = (YourFastDetailActivity) sherlockActivity;
+		day = activity.getmPager().getCurrentItem() + 1;
+		
+		if(entryId != 0) {
+			JournalEntry newEntry = new JournalEntry(entryId, entry, yourFastDb.getItem(yourFastId), day, date);
+			db.updateItem(newEntry);
+		} else {
+			JournalEntry newEntry = new JournalEntry(entry, yourFastDb.getItem(yourFastId), day);
+			db.addItem(newEntry);
+		}
+		db.close();
+		yourFastDb.close();
+
+		((YourFastDetailActivity)sherlockActivity).toggleNavigationButtons(View.VISIBLE);
+		sherlockActivity.getSupportFragmentManager().popBackStack();
+	}
 }

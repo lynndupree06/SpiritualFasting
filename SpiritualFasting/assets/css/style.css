@@ -14,3 +14,14 @@ body {
 h1, h2, h3 {
 	font-variant:small-caps;
 }
+
+a {
+	color: #133AAC;
+}
+
+#version {
+	color: #fff;
+	background-color: #666666;
+	float: right;
+	padding: 3px;
+}

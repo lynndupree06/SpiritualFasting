@@ -13,7 +13,6 @@ public final class R {
         /**  <item>The Widow’s Fast</item>  
          */
         public static final int types_of_fasts=0x7f0b0001;
-        public static final int your_fast_detail_action_list=0x7f0b0002;
     }
     public static final class attr {
         /**  Custom divider drawable to use for elements in the action bar. 
@@ -1092,24 +1091,29 @@ containing a value of this type.
         public static final int blue_button_states=0x7f02007b;
         public static final int calendar=0x7f02007c;
         public static final int check=0x7f02007d;
-        public static final int icon=0x7f02007e;
-        public static final int list_item_normal=0x7f02007f;
-        public static final int list_item_pressed=0x7f020080;
-        public static final int list_item_states=0x7f020081;
-        public static final int navigation_menu_background=0x7f020082;
-        public static final int navigation_menu_item_normal=0x7f020083;
-        public static final int navigation_menu_item_pressed=0x7f020084;
-        public static final int navigation_menu_states=0x7f020085;
-        public static final int purple_button_normal=0x7f020086;
-        public static final int purple_button_pressed=0x7f020087;
-        public static final int purple_button_states=0x7f020088;
-        public static final int red_button_normal=0x7f020089;
-        public static final int red_button_pressed=0x7f02008a;
-        public static final int red_button_states=0x7f02008b;
-        public static final int shadow=0x7f02008c;
-        public static final int side_menu_button_normal=0x7f02008d;
-        public static final int side_menu_button_pressed=0x7f02008e;
-        public static final int side_menu_button_states=0x7f02008f;
+        public static final int home_icon=0x7f02007e;
+        public static final int icon=0x7f02007f;
+        public static final int info_icon=0x7f020080;
+        public static final int list_icon=0x7f020081;
+        public static final int list_item_normal=0x7f020082;
+        public static final int list_item_pressed=0x7f020083;
+        public static final int list_item_states=0x7f020084;
+        public static final int navigation_menu_background=0x7f020085;
+        public static final int navigation_menu_item_normal=0x7f020086;
+        public static final int navigation_menu_item_pressed=0x7f020087;
+        public static final int navigation_menu_states=0x7f020088;
+        public static final int purple_button_normal=0x7f020089;
+        public static final int purple_button_pressed=0x7f02008a;
+        public static final int purple_button_states=0x7f02008b;
+        public static final int red_button_normal=0x7f02008c;
+        public static final int red_button_pressed=0x7f02008d;
+        public static final int red_button_states=0x7f02008e;
+        public static final int shadow=0x7f02008f;
+        public static final int share_icon=0x7f020090;
+        public static final int side_menu_button_normal=0x7f020091;
+        public static final int side_menu_button_pressed=0x7f020092;
+        public static final int side_menu_button_states=0x7f020093;
+        public static final int terms_icon=0x7f020094;
     }
     public static final class id {
         public static final int abs__action_bar=0x7f040027;
@@ -1271,8 +1275,8 @@ containing a value of this type.
         public static final int your_fasts_list_menu=0x7f0c0005;
     }
     public static final class string {
-        public static final int CreateFastForm_StartText=0x7f09001c;
-        public static final int CreateFastForm_TypeText=0x7f09001b;
+        public static final int CreateFastForm_StartText=0x7f09001d;
+        public static final int CreateFastForm_TypeText=0x7f09001c;
         /**  Content description for the action bar "home" affordance. [CHAR LIMIT=NONE] 
          */
         public static final int abs__action_bar_home_description=0x7f090000;
@@ -1318,26 +1322,29 @@ containing a value of this type.
         /**  Description of a share target (both in the list of such or the default share button) in a ShareActionProvider (share UI). [CHAR LIMIT=NONE] 
          */
         public static final int abs__shareactionprovider_share_with_application=0x7f090009;
-        public static final int action_settings=0x7f09001d;
-        public static final int add_fast=0x7f090024;
+        public static final int action_settings=0x7f09001e;
+        public static final int add_fast=0x7f090025;
         public static final int app_name=0x7f09000f;
-        public static final int cancel_fast=0x7f090029;
-        public static final int delete=0x7f090026;
-        public static final int edit_fast=0x7f090025;
-        public static final int fast_detail_button_text=0x7f090020;
-        public static final int journal_entries_menu_item=0x7f090027;
-        public static final int journal_entry_button_text=0x7f09001f;
-        public static final int journal_entry_hint=0x7f09002b;
-        public static final int no_current_fasts_text=0x7f090022;
-        public static final int no_current_journal_entries_text=0x7f090023;
-        public static final int start=0x7f09001a;
-        public static final int start_current_fast=0x7f09001e;
-        public static final int start_fast=0x7f090028;
-        public static final int start_fast_date_hint=0x7f09002a;
-        public static final int submit_journal_entry_button_text=0x7f090021;
+        public static final int cancel_fast=0x7f09002a;
+        public static final int delete=0x7f090027;
+        public static final int dialog_exit=0x7f09002d;
+        public static final int edit_fast=0x7f090026;
+        public static final int fast_detail_button_text=0x7f090021;
+        public static final int journal_entries_menu_item=0x7f090028;
+        public static final int journal_entry_button_text=0x7f090020;
+        public static final int journal_entry_hint=0x7f09002c;
+        public static final int no=0x7f09002f;
+        public static final int no_current_fasts_text=0x7f090023;
+        public static final int no_current_journal_entries_text=0x7f090024;
+        public static final int start=0x7f09001b;
+        public static final int start_current_fast=0x7f09001f;
+        public static final int start_fast=0x7f090029;
+        public static final int start_fast_date_hint=0x7f09002b;
+        public static final int submit_journal_entry_button_text=0x7f090022;
         public static final int title_activity_about=0x7f090012;
         public static final int title_activity_journal_entry_layout=0x7f090015;
         public static final int title_activity_start_fast=0x7f090010;
+        public static final int title_activity_terms=0x7f09001a;
         public static final int title_activity_why=0x7f090019;
         public static final int title_date_dialog=0x7f090016;
         public static final int title_journal_entry=0x7f090017;
@@ -1345,6 +1352,7 @@ containing a value of this type.
         public static final int title_types_of_fasts=0x7f090013;
         public static final int title_your_fast_detail=0x7f090011;
         public static final int title_your_fasts_list=0x7f090014;
+        public static final int yes=0x7f09002e;
     }
     public static final class style {
         public static final int ActionBar=0x7f0a005a;

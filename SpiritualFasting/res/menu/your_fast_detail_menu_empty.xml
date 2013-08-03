@@ -1,0 +1,8 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/fast_detail"
+        android:showAsAction="ifRoom" 
+        android:title="@string/fast_detail_button_text" />
+
+</menu>

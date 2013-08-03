@@ -17,8 +17,6 @@ import android.widget.AdapterView.OnItemClickListener;
 
 public class OnMenuItemClickListener implements OnItemClickListener {
 
-	private static final String API_KEY = "5a9f171fcb500d8bd68cc4e8860c08c5f3b4fd71";
-	private static final String LOGIN = "53915effb58bc5d137ebb2a8dba72ec00eca92f4";
 	private FragmentActivity context;
 	private SlidingMenu menu;
 	
@@ -38,6 +36,7 @@ public class OnMenuItemClickListener implements OnItemClickListener {
 	    		  break;
 	    	  case 1:
 	    		  intent = new Intent(context, YourFastsListActivity.class);
+	    		  context.startActivity(intent);
 	    		  break;
 	    	  case 2:
 	    		  intent = new Intent(context, TypesOfFastsActivity.class);

@@ -3,6 +3,7 @@ package com.lynn.mobile.spiritualfasting.fragments;
 import java.sql.Timestamp;
 import java.util.Calendar;
 
+import android.annotation.SuppressLint;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -43,7 +44,6 @@ public class JournalEntryFragment extends SherlockFragment {
 				container, false);
 
 //		getSherlockActivity().setTitle(R.string.title_journal_entry);
-		getSherlockActivity().setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
 		
 		yourFastId = getArguments().getInt(Resources.YOUR_FAST_ID);
 		entryId = getArguments().getInt(Resources.ENTRY_ID);
@@ -61,11 +61,12 @@ public class JournalEntryFragment extends SherlockFragment {
 	
 	@Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		menu.clear();
     	super.onCreateOptionsMenu(menu, inflater);
 		inflater.inflate(R.menu.journal_entry_menu, menu);
     }
     
-    @Override
+	@Override
     public boolean onOptionsItemSelected(MenuItem item) {
     	switch (item.getItemId()) {
     		case R.id.update_entry:

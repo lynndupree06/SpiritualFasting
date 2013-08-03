@@ -34,19 +34,5 @@
         android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:layout_weight="0.29" />
-    
-    <Button
-		        android:id="@+id/journal_entry_button"
-		        style="@style/PurpleButton"
-		        android:layout_width="match_parent"
-		        android:layout_height="wrap_content"
-		        android:text="@string/journal_entry_button_text" />
-		    
-		    <Button
-		        android:id="@+id/fast_detail_button"
-		        style="@style/BlueButton"
-		        android:layout_width="match_parent"
-		        android:layout_height="wrap_content"
-		        android:text="@string/fast_detail_button_text" />
 
 </LinearLayout>

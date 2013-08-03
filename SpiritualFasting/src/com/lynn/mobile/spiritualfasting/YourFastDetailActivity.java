@@ -7,28 +7,25 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import android.content.Intent;
+import android.annotation.SuppressLint;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.ImageButton;
 
 import com.actionbarsherlock.app.SherlockFragment;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.lynn.mobile.spiritualfasting.database.FastDB;
-import com.lynn.mobile.spiritualfasting.database.JournalEntryDB;
 import com.lynn.mobile.spiritualfasting.database.YourFastDB;
 import com.lynn.mobile.spiritualfasting.fragments.ExitViewDialogFragment;
-import com.lynn.mobile.spiritualfasting.fragments.JournalEntryFragment;
 import com.lynn.mobile.spiritualfasting.fragments.YourFastDetailFragment;
 import com.lynn.mobile.spiritualfasting.model.Fast;
-import com.lynn.mobile.spiritualfasting.model.JournalEntry;
 import com.lynn.mobile.spiritualfasting.model.YourFast;
 import com.lynn.mobile.spiritualfasting.util.Resources;
 import com.lynn.mobile.spiritualfasting.util.ScreenSlidePagerAdapter;
@@ -44,8 +41,6 @@ public class YourFastDetailActivity extends BaseActivity {
 	private ImageButton previousBtn;
 	private ImageButton nextBtn;
 	private int yourFastId;
-	private Button addJournalEntry;
-	private Button fastDetail;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -132,49 +127,6 @@ public class YourFastDetailActivity extends BaseActivity {
 	 * YourFastDetailActivity.
 	 */
 	public void wireButtons() {
-		
-		addJournalEntry = (Button) findViewById(R.id.journal_entry_button);
-		addJournalEntry.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				JournalEntryDB db = new JournalEntryDB(YourFastDetailActivity.this);
-				List<JournalEntry> entries = db.getAllItems();
-				getIntent().putExtra(Resources.ENTRY_ID, 0);
-				
-				for(JournalEntry e : entries) {
-					if(e.getYourFast().getId() == yourFastId &&
-							e.getDay() == getmPager().getCurrentItem() + 1) {
-						getIntent().putExtra(Resources.ENTRY_ID, e.getId());
-					}
-				}
-				
-				JournalEntryFragment fragment = new JournalEntryFragment();
-				FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-				getIntent().putExtra(Resources.YOUR_FAST_ID, yourFastId);
-				fragment.setArguments(getIntent().getExtras()); 
-				transaction.replace(R.id.your_fast_detail_fragment_container, fragment, Resources.JOURNAL_FRAGMENT);
-				transaction.addToBackStack(null);
-				transaction.commit();
-				toggleNavigationButtons(View.INVISIBLE);
-			}
-		});
-
-        fastDetail = (Button) findViewById(R.id.fast_detail_button);
-        fastDetail.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent(YourFastDetailActivity.this, TypesOfFastsDetailActivity.class);
-				FastDB fastDb = new FastDB(YourFastDetailActivity.this);
-				Fast fast = fastDb.getItemByName(fastName);
-				
-				intent.putExtra(Resources.FAST_ID, fast.getId());
-				startActivity(intent);
-				fastDb.close();
-			}
-		});
-        
         previousBtn = (ImageButton) findViewById(R.id.previous);
 		previousBtn.setOnClickListener(new OnClickListener() {
 		    public void onClick(View v) {
@@ -225,7 +177,7 @@ public class YourFastDetailActivity extends BaseActivity {
 	    	}
     	}
 	}
-
+	
 	public ViewPager getmPager() {
 		return mPager;
 	}
@@ -241,8 +193,6 @@ public class YourFastDetailActivity extends BaseActivity {
 	public void toggleNavigationButtons(int visibility) {
 		previousBtn.setVisibility(visibility);
 		nextBtn.setVisibility(visibility);
-		addJournalEntry.setVisibility(visibility);
-		fastDetail.setVisibility(visibility);
 	}
 	
 	@Override

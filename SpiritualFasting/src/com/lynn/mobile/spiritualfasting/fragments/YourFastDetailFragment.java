@@ -3,10 +3,13 @@ package com.lynn.mobile.spiritualfasting.fragments;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,14 +18,19 @@ import android.widget.TextView;
 
 import com.actionbarsherlock.app.ActionBar.OnNavigationListener;
 import com.actionbarsherlock.app.SherlockFragment;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
+import com.lynn.mobile.spiritualfasting.TypesOfFastsDetailActivity;
 import com.lynn.mobile.spiritualfasting.YourFastDetailActivity;
 import com.lynn.mobile.spiritualfasting.YourFastsListActivity;
 import com.lynn.mobile.spiritualfasting.database.FastDB;
+import com.lynn.mobile.spiritualfasting.database.JournalEntryDB;
 import com.lynn.mobile.spiritualfasting.database.ScriptureDB;
 import com.lynn.mobile.spiritualfasting.database.YourFastDB;
 import com.lynn.mobile.spiritualfasting.model.Fast;
+import com.lynn.mobile.spiritualfasting.model.JournalEntry;
 import com.lynn.mobile.spiritualfasting.util.Resources;
 import com.lynn.mobile.spiritualfasting.R;
 
@@ -35,6 +43,7 @@ public class YourFastDetailFragment extends SherlockFragment implements OnNaviga
 
 	private String fastName;
 	private int day;
+	private int yourFastId;
 
 	public YourFastDetailFragment() { }
 
@@ -52,7 +61,7 @@ public class YourFastDetailFragment extends SherlockFragment implements OnNaviga
 
 		fastName = getArguments().getString(Resources.FAST_NAME);
 		day = getArguments().getInt(Resources.DAY);
-		int yourFastId = getArguments().getInt(Resources.YOUR_FAST_ID);
+		yourFastId = getArguments().getInt(Resources.YOUR_FAST_ID);
 		String progress = getArguments().getString(Resources.PROGRESS);
 		
 		YourFastDetailActivity activity = (YourFastDetailActivity) getSherlockActivity();
@@ -118,9 +127,62 @@ public class YourFastDetailFragment extends SherlockFragment implements OnNaviga
 	
 	@Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		menu.clear();
     	super.onCreateOptionsMenu(menu, inflater);
-		inflater.inflate(R.menu.your_fast_detail_menu, menu);
+    	
+    	if(day == 0) { 
+    		inflater.inflate(R.menu.your_fast_detail_menu_empty, menu);
+    	} else {
+    		inflater.inflate(R.menu.your_fast_detail_menu, menu);
+    	}
     }
+	
+	@Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+    	switch (item.getItemId()) {
+    		case R.id.add_journal:
+    			openJournalFragment();
+    			return true;
+    		case R.id.fast_detail:
+    			showFastDetail();
+    			return true;
+		    default:
+		        return super.onOptionsItemSelected(item);
+		}
+    }
+
+	public void showFastDetail() {
+		Intent intent = new Intent(getSherlockActivity(), TypesOfFastsDetailActivity.class);
+		FastDB fastDb = new FastDB(getSherlockActivity());
+		Fast fast = fastDb.getItemByName(fastName);
+		
+		intent.putExtra(Resources.FAST_ID, fast.getId());
+		startActivity(intent);
+		fastDb.close();
+	}
+
+	public void openJournalFragment() {
+		YourFastDetailActivity activity = (YourFastDetailActivity) getSherlockActivity();
+		JournalEntryDB db = new JournalEntryDB(activity);
+		List<JournalEntry> entries = db.getAllItems();
+		activity.getIntent().putExtra(Resources.ENTRY_ID, 0);
+		
+		for(JournalEntry e : entries) {
+			if(e.getYourFast().getId() == yourFastId &&
+					e.getDay() == activity.getmPager().getCurrentItem() + 1) {
+				activity.getIntent().putExtra(Resources.ENTRY_ID, e.getId());
+			}
+		}
+		
+		JournalEntryFragment fragment = new JournalEntryFragment();
+		FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
+		activity.getIntent().putExtra(Resources.YOUR_FAST_ID, yourFastId);
+		fragment.setArguments(activity.getIntent().getExtras()); 
+		transaction.replace(R.id.your_fast_detail_fragment_container, fragment, Resources.JOURNAL_FRAGMENT);
+		transaction.addToBackStack(null);
+		transaction.commit();
+		activity.toggleNavigationButtons(View.INVISIBLE);
+	}
 
 	public static YourFastDetailFragment newInstance(Bundle bundle) {
 		YourFastDetailFragment f = new YourFastDetailFragment();

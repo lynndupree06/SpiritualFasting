@@ -86,8 +86,8 @@ public class CreateFastActivity extends BaseActivity {
 			month = selectedMonth;
 			day = selectedDay;
 			
-			String monthPrefix = (month < 10) ? "0" : "";
-			String dayPrefix = (day < 10) ? "0" : "";
+			String monthPrefix = (month < 9) ? "0" : "";
+			String dayPrefix = (day < 9) ? "0" : "";
 			
 			// set selected date into textview
 			startDate.setText(new StringBuilder().append(monthPrefix).append(month + 1)

@@ -1,5 +1,6 @@
 package com.lynn.mobile.spiritualfasting.util;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import android.app.DatePickerDialog;
@@ -26,5 +27,8 @@ public class FastDatePickerDialog extends DatePickerDialog {
         if (calendar.after(newDate)) {
             view.init(minYear, minMonth, minDay - 1, this);
         }
+
+        SimpleDateFormat mTitleDateFormat = new SimpleDateFormat("EEE, MMM d, yyyy");
+		setTitle(mTitleDateFormat.format(newDate.getTime()));
     }
 }

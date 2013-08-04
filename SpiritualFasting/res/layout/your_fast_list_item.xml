@@ -12,6 +12,7 @@
         android:contentDescription="@drawable/calendar"/>
 
 	<LinearLayout
+	    android:id="@+id/linearLayout"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		android:orientation="vertical" >
@@ -23,11 +24,20 @@
                     android:layout_height="wrap_content"
                     android:textIsSelectable="false" />
 
+                <ProgressBar
+                    android:id="@+id/progress_bar"
+                    style="@android:style/Widget.ProgressBar.Horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="5dp"
+                    android:layout_marginRight="5dp"
+                    android:progress="0" />
+
                 <TextView
                     android:id="@+id/progress_subtitle"
                     style="@style/FastListItem_Subtitle"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
 	                android:textIsSelectable="false" />
+
 	</LinearLayout>
 </LinearLayout>

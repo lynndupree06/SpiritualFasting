@@ -76,7 +76,7 @@ public class HomeFragment extends SherlockFragment {
 				intent.putExtra(Resources.YOUR_FAST_ID, (int)id);
 				intent.putExtra(Resources.FAST_NAME, item.getFast().getName());
 				
-				TextView progress = (TextView)v.findViewById (R.id.progress_subtitle);
+				TextView progress = (TextView)v.findViewById (R.id.progress_bar);
 				intent.putExtra(Resources.PROGRESS, progress.getText());
 				
 				long diffTime = Calendar.getInstance().getTime().getTime() - item.getStartDate().getTime();

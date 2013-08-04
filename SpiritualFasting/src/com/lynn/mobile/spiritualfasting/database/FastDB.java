@@ -38,34 +38,34 @@ public class FastDB extends DatabaseHandler<Fast> {
 	}
 
 	public void init(SQLiteDatabase db) {
-//		Fast fast = new Fast("The Disciple’s Fast", "To break addiction", 7, "disciple_fast.html");
+//		Fast fast = new Fast("The Disciple’s Fast", "Breaking Addiction", 7, "disciple_fast.html");
 //		addItem(fast, db);
 //		
-//		fast = new Fast("The Ezra Fast", "To solve problems", 5, "ezra_fast.html");
+//		fast = new Fast("The Ezra Fast", "Solving Problems", 5, "ezra_fast.html");
 //		addItem(fast, db);
 //		
-//		fast = new Fast("The Elijah Fast", "To solve emotional problems", 5, "elijah_fast.html");
+//		fast = new Fast("The Elijah Fast", "Solving Emotional Problems", 5, "elijah_fast.html");
 //		addItem(fast, db);
 //		
-//		fast = new Fast("The Widow’s Fast", "For humanitarian needs", 5, "widow_fast.html");
+//		fast = new Fast("The Widow’s Fast", "Humanitarian Needs", 5, "widow_fast.html");
 //		addItem(fast, db);
 //		
-//		fast = new Fast("The Saint Paul’s Fast", "To make decisions", 5, "saint_paul_fast.html");
+//		fast = new Fast("The Saint Paul’s Fast", "Decision Making", 5, "saint_paul_fast.html");
 //		addItem(fast, db);
 
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE);
 		db.execSQL(CREATE_TABLE_FAST);
 		
-		Fast fast = new Fast("The Daniel Fast", "For health and healing", 21, "daniel_fast.html");
+		Fast fast = new Fast("The Daniel Fast", "Health & Healing", 21, "daniel_fast.html");
 		addItem(fast, db);
 		
-		fast = new Fast("The Samuel Fast", "For evangelism and revival", 6, "samuel_fast.html");
+		fast = new Fast("The Samuel Fast", "Evangelism & Revival", 6, "samuel_fast.html");
 		addItem(fast, db);
 		
-		fast = new Fast("The John the Baptist Fast", "For testimony", 5, "john_baptist_fast.html");
+		fast = new Fast("The John the Baptist Fast", "For Testimony", 5, "john_baptist_fast.html");
 		addItem(fast, db);
 		
-//		fast = new Fast("The Esther Fast", "For protection from the evil one", 5, "esther_fast.html");
+//		fast = new Fast("The Esther Fast", "Protection From the Evil One", 5, "esther_fast.html");
 //		addItem(fast, db);
 	}
 	

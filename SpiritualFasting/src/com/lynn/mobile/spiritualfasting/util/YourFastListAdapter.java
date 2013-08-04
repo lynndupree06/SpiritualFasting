@@ -16,6 +16,8 @@ import android.graphics.Color;
 import android.util.SparseBooleanArray;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 public class YourFastListAdapter extends IFastListAdapter<YourFast> {
@@ -35,7 +37,8 @@ public class YourFastListAdapter extends IFastListAdapter<YourFast> {
 		TextView name = (TextView)convertView.findViewById (R.id.type_of_fast_title);
 		name.setText(yourFast.getFast().getName()); 
 	
-		TextView progress = (TextView)convertView.findViewById (R.id.progress_subtitle);
+		TextView progress = (TextView)convertView.findViewById (R.id.progress_bar);
+		ProgressBar progressBar = (ProgressBar)convertView.findViewById(R.id.progress_subtitle);
 		Date date = Calendar.getInstance().getTime();
         Timestamp dateToday = new Timestamp(date.getTime());
 		
@@ -46,16 +49,20 @@ public class YourFastListAdapter extends IFastListAdapter<YourFast> {
 		if(startDate.before(dateToday)) {
 			if(endDate.before(dateToday)) {
 				progress.setText("Ended on: " + sdf.format(endDate.getTime()));
+				progressBar.setProgress(100);
 			} else {
 				long diffTime = Calendar.getInstance().getTime().getTime() - startDate.getTime();
 				long diffDays = diffTime / (1000 * 60 * 60 * 24);
 				progress.setText("Day " + (diffDays + 1) + " of " + yourFast.getFast().getLength());
+				progressBar.setMax(yourFast.getFast().getLength());
+				progressBar.setProgress((int)(diffDays + 1));
 			}
 		} else {
 			long diffTime = startDate.getTime() - Calendar.getInstance().getTime().getTime();
 			long diffDays = diffTime / (1000 * 60 * 60 * 24);
 			String dayText = (diffDays + 1 > 1) ? " days" : " day";
 			progress.setText("Set to start in " + (diffDays + 1) + dayText);
+			progressBar.setProgress(0);
 		}
 
 		convertView.setBackgroundColor(mSelectedItemsIds.get(position)? 0x9934B5E4: Color.TRANSPARENT);         

@@ -145,7 +145,7 @@ public class CreateFastActivity extends BaseActivity {
 				db.close();
 	
 				Intent intent = new Intent(this, YourFastDetailActivity.class);
-				String fastStartDate = new SimpleDateFormat("yyyy-MM-dd").format(new Date(newFast.getStartDate().getTime()));
+				String fastStartDate  = new SimpleDateFormat("yyyy-MM-dd").format(new Date(newFast.getStartDate().getTime()));
 					
 				if(fastStartDate.equals(todaysDate)) {
 					intent.putExtra(Resources.PROGRESS, "Day 1 of " + newFast.getFast().getLength());
@@ -164,30 +164,28 @@ public class CreateFastActivity extends BaseActivity {
 					
 				if(!this.getTitle().equals(this.getString(R.string.app_name)))
 					this.finish();
+			} else {
+				AlertDialog.Builder alert = new AlertDialog.Builder(this);
+				alert.setTitle("Some of the required fields are missing.");
+		    
+				String message = "";
+				if(name.startsWith("Select a fast"))
+					message += "Please select the type of fast.";
+				if(date.equals("") || (start != null && start.before(today))) 
+					message += "\nPlease select a valid start date.";
+				alert.setMessage(message); 
+
+				alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int whichButton) {
+						dialog.cancel();
+					}
+				});
+		    
+				AlertDialog alertDialog = alert.create();
+				alertDialog.show();
 			}
 		} catch (ParseException e1) {
 			e1.printStackTrace();
-		}
-		
-		if((name.equals("Select a fast...") || date.equals("")) && (start.before(today) || date.equals(todaysDate))) {
-			AlertDialog.Builder alert = new AlertDialog.Builder(this);
-			alert.setTitle("Some of the required fields are missing.");
-	    
-			String message = "";
-			if(name.equals("Select a fast..."))
-				message += "Please select the type of fast.";
-			if(date.equals("") || start.before(today)) 
-				message += "\nPlease select a valid start date.";
-			alert.setMessage(message); 
-
-			alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int whichButton) {
-					dialog.cancel();
-				}
-			});
-	    
-			AlertDialog alertDialog = alert.create();
-			alertDialog.show();
 		}
 	}
 }

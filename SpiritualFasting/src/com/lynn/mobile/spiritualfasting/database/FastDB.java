@@ -62,8 +62,8 @@ public class FastDB extends DatabaseHandler<Fast> {
 		fast = new Fast("The Samuel Fast", "Evangelism & Revival", 6, "samuel_fast.html");
 		addItem(fast, db);
 		
-//		fast = new Fast("The John the Baptist Fast", "For Testimony", 5, "john_baptist_fast.html");
-//		addItem(fast, db);
+		fast = new Fast("The John the Baptist Fast", "For Testimony", 6, "john_baptist_fast.html");
+		addItem(fast, db);
 		
 //		fast = new Fast("The Esther Fast", "Protection From the Evil One", 5, "esther_fast.html");
 //		addItem(fast, db);

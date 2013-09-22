@@ -37,8 +37,8 @@ public class YourFastListAdapter extends IFastListAdapter<YourFast> {
 		TextView name = (TextView)convertView.findViewById (R.id.type_of_fast_title);
 		name.setText(yourFast.getFast().getName()); 
 	
-		TextView progress = (TextView)convertView.findViewById (R.id.progress_bar);
-		ProgressBar progressBar = (ProgressBar)convertView.findViewById(R.id.progress_subtitle);
+		TextView progress = (TextView)convertView.findViewById (R.id.progress_subtitle);
+		ProgressBar progressBar = (ProgressBar)convertView.findViewById(R.id.progress_bar);
 		Date date = Calendar.getInstance().getTime();
         Timestamp dateToday = new Timestamp(date.getTime());
 		

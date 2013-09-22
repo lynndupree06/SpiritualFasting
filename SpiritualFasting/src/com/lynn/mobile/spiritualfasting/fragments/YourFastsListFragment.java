@@ -102,7 +102,7 @@ public class YourFastsListFragment extends SherlockListFragment implements Actio
 				intent.putExtra(Resources.DAY, (diffDays + 1));
 			}
 			
-			TextView progress = (TextView)v.findViewById (R.id.progress_bar);
+			TextView progress = (TextView)v.findViewById (R.id.progress_subtitle);
 			intent.putExtra(Resources.PROGRESS, progress.getText());
 			
 			activity.startActivity(intent);

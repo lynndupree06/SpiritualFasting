@@ -1156,13 +1156,13 @@ containing a value of this type.
         public static final int abs__title=0x7f040020;
         public static final int abs__titleDivider=0x7f040021;
         public static final int abs__up=0x7f040010;
-        public static final int add_fast=0x7f040062;
+        public static final int add_fast=0x7f040065;
         public static final int add_journal=0x7f04005f;
         public static final int cancel_fast=0x7f04005b;
         public static final int create_fragment=0x7f040038;
         public static final int delete_fast=0x7f04005c;
         public static final int disableHome=0x7f04000e;
-        public static final int edit_fast=0x7f040061;
+        public static final int edit_fast=0x7f040064;
         public static final int edit_query=0x7f04002c;
         public static final int fast_activity_subtitle=0x7f04004f;
         public static final int fast_activity_title=0x7f04004e;
@@ -1170,6 +1170,7 @@ containing a value of this type.
         public static final int fast_detail=0x7f040060;
         public static final int fragment_container=0x7f040041;
         public static final int fullscreen=0x7f040003;
+        public static final int help=0x7f040063;
         public static final int homeAsUp=0x7f04000b;
         public static final int home_container=0x7f04003b;
         public static final int home_fragment=0x7f040043;
@@ -1187,8 +1188,9 @@ containing a value of this type.
         public static final int normal=0x7f040006;
         public static final int pager=0x7f040054;
         public static final int previous=0x7f040052;
-        public static final int progress_bar=0x7f040058;
-        public static final int progress_subtitle=0x7f040057;
+        public static final int privacy_policy=0x7f040062;
+        public static final int progress_bar=0x7f040057;
+        public static final int progress_subtitle=0x7f040058;
         public static final int right=0x7f040001;
         public static final int selected_view=0x7f040004;
         public static final int showCustom=0x7f04000d;
@@ -1200,6 +1202,7 @@ containing a value of this type.
         public static final int start_fast_button=0x7f04003d;
         public static final int start_fast_date=0x7f04003a;
         public static final int tabMode=0x7f040008;
+        public static final int terms_of_service=0x7f040061;
         public static final int type_of_fast_description=0x7f040048;
         public static final int type_of_fast_spinner=0x7f040039;
         public static final int type_of_fast_title=0x7f040047;

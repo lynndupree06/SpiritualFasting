@@ -57,7 +57,7 @@ public class OnMenuItemClickListener implements OnItemClickListener {
 	    	  case 6:
 	    		  intent = new Intent(Intent.ACTION_SEND);
                   intent.setType("text/plain");
-				  String url = "http://bit.ly/143W7N9";
+				  String url = "http://bit.ly/spiritualFasting";
                   intent.putExtra(Intent.EXTRA_TEXT, "Start a spiritual fast today with this app: " + url);
                   intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Check out this app!");
                   context.startActivity(Intent.createChooser(intent, "Share"));

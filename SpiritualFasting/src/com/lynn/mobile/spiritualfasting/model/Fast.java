@@ -6,17 +6,19 @@ public class Fast {
 	private String description;
 	private int length;
 	private String url;
+	private boolean custom;
 	
-	public Fast(String name, String description, int length, String url) {
-		this(0, name, description, length, url);
+	public Fast(String name, String description, int length, String url, boolean isCustom) {
+		this(0, name, description, length, url, isCustom);
 	}
 
-	public Fast(int id, String name, String description, int length, String url) {
+	public Fast(int id, String name, String description, int length, String url, boolean isCustom) {
 		this.setId(id);
 		this.setName(name);
 		this.setDescription(description);
 		this.setLength(length);
 		this.setUrl(url);
+		this.setCustom(isCustom);
 	}
 
 	public int getId() {
@@ -57,5 +59,13 @@ public class Fast {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public boolean isCustom() {
+		return custom;
+	}
+
+	public void setCustom(boolean custom) {
+		this.custom = custom;
 	}
 }

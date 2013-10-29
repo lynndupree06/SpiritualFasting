@@ -18,7 +18,6 @@ import android.widget.TextView;
 
 import com.actionbarsherlock.app.ActionBar.OnNavigationListener;
 import com.actionbarsherlock.app.SherlockFragment;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
@@ -31,6 +30,7 @@ import com.lynn.mobile.spiritualfasting.database.ScriptureDB;
 import com.lynn.mobile.spiritualfasting.database.YourFastDB;
 import com.lynn.mobile.spiritualfasting.model.Fast;
 import com.lynn.mobile.spiritualfasting.model.JournalEntry;
+import com.lynn.mobile.spiritualfasting.model.Scripture;
 import com.lynn.mobile.spiritualfasting.util.Resources;
 import com.lynn.mobile.spiritualfasting.R;
 
@@ -90,10 +90,25 @@ public class YourFastDetailFragment extends SherlockFragment implements OnNaviga
 		} else {
 			progress = "Day " + day + " of " + currentFast.getLength();
 			ScriptureDB scriptDB = new ScriptureDB(activity);
-			String url = scriptDB.getItemByUniqueId(day, currentFast.getId()).getUrl();
-			scripture.loadUrl("file:///android_asset/scriptures/" 
-					+ currentFast.getUrl().substring(0, currentFast.getUrl().indexOf(".")) 
-					+ "/" + url);
+			String url = currentFast.getUrl();
+			
+			if(!url.startsWith("custom_fast")) {
+				Scripture currentScripture = scriptDB.getItemByUniqueId(day, currentFast.getId());
+				if(currentScripture != null)
+					url = currentScripture.getUrl();
+				
+				scripture.loadUrl("file:///android_asset/scriptures/" 
+						+ currentFast.getUrl().substring(0, currentFast.getUrl().indexOf(".")) 
+						+ "/" + url);
+			} else {
+				String page = "<html><head><link rel='stylesheet' type='text/css' href='file:///android_asset/css/style.css'/></head><body>" +
+						getJournalEntry() +
+						"</body></html>";
+			            
+			    scripture.loadDataWithBaseURL("x-data://base", page,
+			                                        "text/html", "UTF-8",
+			                                        null);
+			}
 			
 			Calendar c = Calendar.getInstance();
 			c.setTime(startDate);
@@ -171,6 +186,7 @@ public class YourFastDetailFragment extends SherlockFragment implements OnNaviga
 			if(e.getYourFast().getId() == yourFastId &&
 					e.getDay() == activity.getmPager().getCurrentItem() + 1) {
 				activity.getIntent().putExtra(Resources.ENTRY_ID, e.getId());
+				break;
 			}
 		}
 		
@@ -184,6 +200,21 @@ public class YourFastDetailFragment extends SherlockFragment implements OnNaviga
 		activity.toggleNavigationButtons(View.INVISIBLE);
 	}
 
+	public String getJournalEntry() {
+		YourFastDetailActivity activity = (YourFastDetailActivity) getSherlockActivity();
+		JournalEntryDB db = new JournalEntryDB(activity);
+		List<JournalEntry> entries = db.getAllItems();
+		
+		for(JournalEntry e : entries) {
+			if(e.getYourFast().getId() == yourFastId &&
+					e.getDay() == activity.getmPager().getCurrentItem() + 1) {
+				return e.getEntry();
+			}
+		}
+		
+		return "";
+	}
+	
 	public static YourFastDetailFragment newInstance(Bundle bundle) {
 		YourFastDetailFragment f = new YourFastDetailFragment();
         f.setArguments(bundle);

@@ -21,6 +21,7 @@ public class FastDB extends DatabaseHandler<Fast> {
     protected static final String KEY_DESC = "description";
     protected static final String KEY_LENGTH = "length";
     protected static final String KEY_URL = "url";
+    protected static final String KEY_CUSTOM = "isCustom";
 	private Context context;
 	
 	private static final String TABLE_SCRIPTURES = "scriptures";
@@ -34,13 +35,21 @@ public class FastDB extends DatabaseHandler<Fast> {
 	            + KEY_NAME + " TEXT," 
 	            + KEY_DESC + " TEXT,"
 	            + KEY_LENGTH + " INTEGER,"
-	            + KEY_URL + " TEXT)";
+	            + KEY_URL + " TEXT,"
+	            + KEY_CUSTOM + " INTEGER)";
 	}
 
 	public void init(SQLiteDatabase db) {
-//		Fast fast = new Fast("The Disciple’s Fast", "Breaking Addiction", 7, "disciple_fast.html");
-//		addItem(fast, db);
-//		
+		Cursor mCursor  = db.rawQuery( "SELECT * FROM " + TABLE + " LIMIT 0", null);
+
+        if(mCursor.getColumnIndex(KEY_CUSTOM) == -1) {
+        	db.execSQL("DROP TABLE IF EXISTS " + TABLE);
+    		db.execSQL(CREATE_TABLE_FAST);
+        }
+		
+		Fast fast = new Fast("The Disciple’s Fast", "Breaking Addiction", 7, "disciples_fast.html", false);
+		addItem(fast, db);
+		
 //		fast = new Fast("The Ezra Fast", "Solving Problems", 5, "ezra_fast.html");
 //		addItem(fast, db);
 //		
@@ -52,17 +61,14 @@ public class FastDB extends DatabaseHandler<Fast> {
 //		
 //		fast = new Fast("The Saint Paul’s Fast", "Decision Making", 5, "saint_paul_fast.html");
 //		addItem(fast, db);
-
-		db.execSQL("DROP TABLE IF EXISTS " + TABLE);
-		db.execSQL(CREATE_TABLE_FAST);
 		
-		Fast fast = new Fast("The Daniel Fast", "Health & Healing", 21, "daniel_fast.html");
+		fast = new Fast("The Daniel Fast", "Health & Healing", 21, "daniel_fast.html", false);
 		addItem(fast, db);
 		
-		fast = new Fast("The Samuel Fast", "Evangelism & Revival", 6, "samuel_fast.html");
+		fast = new Fast("The Samuel Fast", "Evangelism & Revival", 6, "samuel_fast.html", false);
 		addItem(fast, db);
 		
-		fast = new Fast("The John the Baptist Fast", "For Testimony", 6, "john_baptist_fast.html");
+		fast = new Fast("The John the Baptist Fast", "For Testimony", 6, "john_baptist_fast.html", false);
 		addItem(fast, db);
 		
 //		fast = new Fast("The Esther Fast", "Protection From the Evil One", 5, "esther_fast.html");
@@ -95,9 +101,7 @@ public class FastDB extends DatabaseHandler<Fast> {
 		}
 	}
 
-	private void addScripture(Scripture scripture, SQLiteDatabase db) {
-		long newRowId = 0;
-		
+	private long addScripture(Scripture scripture, SQLiteDatabase db) {
 		ContentValues values = new ContentValues();
 		values.putNull(ScriptureDB.KEY_ID);
 		values.put(ScriptureDB.KEY_DAY, scripture.getDay());
@@ -106,10 +110,12 @@ public class FastDB extends DatabaseHandler<Fast> {
 		values.put(ScriptureDB.KEY_URL, scripture.getUrl());
 	
 		// Insert the new row, returning the primary key value of the new row
-		newRowId = db.insert(TABLE_SCRIPTURES, KEY_ID, values);
+		return db.insert(TABLE_SCRIPTURES, KEY_ID, values);
 	}
 
-	public void addItem(Fast fast, SQLiteDatabase db) {
+	public long addItem(Fast fast, SQLiteDatabase db) {
+		long fastId = 0;
+		
 		if(!itemExists(fast, db)) {
 			// Create a new map of values, where column names are the keys
 			ContentValues values = new ContentValues();
@@ -118,32 +124,20 @@ public class FastDB extends DatabaseHandler<Fast> {
 			values.put(KEY_DESC, fast.getDescription());
 			values.put(KEY_LENGTH, fast.getLength());
 			values.put(KEY_URL, fast.getUrl());
+			values.put(KEY_CUSTOM, fast.isCustom());
 	
 			// Insert the new row, returning the primary key value of the new row
-			long fastId = db.insert(TABLE, KEY_ID, values);
+			fastId = db.insert(TABLE, KEY_ID, values);
 			addScriptures(fast.getUrl(), (int)fastId, db);
 		}
+		
+		return fastId;
 	}
 
 	public long addItem(Fast fast) {
 		// Gets the data repository in write mode
 		SQLiteDatabase db = this.getWritableDatabase();
-		long newRowId = 0;
-		
-		if(!itemExists(fast, db)) {
-			// Create a new map of values, where column names are the keys
-			ContentValues values = new ContentValues();
-			values.putNull(KEY_ID);
-			values.put(KEY_NAME, fast.getName());
-			values.put(KEY_DESC, fast.getDescription());
-			values.put(KEY_LENGTH, fast.getLength());
-			values.put(KEY_URL, fast.getUrl());
-	
-			// Insert the new row, returning the primary key value of the new row
-			newRowId = db.insert(TABLE, KEY_ID, values);
-		}
-		
-		return newRowId;
+		return addItem(fast, db);
 	}
 
 	protected boolean itemExists(Fast fast, SQLiteDatabase db) {
@@ -183,7 +177,8 @@ public class FastDB extends DatabaseHandler<Fast> {
 			String desc = cursor.getString(cursor.getColumnIndexOrThrow(KEY_DESC));
 			int length = cursor.getInt(cursor.getColumnIndexOrThrow(KEY_LENGTH));
 			String url = cursor.getString(cursor.getColumnIndexOrThrow(KEY_URL));
-			newFast = new Fast((int) id, name, desc, length, url);
+			boolean custom = cursor.getInt(cursor.getColumnIndexOrThrow(KEY_CUSTOM)) > 0;
+			newFast = new Fast((int) id, name, desc, length, url, custom);
 		}
 		
 		return newFast;
@@ -202,8 +197,9 @@ public class FastDB extends DatabaseHandler<Fast> {
 			String desc = cursor.getString(cursor.getColumnIndexOrThrow(KEY_DESC));
 			int length = cursor.getInt(cursor.getColumnIndexOrThrow(KEY_LENGTH));
 			String url = cursor.getString(cursor.getColumnIndexOrThrow(KEY_URL));
+			boolean custom = cursor.getInt(cursor.getColumnIndexOrThrow(KEY_CUSTOM)) > 0;
 			
-			newFast = new Fast(itemId, name, desc, length, url);
+			newFast = new Fast(itemId, name, desc, length, url, custom);
 		}
 		return newFast;
 	}
@@ -226,13 +222,13 @@ public class FastDB extends DatabaseHandler<Fast> {
     			String desc = cursor.getString(cursor.getColumnIndexOrThrow(KEY_DESC));
     			int length = cursor.getInt(cursor.getColumnIndexOrThrow(KEY_LENGTH));
     			String url = cursor.getString(cursor.getColumnIndexOrThrow(KEY_URL));
+    			boolean custom = cursor.getInt(cursor.getColumnIndexOrThrow(KEY_CUSTOM)) > 0;
                 
-                Fast fast = new Fast(id, name, desc, length, url);
+                Fast fast = new Fast(id, name, desc, length, url, custom);
                 fastList.add(fast);
             } while (cursor.moveToNext());
         }
-     
-        // return contact list
+        
         return fastList;
 	}
 
@@ -262,6 +258,47 @@ public class FastDB extends DatabaseHandler<Fast> {
 		
 		// Specify arguments in placeholder order.
 		String[] selectionArgs = { String.valueOf(fast.getId()) };
+		
+		int result = db.delete(TABLE, selection, selectionArgs);
+		return result;
+	}
+
+	public List<Fast> getAllOriginalFasts() {
+		List<Fast> fastList = new ArrayList<Fast>();
+		
+        // Select All Query
+        String selectQuery = "SELECT  * FROM " + TABLE 
+        		+ " WHERE " + KEY_CUSTOM + " = 0 ORDER BY " + KEY_NAME + " ASC";
+     
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+     
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                int id = cursor.getInt(cursor.getColumnIndexOrThrow(KEY_ID));
+                String name = cursor.getString(cursor.getColumnIndexOrThrow(KEY_NAME));
+    			String desc = cursor.getString(cursor.getColumnIndexOrThrow(KEY_DESC));
+    			int length = cursor.getInt(cursor.getColumnIndexOrThrow(KEY_LENGTH));
+    			String url = cursor.getString(cursor.getColumnIndexOrThrow(KEY_URL));
+    			boolean custom = cursor.getInt(cursor.getColumnIndexOrThrow(KEY_CUSTOM)) > 0;
+                
+                Fast fast = new Fast(id, name, desc, length, url, custom);
+                fastList.add(fast);
+            } while (cursor.moveToNext());
+        }
+        
+        return fastList;
+	}
+
+	public int deleteAllItems() {
+		SQLiteDatabase db = this.getReadableDatabase();
+		
+		// Define 'where' part of query.
+		String selection = KEY_ID + " > ?";
+		
+		// Specify arguments in placeholder order.
+		String[] selectionArgs = { String.valueOf(0) };
 		
 		int result = db.delete(TABLE, selection, selectionArgs);
 		return result;

@@ -1,10 +1,7 @@
 package com.lynn.mobile.spiritualfasting;
 
-import java.util.List;
-
 import com.lynn.mobile.spiritualfasting.database.FastDB;
 import com.lynn.mobile.spiritualfasting.fragments.*;
-import com.lynn.mobile.spiritualfasting.model.Fast;
 import com.lynn.mobile.spiritualfasting.util.FragmentNames;
 import com.lynn.mobile.spiritualfasting.R;
 
@@ -49,12 +46,6 @@ public class MainActivity extends BaseActivity {
 
 	private void setupDatabase() {
 		FastDB fastDB = new FastDB(getApplicationContext());
-//		List<Fast> fasts = fastDB.getAllItems();
-//		
-//		for(Fast f : fasts) {
-//			fastDB.deleteItem(f);
-//		}
-		
 		SQLiteDatabase db = fastDB.getReadableDatabase();
 		fastDB.init(db);
 		fastDB.close();

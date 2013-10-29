@@ -93,6 +93,7 @@ public class JournalEntryDB extends DatabaseHandler<JournalEntry> {
 			String desc = cursor.getString(cursor.getColumnIndexOrThrow(FastDB.KEY_DESC));
 			int length = cursor.getInt(cursor.getColumnIndexOrThrow(FastDB.KEY_LENGTH));
 			String url = cursor.getString(cursor.getColumnIndexOrThrow(FastDB.KEY_URL));
+			boolean custom = cursor.getInt(cursor.getColumnIndexOrThrow(FastDB.KEY_CUSTOM)) > 0;
 			
 			Timestamp startDate = null, endDate = null, date = null;
 				
@@ -105,7 +106,7 @@ public class JournalEntryDB extends DatabaseHandler<JournalEntry> {
 				e.printStackTrace();
 			}
 			
-			Fast fast = new Fast(name, desc, length, url);
+			Fast fast = new Fast(name, desc, length, url, custom);
 			YourFast yourFast = new YourFast(fast, startDate, endDate);
 			newJournalEntry = new JournalEntry(id, entry, yourFast, entryDay, date);
 		}
@@ -121,7 +122,7 @@ public class JournalEntryDB extends DatabaseHandler<JournalEntry> {
         		+ KEY_ENTRY + ", " + KEY_DAY + ", " + KEY_DATE + ", " 
         		+ "yourFasts.id, " + YourFastDB.KEY_START + ", " + YourFastDB.KEY_END + ", "
         		+ FastDB.KEY_NAME + ", " + FastDB.KEY_DESC + ", " 
-        		+ FastDB.KEY_LENGTH + ", " + FastDB.KEY_URL
+        		+ FastDB.KEY_LENGTH + ", " + FastDB.KEY_URL + ", " + FastDB.KEY_CUSTOM
         		+ " FROM " + TABLE
         		+ " LEFT JOIN yourFasts ON " + TABLE + "." + KEY_YOUR_FAST_ID + " = yourFasts.id "
         		+ " LEFT JOIN fasts ON yourFasts." + YourFastDB.KEY_FAST_ID + " = fasts.id";
@@ -143,6 +144,7 @@ public class JournalEntryDB extends DatabaseHandler<JournalEntry> {
     			String desc = cursor.getString(cursor.getColumnIndexOrThrow(FastDB.KEY_DESC));
     			int length = cursor.getInt(cursor.getColumnIndexOrThrow(FastDB.KEY_LENGTH));
     			String url = cursor.getString(cursor.getColumnIndexOrThrow(FastDB.KEY_URL));
+    			boolean custom = cursor.getInt(cursor.getColumnIndexOrThrow(FastDB.KEY_CUSTOM)) > 0;
     			
     			Timestamp startDate = null, endDate = null, date = null;
     				
@@ -155,7 +157,7 @@ public class JournalEntryDB extends DatabaseHandler<JournalEntry> {
     				e.printStackTrace();
     			}
     			
-    			Fast fast = new Fast(name, desc, length, url);
+    			Fast fast = new Fast(name, desc, length, url, custom);
     			YourFast yourFast = new YourFast(yourFastId, fast, startDate, endDate);
                 JournalEntry journalEntry = new JournalEntry(id, entry, yourFast, entryDay, date);
                 fastList.add(journalEntry);

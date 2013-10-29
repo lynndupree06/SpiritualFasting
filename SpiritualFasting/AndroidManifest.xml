@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.lynn.mobile.spiritualfasting"
     android:installLocation="auto"
-    android:versionCode="6"
-    android:versionName="1.05" >
+    android:versionCode="7"
+    android:versionName="1.06" >
 
     <uses-sdk android:minSdkVersion="7" android:targetSdkVersion="17" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -25,6 +25,7 @@
         <activity android:name=".AboutActivity" android:label="@string/title_activity_about" />
         <activity android:name=".TermsOfUseActivity" android:label="@string/title_activity_terms" />
         <activity android:name=".CreateFastActivity" android:label="@string/title_activity_start_fast" />
+        <activity android:name=".CreateFastTypeActivity" android:label="@string/title_activity_add_fast" />
         <activity android:name=".TypesOfFastsActivity" android:label="@string/title_types_of_fasts" />
         <activity android:name=".TypesOfFastsDetailActivity" />
         <activity android:name=".WhyActivity" android:label="@string/title_activity_why" />

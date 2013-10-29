@@ -3,8 +3,6 @@ package com.lynn.mobile.spiritualfasting.fragments;
 import java.sql.Timestamp;
 import java.util.Calendar;
 
-import android.annotation.SuppressLint;
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;

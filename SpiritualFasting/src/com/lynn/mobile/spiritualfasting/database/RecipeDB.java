@@ -97,6 +97,7 @@ public class RecipeDB extends DatabaseHandler<Recipe> {
 			String desc = cursor.getString(cursor.getColumnIndexOrThrow(FastDB.KEY_DESC));
 			int length = cursor.getInt(cursor.getColumnIndexOrThrow(FastDB.KEY_LENGTH));
 			String url = cursor.getString(cursor.getColumnIndexOrThrow(FastDB.KEY_URL));
+			boolean custom = cursor.getInt(cursor.getColumnIndexOrThrow(FastDB.KEY_CUSTOM)) > 0;
 			
 			Timestamp startDate = null, endDate = null;
 			
@@ -111,7 +112,7 @@ public class RecipeDB extends DatabaseHandler<Recipe> {
 			//TODO: Get ingredients
 			String[] ingredients = new String[]{};
 			
-			Fast fast = new Fast(fastName, desc, length, url);
+			Fast fast = new Fast(fastName, desc, length, url, custom);
 			YourFast yourFast = new YourFast(fast, startDate, endDate);
 			recipe = new Recipe(id, name, instructions, ingredients, 
 					prepTime, servingSize, imgURL, yourFast);
@@ -144,6 +145,7 @@ public class RecipeDB extends DatabaseHandler<Recipe> {
     			String desc = cursor.getString(cursor.getColumnIndexOrThrow(FastDB.KEY_DESC));
     			int length = cursor.getInt(cursor.getColumnIndexOrThrow(FastDB.KEY_LENGTH));
     			String url = cursor.getString(cursor.getColumnIndexOrThrow(FastDB.KEY_URL));
+    			boolean custom = cursor.getInt(cursor.getColumnIndexOrThrow(FastDB.KEY_CUSTOM)) > 0;
     			
     			Timestamp startDate = null, endDate = null;
     			
@@ -158,7 +160,7 @@ public class RecipeDB extends DatabaseHandler<Recipe> {
     			//TODO: Get ingredients
     			String[] ingredients = new String[]{};
     			
-    			Fast fast = new Fast(fastName, desc, length, url);
+    			Fast fast = new Fast(fastName, desc, length, url, custom);
     			YourFast yourFast = new YourFast(fast, startDate, endDate);
         		Recipe recipe = new Recipe(id, name, instructions, ingredients, 
         				prepTime, servingSize, imgURL, yourFast);

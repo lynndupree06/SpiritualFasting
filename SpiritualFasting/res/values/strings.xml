@@ -12,10 +12,16 @@
     <string name="title_journal_entry_list">Journal Entries</string>
     <string name="title_activity_why">Why Should You Fast?</string>
     <string name="title_activity_terms">Terms of Use</string>
+    <string name="title_activity_add_fast">Add a Custom Fast</string>
     
     <string name="start">Start A New Fast Now!</string>
     <string name="CreateFastForm_TypeText">What type of fast do you want to start?</string>
     <string name="CreateFastForm_StartText">When do you want to start?</string>
+    <string name="CreateFastForm_NameText">Name</string>
+    <string name="CreateFastForm_DurationText">Length</string>
+    <string name="CreateFastTypeForm_PurposeText">Purpose</string>
+    <string name="CreateFastTypeForm_DescriptionText">Description</string>
+    <string name="CreateFastTypeForm_RestrictionsText">List any restrictions for the fast</string>
     <string name="action_settings">Settings</string>
     <string name="start_current_fast">Start this Fast</string>
     <string name="journal_entry_button_text">Add/Edit Journal Entry</string>  
@@ -24,13 +30,20 @@
     <string name="no_current_fasts_text">You have no current fasts</string>
     <string name="no_current_journal_entries_text">You have no current journal entries</string>
 	<string name="add_fast">Add Fast</string>
+	<string name="add_fast_type">Add a Custom Fast</string>
+	<string name="create_fast_type">Add Fast Type</string>
 	<string name="edit_fast">Edit Fast</string>
 	<string name="delete">Delete</string>
 	<string name="journal_entries_menu_item">Journal Entries</string>
 	<string name="start_fast">Start Fast</string>
 	<string name="cancel_fast">Cancel</string>
+	<string name="start_fast_name_hint">Name of Fast</string>
+	<string name="start_fast_duration_hint">Number of Days</string>
 	<string name="start_fast_date_hint">Set Start Date</string>
 	<string name="journal_entry_hint">Add your thoughts here&#8230;</string>
+	<string name="fast_purpose_hint">In a few words&#8230;</string>
+	<string name="fast_description_hint">Description&#8230;</string>
+	<string name="fast_restrictions_hint">Restrictions&#8230;</string>
 	<string name="dialog_exit">Do you want to save before you exit?</string>
 	<string name="yes">Yes</string>
 	<string name="no">No</string>
@@ -47,14 +60,15 @@
     <string-array name="types_of_fasts">
         <item>Select a fast&#8230;</item>
 		<item>The Daniel Fast</item>
-		<!-- <item>The Disciple’s Fast</item>
-		<item>The Elijah Fast</item>
+		<item>The Disciple’s Fast</item>
+		<!-- <item>The Elijah Fast</item>
 		<item>The Esther Fast</item>
 		<item>The Ezra Fast</item>-->
 		<item>The John the Baptist Fast</item>
 		<!--<item>The Saint Paul’s Fast</item>-->
 		<item>The Samuel Fast</item>
 		<!-- <item>The Widow’s Fast</item>  -->
+		<item>Custom Fast</item>
     </string-array>
     <!-- <string-array name="your_fast_detail_action_list">
         <item>Journal Entries</item>

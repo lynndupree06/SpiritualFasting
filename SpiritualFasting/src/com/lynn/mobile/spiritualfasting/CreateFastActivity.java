@@ -6,11 +6,17 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
+import java.util.List;
 
 import android.os.Bundle;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.app.AlertDialog;
@@ -31,14 +37,19 @@ import com.lynn.mobile.spiritualfasting.R;
 public class CreateFastActivity extends BaseActivity {
 	
 	private static TextView startDate;
+	private Spinner fastType;
+	private LinearLayout fastDurationLayout;
     private static int day;
     private static int month;
     private static int year;
-	private Spinner fastType;
 
     private static final int DATE_PICKER_ID = 0;
+    private static final int DURATION_PICKER_ID = 1;
     private YourFastDB db;
 	private ArrayList<String> list;
+	private LinearLayout fastNameLayout;
+	private EditText fastName;
+	private EditText fastDuration;
 
     @Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -52,13 +63,52 @@ public class CreateFastActivity extends BaseActivity {
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		
 		list = new ArrayList<String>();
-		String[] fastTypesList = getResources().getStringArray(R.array.types_of_fasts);
+		FastDB db = new FastDB(this);
+		List<Fast> fasts = db.getAllItems();
 		
-		for(String name : fastTypesList) 
-			list.add(name);
+		list.add("Select a fast...");
+		for(Fast f : fasts) 
+			list.add(f.getName());
+		
+		list.add("Custom Fast");
+		
+		fastNameLayout = (LinearLayout) findViewById(R.id.fast_name_layout);
+		fastName = (EditText) findViewById(R.id.start_fast_name);
+		fastDurationLayout = (LinearLayout) findViewById(R.id.fast_duration_layout);
+		fastDuration = (EditText) findViewById(R.id.start_fast_duration);
+		
+		fastDuration.setOnClickListener(new OnClickListener() {		
+			@Override
+			public void onClick(View v) {
+				showDialog(DURATION_PICKER_ID);
+			}
+		});
 		
 		String fastName = "";
 		fastType = (Spinner) findViewById(R.id.type_of_fast_spinner);
+		fastType.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+			@Override
+			public void onItemSelected(AdapterView<?> parentView, View selectedItemView, 
+					int position, long id) {
+				if(parentView.getSelectedItem().toString().startsWith("Custom Fast")) {
+					fastNameLayout.setVisibility(View.VISIBLE);
+					fastDurationLayout.setVisibility(View.VISIBLE);
+				} else {
+					fastNameLayout.setVisibility(View.INVISIBLE);
+					fastDurationLayout.setVisibility(View.INVISIBLE);
+				}
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {
+				// TODO Auto-generated method stub
+			}
+		});
+		
+		ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(this, 
+				android.R.layout.simple_spinner_dropdown_item, list);
+		fastType.setAdapter(spinnerArrayAdapter);
 		
 		if(getIntent().getExtras() != null) {
 			fastName = getIntent().getExtras().getString(Resources.FAST_NAME);
@@ -67,7 +117,7 @@ public class CreateFastActivity extends BaseActivity {
 		}	
 		
 		startDate = (TextView) findViewById(R.id.start_fast_date);
-        startDate.setOnClickListener(new View.OnClickListener() {			
+        startDate.setOnClickListener(new OnClickListener() {			
 			@SuppressWarnings("deprecation")
 			@Override
 			public void onClick(View v) {
@@ -125,13 +175,28 @@ public class CreateFastActivity extends BaseActivity {
 		Timestamp start = null;
 		String todaysDate = null;
 		try {
-			start = new Timestamp(new SimpleDateFormat("MM/dd/yyyy").parse(date).getTime());
-			todaysDate = new SimpleDateFormat("MM/dd/yyyy").format(new Date (today.getTime())).trim();
+
+			if(!date.equals("")) {
+				start = new Timestamp(new SimpleDateFormat("MM/dd/yyyy").parse(date).getTime());
+				todaysDate = new SimpleDateFormat("MM/dd/yyyy").format(new Date (today.getTime())).trim();
+			} else {
+				throw new Exception();
+			}
 			
 			if(!name.equals("Select a fast...") && !date.equals("") 
 					&& (start.after(today) || date.equals(todaysDate))) {
-					
+				
 				FastDB fastDb = new FastDB(this);
+				if(name.equals("Custom Fast")) {
+					if(!fastName.equals("") && !fastDuration.equals("")) {
+						name = fastName.getText().toString();
+						int duration = Integer.valueOf(fastDuration.getText().toString());
+						fastDb.addItem(new Fast(name, "", duration, "custom_fast.html", true));
+					} else {
+						throw new Exception();
+					}
+				}
+				
 				Fast fast = fastDb.getItemByName(name);
 					
 				Calendar c = Calendar.getInstance();
@@ -165,27 +230,34 @@ public class CreateFastActivity extends BaseActivity {
 				if(!this.getTitle().equals(this.getString(R.string.app_name)))
 					this.finish();
 			} else {
-				AlertDialog.Builder alert = new AlertDialog.Builder(this);
-				alert.setTitle("Some of the required fields are missing.");
-		    
-				String message = "";
-				if(name.startsWith("Select a fast"))
-					message += "Please select the type of fast.";
-				if(date.equals("") || (start != null && start.before(today))) 
-					message += "\nPlease select a valid start date.";
-				alert.setMessage(message); 
-
-				alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int whichButton) {
-						dialog.cancel();
-					}
-				});
-		    
-				AlertDialog alertDialog = alert.create();
-				alertDialog.show();
+				throw new Exception();
 			}
 		} catch (ParseException e1) {
 			e1.printStackTrace();
+		} catch (Exception e) {
+			AlertDialog.Builder alert = new AlertDialog.Builder(this);
+			alert.setTitle("Some of the required fields are missing.");
+	    
+			String message = "";
+			if(name.startsWith("Select a fast"))
+				message += "Please select the type of fast.\n";
+			if(date.equals("") || (start != null && start.before(today))) 
+				message += "Please select a valid start date.\n";
+			if(name.startsWith("Custom Fast") && fastName.getText().toString().equals(""))
+				message += "Please enter a valid name for the fast.\n";
+			if(name.startsWith("Custom Fast") && fastDuration.getText().toString().equals(""))
+				message += "Please enter a valid duration for the fast.\n";
+			
+			alert.setMessage(message); 
+
+			alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int whichButton) {
+					dialog.cancel();
+				}
+			});
+	    
+			AlertDialog alertDialog = alert.create();
+			alertDialog.show();
 		}
 	}
 }

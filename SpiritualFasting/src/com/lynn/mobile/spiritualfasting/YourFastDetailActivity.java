@@ -7,7 +7,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import android.annotation.SuppressLint;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
@@ -18,8 +17,6 @@ import android.view.View.OnClickListener;
 import android.widget.ImageButton;
 
 import com.actionbarsherlock.app.SherlockFragment;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.lynn.mobile.spiritualfasting.database.FastDB;
 import com.lynn.mobile.spiritualfasting.database.YourFastDB;

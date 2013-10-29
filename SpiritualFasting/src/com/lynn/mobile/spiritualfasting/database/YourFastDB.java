@@ -82,6 +82,7 @@ public class YourFastDB extends DatabaseHandler<YourFast> {
 			String desc = cursor.getString(cursor.getColumnIndexOrThrow(FastDB.KEY_DESC));
 			int length = cursor.getInt(cursor.getColumnIndexOrThrow(FastDB.KEY_LENGTH));
 			String url = cursor.getString(cursor.getColumnIndexOrThrow(FastDB.KEY_URL));
+			boolean custom = cursor.getInt(cursor.getColumnIndexOrThrow(FastDB.KEY_CUSTOM)) > 0;
 	
 			Timestamp startDate = null, endDate = null;
 			
@@ -93,7 +94,7 @@ public class YourFastDB extends DatabaseHandler<YourFast> {
 				e.printStackTrace();
 			}
 
-			Fast fast = new Fast(fastId, name, desc, length, url);			
+			Fast fast = new Fast(fastId, name, desc, length, url, custom);			
 			newFast = new YourFast((Integer) id, fast, startDate, endDate);
 		}
 		return newFast;
@@ -106,8 +107,8 @@ public class YourFastDB extends DatabaseHandler<YourFast> {
         String selectQuery = "SELECT yourFasts.id AS YourFastsID, "
         		+ KEY_FAST_ID + ", " + KEY_START + ", " + KEY_END + ", " 
         		+ FastDB.KEY_NAME + ", " + FastDB.KEY_DESC + ", " 
-        		+ FastDB.KEY_LENGTH + ", " + FastDB.KEY_URL
-        		+ " FROM " + TABLE
+        		+ FastDB.KEY_LENGTH + ", " + FastDB.KEY_URL + ", "
+        		+ FastDB.KEY_CUSTOM + " FROM " + TABLE
 				+ " LEFT JOIN fasts ON yourFasts." + YourFastDB.KEY_FAST_ID + " = fasts.id";
      
         SQLiteDatabase db = this.getWritableDatabase();
@@ -124,6 +125,7 @@ public class YourFastDB extends DatabaseHandler<YourFast> {
     			String desc = cursor.getString(cursor.getColumnIndexOrThrow(FastDB.KEY_DESC));
     			int length = cursor.getInt(cursor.getColumnIndexOrThrow(FastDB.KEY_LENGTH));
     			String url = cursor.getString(cursor.getColumnIndexOrThrow(FastDB.KEY_URL));
+    			boolean custom = cursor.getInt(cursor.getColumnIndexOrThrow(FastDB.KEY_CUSTOM)) > 0;
     	
     			Timestamp startDate = null, endDate = null;
     			
@@ -135,7 +137,7 @@ public class YourFastDB extends DatabaseHandler<YourFast> {
     				e.printStackTrace();
     			}
 
-    			Fast fast = new Fast(fastId, name, desc, length, url);			
+    			Fast fast = new Fast(fastId, name, desc, length, url, custom);			
         		YourFast yourFast = new YourFast((Integer) id, fast, startDate, endDate);
                 fastList.add(yourFast);
             } while (cursor.moveToNext());

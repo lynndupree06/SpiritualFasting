@@ -25,8 +25,7 @@
                 android:id="@+id/type_of_fast_spinner"
                 style="@style/Spinner"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:entries="@array/types_of_fasts"/>
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
         <LinearLayout
@@ -50,6 +49,46 @@
                 android:inputType="date"
                 android:selectAllOnFocus="false" />
 
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/fast_name_layout"
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:visibility="invisible" >
+            <TextView
+                android:text="@string/CreateFastForm_NameText"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                style="@style/FormLabelText" />
+
+            <EditText
+                android:id="@+id/start_fast_name"
+                style="@style/FormInputText"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/start_fast_name_hint"
+                android:inputType="text" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/fast_duration_layout"
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:visibility="invisible" >
+            <TextView
+                android:text="@string/CreateFastForm_DurationText"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                style="@style/FormLabelText" />
+
+            <EditText
+                android:id="@+id/start_fast_duration"
+                style="@style/FormInputText"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/start_fast_duration_hint"
+                android:inputType="number" />
         </LinearLayout>
 
     </LinearLayout>

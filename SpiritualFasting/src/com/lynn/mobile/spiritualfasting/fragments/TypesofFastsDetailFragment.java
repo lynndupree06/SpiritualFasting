@@ -6,6 +6,7 @@ import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
 import com.lynn.mobile.spiritualfasting.CreateFastActivity;
+import com.lynn.mobile.spiritualfasting.CreateFastTypeActivity;
 import com.lynn.mobile.spiritualfasting.database.FastDB;
 import com.lynn.mobile.spiritualfasting.util.Resources;
 import com.lynn.mobile.spiritualfasting.R;

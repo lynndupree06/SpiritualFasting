@@ -8,6 +8,7 @@ import android.os.Build;
 import android.view.KeyEvent;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.NumberPicker;
 
 import com.actionbarsherlock.view.MenuItem;
 import com.lynn.mobile.spiritualfasting.navigation.MenuListAdapter;
@@ -20,6 +21,7 @@ import com.slidingmenu.lib.app.SlidingFragmentActivity;
 @SuppressLint("NewApi")
 public class BaseActivity extends SlidingFragmentActivity {
 	private static final int DATE_DIALOG_ID = 0;
+	private static final int DURATION_DIALOG_ID = 1;
 	protected SlidingMenu menu;
 	private int year;
 	private int month;
@@ -84,6 +86,9 @@ public class BaseActivity extends SlidingFragmentActivity {
 				
 				
 			    return picker;
+			//case DURATION_DIALOG_ID:
+				//NumberPicker numberPicker = new NumberPicker(this);
+				//return numberPicker.get;
 		}
 		return null;
 	}

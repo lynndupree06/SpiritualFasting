@@ -3,6 +3,10 @@ package com.lynn.mobile.spiritualfasting.fragments;
 import java.util.List;
 
 import com.actionbarsherlock.app.SherlockListFragment;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
+import com.lynn.mobile.spiritualfasting.CreateFastTypeActivity;
 import com.lynn.mobile.spiritualfasting.TypesOfFastsDetailActivity;
 import com.lynn.mobile.spiritualfasting.database.FastDB;
 import com.lynn.mobile.spiritualfasting.model.Fast;
@@ -26,6 +30,7 @@ public class TypesofFastsListFragment extends SherlockListFragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
 	}
 	
 	@Override
@@ -52,5 +57,23 @@ public class TypesofFastsListFragment extends SherlockListFragment {
 		Intent intent = new Intent(getSherlockActivity(), TypesOfFastsDetailActivity.class);
 		intent.putExtra(Resources.FAST_ID, (int)id);
 		getSherlockActivity().startActivity(intent);
+    }
+	
+	@Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    	super.onCreateOptionsMenu(menu, inflater);
+		inflater.inflate(R.menu.types_of_fasts_list_menu, menu);
+    }
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+    	switch (item.getItemId()) {
+    		case R.id.add_fast:
+    			Intent intent = new Intent(getSherlockActivity(), CreateFastTypeActivity.class);
+    			getSherlockActivity().startActivity(intent);
+    			return true; 
+		    default:
+		        return super.onOptionsItemSelected(item);
+		}
     }
 }

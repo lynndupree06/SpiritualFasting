@@ -1,8 +1,8 @@
 package com.lynn.mobile.spiritualfasting;
 
-import com.lynn.mobile.spiritualfasting.fragments.*;
-import com.lynn.mobile.spiritualfasting.util.FragmentNames;
 import com.lynn.mobile.spiritualfasting.R;
+import com.lynn.mobile.spiritualfasting.fragments.TypesofFastsListFragment;
+import com.lynn.mobile.spiritualfasting.util.FragmentNames;
 
 import android.os.Bundle;
 

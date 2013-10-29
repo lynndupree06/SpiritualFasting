@@ -18,7 +18,8 @@ public abstract class DatabaseHandler<T> extends SQLiteOpenHelper {
             + "name TEXT," 
             + "description TEXT,"
             + "length INTEGER,"
-            + "url TEXT)";
+            + "url TEXT," 
+            + "isCustom INTEGER)";
     
     protected String CREATE_TABLE_YOUR_FAST = "CREATE TABLE yourFasts("
             + "id INTEGER PRIMARY KEY AUTOINCREMENT,"

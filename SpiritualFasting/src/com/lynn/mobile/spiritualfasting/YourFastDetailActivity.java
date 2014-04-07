@@ -7,8 +7,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import android.annotation.SuppressLint;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager.OnBackStackChangedListener;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.KeyEvent;
@@ -38,7 +40,9 @@ public class YourFastDetailActivity extends BaseActivity {
 	private ImageButton previousBtn;
 	private ImageButton nextBtn;
 	private int yourFastId;
+	private List<SherlockFragment> fragments;
 	
+	@SuppressLint("NewApi")
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -63,15 +67,9 @@ public class YourFastDetailActivity extends BaseActivity {
             FastDB fastDb = new FastDB(this);
     		Fast fast = fastDb.getItemByName(fastName);
     		num_pages = fast.getLength();
-    		
-    		YourFastDB yourFastDb = new YourFastDB(this);
-    		YourFast yourFast = yourFastDb.getItem(yourFastId);
-    		
+
     		setmPager((ViewPager) findViewById(R.id.pager));
-    		List<SherlockFragment> fragments = getFragments(yourFast.getStartDate(), yourFast.getEndDate());
-    		mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager(), 
-    				fragments);
-    		getmPager().setAdapter(mPagerAdapter);
+    		updateAdapter();
     		getmPager().setCurrentItem(dayInProgress);
     		
     		getmPager().setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
@@ -81,12 +79,43 @@ public class YourFastDetailActivity extends BaseActivity {
     		    }
     		});
     		
-    		yourFastDb.close();
     		fastDb.close();
     		wireButtons();
+//    		getSupportFragmentManager().addOnBackStackChangedListener(getListener());
         }
 	}
+
+	public void updateAdapter() {
+		YourFastDB yourFastDb = new YourFastDB(this);
+		YourFast yourFast = yourFastDb.getItem(yourFastId);
+		
+		fragments = getFragments(yourFast.getStartDate(), yourFast.getEndDate());
+		mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager(), 
+				fragments);
+		getmPager().setAdapter(mPagerAdapter);
+		yourFastDb.close();
+	}
 	
+	private OnBackStackChangedListener getListener() {
+		OnBackStackChangedListener result = new OnBackStackChangedListener()
+        {
+            public void onBackStackChanged() 
+            {   
+//            	finish();
+//                int day = getIntent().getExtras().getInt(Resources.DAY);
+//                YourFastDetailFragment currentFragment = (YourFastDetailFragment)fragments.get(day - 1);
+//                currentFragment.onFragmentResume();
+//                getmPager().invalidate();
+                //updateAdapter();
+//                getmPager().getAdapter().notifyDataSetChanged();                 
+//                getmPager().invalidate();
+//                getmPager().refreshDrawableState();
+            }
+        };
+
+        return result;
+	}
+
 	/**
 	 * Setup list of fragments to put in the view pager.
 	 * @param startDate Date that the fast starts.
@@ -95,8 +124,9 @@ public class YourFastDetailActivity extends BaseActivity {
 	private List<SherlockFragment> getFragments(Timestamp startDate, Timestamp endDate){
 		  List<SherlockFragment> fList = new ArrayList<SherlockFragment>();
 		  Timestamp today = new Timestamp(Calendar.getInstance().getTime().getTime());
-		  String todaysDate = new SimpleDateFormat("yyyy-MM-dd").format(new Date(today.getTime()));
-		  String fastStartDate = new SimpleDateFormat("yyyy-MM-dd").format(new Date(startDate.getTime()));
+		  SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		  String todaysDate = simpleDateFormat.format(new Date(today.getTime()));
+		  String fastStartDate = simpleDateFormat.format(new Date(startDate.getTime()));
 
 		  if((startDate.before(today) || fastStartDate.equals(todaysDate)) && !endDate.before(today)) {
 			  for(int i = 1; i <= num_pages; i++) {

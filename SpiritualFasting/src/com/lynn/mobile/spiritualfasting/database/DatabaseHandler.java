@@ -16,10 +16,12 @@ public abstract class DatabaseHandler<T> extends SQLiteOpenHelper {
     protected String CREATE_TABLE_FAST = "CREATE TABLE fasts("
             + "id INTEGER PRIMARY KEY AUTOINCREMENT,"
             + "name TEXT," 
-            + "description TEXT,"
+            + "purpose TEXT,"
             + "length INTEGER,"
             + "url TEXT," 
-            + "isCustom INTEGER)";
+            + "isCustom INTEGER,"
+            + "background TEXT," 
+            + "details TEXT)";
     
     protected String CREATE_TABLE_YOUR_FAST = "CREATE TABLE yourFasts("
             + "id INTEGER PRIMARY KEY AUTOINCREMENT,"

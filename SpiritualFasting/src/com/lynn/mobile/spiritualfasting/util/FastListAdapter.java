@@ -24,7 +24,7 @@ public class FastListAdapter extends IFastListAdapter<Fast> {
 		TextView name = (TextView)convertView.findViewById (R.id.type_of_fast_title);
 		TextView description = (TextView)convertView.findViewById(R.id.type_of_fast_description);
 		name.setText(Items.get(position).getName()); 
-		description.setText(Items.get(position).getDescription());
+		description.setText(Items.get(position).getPurpose());
 		return convertView;
 	}
 

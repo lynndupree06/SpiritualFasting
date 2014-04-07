@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.webkit.WebView;
 
 import com.lynn.mobile.spiritualfasting.database.FastDB;
+import com.lynn.mobile.spiritualfasting.model.Fast;
 import com.lynn.mobile.spiritualfasting.util.Resources;
 import com.lynn.mobile.spiritualfasting.R;
 
@@ -23,12 +24,22 @@ public class TypesofFastsDetailRestrictionFragment extends TypesofFastsDetailFra
         FastDB db = new FastDB(getSherlockActivity());
         fastId = getArguments().getInt(Resources.FAST_ID);
         
-        fastName = db.getItem(fastId).getName();
-        String url = db.getItem(fastId).getUrl();
+        Fast currentFast = db.getItem(fastId);
+		fastName = currentFast.getName();
+        String url = currentFast.getUrl();
         db.close();
         
         WebView webView = (WebView) rootView.findViewById(R.id.types_of_fast_detail_webview);
-		webView.loadUrl("file:///android_asset/types_of_fasts/purpose_" + url);
+		
+		if(!url.startsWith("custom_fast")) {
+			webView.loadUrl("file:///android_asset/types_of_fasts/purpose_" + url);
+        } else {
+        	String page = "<html><head><link rel='stylesheet' type='text/css' href='file:///android_asset/css/style.css'/></head><body>" +
+					currentFast.getDetails() +
+					"</body></html>";
+		            
+		    webView.loadDataWithBaseURL("x-data://base", page, "text/html", "UTF-8", null);
+        }
 		
         return rootView;
     }

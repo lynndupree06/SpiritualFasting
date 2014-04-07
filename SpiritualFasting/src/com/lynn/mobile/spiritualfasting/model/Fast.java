@@ -3,22 +3,36 @@ package com.lynn.mobile.spiritualfasting.model;
 public class Fast {
 	private int id;
 	private String name;
-	private String description;
+	private String purpose;
 	private int length;
 	private String url;
 	private boolean custom;
+	private String background;
+	private String details;
 	
-	public Fast(String name, String description, int length, String url, boolean isCustom) {
-		this(0, name, description, length, url, isCustom);
+	public Fast(int id, String name, String purpose, int length, String url, boolean isCustom) {
+		this(id, name, purpose, length, url, isCustom, "", "");
+	}
+	
+	public Fast(String name, String purpose, int length, String url, boolean isCustom) {
+		this(0, name, purpose, length, url, isCustom, "", "");
+	}
+	
+	public Fast(String name, String purpose, int length, String url, 
+			boolean isCustom, String background, String details) {
+		this(0, name, purpose, length, url, isCustom, background, details);
 	}
 
-	public Fast(int id, String name, String description, int length, String url, boolean isCustom) {
+	public Fast(int id, String name, String purpose, int length, 
+			String url, boolean isCustom, String background, String details) {
 		this.setId(id);
 		this.setName(name);
-		this.setDescription(description);
+		this.setPurpose(purpose);
 		this.setLength(length);
 		this.setUrl(url);
 		this.setCustom(isCustom);
+		this.setBackground(background);
+		this.setDetails(details);
 	}
 
 	public int getId() {
@@ -53,12 +67,12 @@ public class Fast {
 		this.url = url;
 	}
 
-	public String getDescription() {
-		return description;
+	public String getPurpose() {
+		return purpose;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
+	public void setPurpose(String purpose) {
+		this.purpose = purpose;
 	}
 
 	public boolean isCustom() {
@@ -67,5 +81,21 @@ public class Fast {
 
 	public void setCustom(boolean custom) {
 		this.custom = custom;
+	}
+
+	public String getBackground() {
+		return background;
+	}
+
+	public void setBackground(String background) {
+		this.background = background;
+	}
+
+	public String getDetails() {
+		return details;
+	}
+
+	public void setDetails(String details) {
+		this.details = details;
 	}
 }

@@ -3,6 +3,7 @@ package com.lynn.mobile.spiritualfasting.util;
 import java.util.List;
 
 import com.actionbarsherlock.app.SherlockFragment;
+import com.lynn.mobile.spiritualfasting.fragments.YourFastDetailFragment;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -26,5 +27,10 @@ public class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
     public int getCount() {
         return fragments.size();
     }
-
+    
+    @Override
+    public int getItemPosition(Object object) {
+    	YourFastDetailFragment fragment = (YourFastDetailFragment)object;
+		return fragment.getDay() - 1;
+    }
 }

@@ -40,8 +40,6 @@ public class JournalEntryFragment extends SherlockFragment {
 			Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.journal_entry_fragment,
 				container, false);
-
-//		getSherlockActivity().setTitle(R.string.title_journal_entry);
 		
 		yourFastId = getArguments().getInt(Resources.YOUR_FAST_ID);
 		entryId = getArguments().getInt(Resources.ENTRY_ID);
@@ -49,7 +47,7 @@ public class JournalEntryFragment extends SherlockFragment {
 		day = getArguments().getInt(Resources.DAY);
 		
 		JournalEntryDB db = new JournalEntryDB(getSherlockActivity());
-		JournalEntry entry = db.getItem(entryId);
+		JournalEntry entry = db.getEntryByFastAndDay(yourFastId, day);
 		
 		if(entry != null)
 			journalEntry.setText(entry.getEntry());
@@ -83,12 +81,11 @@ public class JournalEntryFragment extends SherlockFragment {
 		Timestamp date = new Timestamp(Calendar.getInstance().getTime().getTime());
 		YourFastDetailActivity activity = (YourFastDetailActivity) sherlockActivity;
 		day = activity.getmPager().getCurrentItem() + 1;
+		JournalEntry newEntry = new JournalEntry(entryId, entry, yourFastDb.getItem(yourFastId), day, date);
 		
 		if(entryId != 0) {
-			JournalEntry newEntry = new JournalEntry(entryId, entry, yourFastDb.getItem(yourFastId), day, date);
 			db.updateItem(newEntry);
 		} else {
-			JournalEntry newEntry = new JournalEntry(entry, yourFastDb.getItem(yourFastId), day);
 			db.addItem(newEntry);
 		}
 		db.close();

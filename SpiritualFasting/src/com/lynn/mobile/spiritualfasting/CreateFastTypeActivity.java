@@ -4,20 +4,23 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.lynn.mobile.spiritualfasting.database.FastDB;
 import com.lynn.mobile.spiritualfasting.model.Fast;
+import com.lynn.mobile.spiritualfasting.util.Resources;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class CreateFastTypeActivity extends BaseActivity {
 	
 	private EditText name;
 	private EditText duration;
 	private EditText purpose;
-	private EditText description;
-	private EditText restrictions;
+	private EditText background;
+	private EditText details;
+	private int fastId;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -33,8 +36,22 @@ public class CreateFastTypeActivity extends BaseActivity {
 		name = (EditText) findViewById(R.id.add_fast_type_name);
 		duration = (EditText) findViewById(R.id.add_fast_type_duration);
 		purpose = (EditText) findViewById(R.id.add_fast_type_purpose);
-		description = (EditText) findViewById(R.id.add_fast_type_description);
-		restrictions = (EditText) findViewById(R.id.add_fast_type_restrictions);
+		background = (EditText) findViewById(R.id.add_fast_type_background);
+		details = (EditText) findViewById(R.id.add_fast_type_details);
+		
+		if(getIntent().getExtras() != null) {
+			fastId = getIntent().getExtras().getInt(Resources.FAST_ID);
+			if(fastId != 0) {
+				FastDB db = new FastDB(this);
+				Fast currentFast = db.getItem(fastId);
+				
+				name.setText(currentFast.getName());
+				duration.setText(String.valueOf(currentFast.getLength()));
+				purpose.setText(currentFast.getPurpose());
+				background.setText(currentFast.getBackground());
+				details.setText(currentFast.getDetails());
+			}
+		}
 	}
 	
 	@Override
@@ -61,15 +78,21 @@ public class CreateFastTypeActivity extends BaseActivity {
 	private void addNewFastType() {
 		String fastName = name.getText().toString();
 		String fastPurpose = purpose.getText().toString();
+		String fastDesc = background.getText().toString();
+		String fastRest = details.getText().toString();
 		int fastDuration = !duration.getText().toString().equals("")
 				? Integer.valueOf(duration.getText().toString()) : 0;
 		
 		if(!fastName.equals("") && !fastPurpose.equals("") && fastDuration > 0) {
-			Fast newFastType = new Fast(fastName, fastPurpose, fastDuration, 
-					"custom_fast.html", true);
+			Fast newFastType = new Fast(fastId, fastName, fastPurpose, fastDuration, 
+					"custom_fast.html", true, fastDesc, fastRest);
 		
 			FastDB db = new FastDB(this);
-			db.addItem(newFastType);
+			if(fastId == 0)
+				db.addItem(newFastType);
+			else
+				db.updateItem(newFastType);
+			
 			db.close();
 			finish();
 		} else {

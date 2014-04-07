@@ -3,7 +3,6 @@ package com.lynn.mobile.spiritualfasting.fragments;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.List;
 import java.util.Locale;
 
 import android.content.Intent;
@@ -44,6 +43,9 @@ public class YourFastDetailFragment extends SherlockFragment implements OnNaviga
 	private String fastName;
 	private int day;
 	private int yourFastId;
+	private LayoutInflater inflater;
+	private ViewGroup container;
+	private WebView scripture;
 
 	public YourFastDetailFragment() { }
 
@@ -59,9 +61,16 @@ public class YourFastDetailFragment extends SherlockFragment implements OnNaviga
 		View rootView = inflater.inflate(R.layout.your_fast_detail_fragment,
 				container, false);
 
+		this.inflater = inflater;
+		this.container = container;
 		fastName = getArguments().getString(Resources.FAST_NAME);
 		day = getArguments().getInt(Resources.DAY);
 		yourFastId = getArguments().getInt(Resources.YOUR_FAST_ID);
+		setupView(rootView);
+		return rootView;
+	}
+
+	public void setupView(View rootView) {
 		String progress = getArguments().getString(Resources.PROGRESS);
 		
 		YourFastDetailActivity activity = (YourFastDetailActivity) getSherlockActivity();
@@ -77,7 +86,7 @@ public class YourFastDetailFragment extends SherlockFragment implements OnNaviga
 		TextView subtitle = (TextView) rootView.findViewById(R.id.fast_activity_subtitle);
 		SimpleDateFormat sdf = new SimpleDateFormat("MMMM dd, yyyy", Locale.US);
 		
-		WebView scripture = (WebView) rootView.findViewById(R.id.fast_activity_webview);
+		scripture = (WebView) rootView.findViewById(R.id.fast_activity_webview);
 		
 		if(progress.startsWith("Set")) {
 			activity.toggleNavigationButtons(View.INVISIBLE);
@@ -102,12 +111,11 @@ public class YourFastDetailFragment extends SherlockFragment implements OnNaviga
 						+ "/" + url);
 			} else {
 				String page = "<html><head><link rel='stylesheet' type='text/css' href='file:///android_asset/css/style.css'/></head><body>" +
-						getJournalEntry() +
+						getJournalEntry().replace("\n", "<br/>") +
 						"</body></html>";
-			            
-			    scripture.loadDataWithBaseURL("x-data://base", page,
-			                                        "text/html", "UTF-8",
-			                                        null);
+			          
+				scripture.clearView();
+			    scripture.loadDataWithBaseURL(null, page, "text/html", "UTF-8", null);
 			}
 			
 			Calendar c = Calendar.getInstance();
@@ -117,23 +125,14 @@ public class YourFastDetailFragment extends SherlockFragment implements OnNaviga
 			
 			subtitle.setText(sdf.format(dateForDay));
 		}
-
+		
 		TextView title = (TextView) rootView.findViewById(R.id.fast_activity_title);
 		title.setText(progress);
 		
 		yourFastDb.close();
 		fastDb.close();
-		return rootView;
 	}
 	
-	
-	@Override
-	public void onDetach() {
-		super.onDetach();
-//		ActionBar actionBar = getSherlockActivity().getSupportActionBar();
-//        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-	}
-
 	@Override
 	public boolean onNavigationItemSelected(int itemPosition, long itemId) {
 		// TODO Auto-generated method stub
@@ -166,7 +165,7 @@ public class YourFastDetailFragment extends SherlockFragment implements OnNaviga
 		}
     }
 
-	public void showFastDetail() {
+	private void showFastDetail() {
 		Intent intent = new Intent(getSherlockActivity(), TypesOfFastsDetailActivity.class);
 		FastDB fastDb = new FastDB(getSherlockActivity());
 		Fast fast = fastDb.getItemByName(fastName);
@@ -176,23 +175,19 @@ public class YourFastDetailFragment extends SherlockFragment implements OnNaviga
 		fastDb.close();
 	}
 
-	public void openJournalFragment() {
+	private void openJournalFragment() {
 		YourFastDetailActivity activity = (YourFastDetailActivity) getSherlockActivity();
 		JournalEntryDB db = new JournalEntryDB(activity);
-		List<JournalEntry> entries = db.getAllItems();
 		activity.getIntent().putExtra(Resources.ENTRY_ID, 0);
 		
-		for(JournalEntry e : entries) {
-			if(e.getYourFast().getId() == yourFastId &&
-					e.getDay() == activity.getmPager().getCurrentItem() + 1) {
-				activity.getIntent().putExtra(Resources.ENTRY_ID, e.getId());
-				break;
-			}
-		}
+		JournalEntry entry = db.getEntryByFastAndDay(yourFastId, day);
+		if(entry != null)
+			activity.getIntent().putExtra(Resources.ENTRY_ID, entry.getId());
 		
 		JournalEntryFragment fragment = new JournalEntryFragment();
 		FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
 		activity.getIntent().putExtra(Resources.YOUR_FAST_ID, yourFastId);
+		activity.getIntent().putExtra(Resources.DAY, day);
 		fragment.setArguments(activity.getIntent().getExtras()); 
 		transaction.replace(R.id.your_fast_detail_fragment_container, fragment, Resources.JOURNAL_FRAGMENT);
 		transaction.addToBackStack(null);
@@ -200,25 +195,39 @@ public class YourFastDetailFragment extends SherlockFragment implements OnNaviga
 		activity.toggleNavigationButtons(View.INVISIBLE);
 	}
 
-	public String getJournalEntry() {
+	private String getJournalEntry() {
 		YourFastDetailActivity activity = (YourFastDetailActivity) getSherlockActivity();
 		JournalEntryDB db = new JournalEntryDB(activity);
-		List<JournalEntry> entries = db.getAllItems();
+		JournalEntry entry = db.getEntryByFastAndDay(yourFastId, day);
 		
-		for(JournalEntry e : entries) {
-			if(e.getYourFast().getId() == yourFastId &&
-					e.getDay() == activity.getmPager().getCurrentItem() + 1) {
-				return e.getEntry();
-			}
-		}
-		
-		return "";
+		if(entry != null)
+			return entry.getEntry();
+		else
+			return "";
 	}
 	
 	public static YourFastDetailFragment newInstance(Bundle bundle) {
 		YourFastDetailFragment f = new YourFastDetailFragment();
         f.setArguments(bundle);
-
+        
         return f;
+	}
+
+	public void onFragmentResume() {
+		View rootView = inflater.inflate(R.layout.your_fast_detail_fragment,
+				container, false);
+		setupView(rootView);
+		scripture.reload();
+		((YourFastDetailActivity)getSherlockActivity()).getmPager().getAdapter().notifyDataSetChanged();
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		((YourFastDetailActivity)getSherlockActivity()).getmPager().getAdapter().notifyDataSetChanged();
+	}
+	
+	public int getDay() {
+		return day;
 	}
 }

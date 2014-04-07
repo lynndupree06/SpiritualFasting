@@ -31,6 +31,7 @@ import com.lynn.mobile.spiritualfasting.database.FastDB;
 import com.lynn.mobile.spiritualfasting.database.YourFastDB;
 import com.lynn.mobile.spiritualfasting.model.Fast;
 import com.lynn.mobile.spiritualfasting.model.YourFast;
+import com.lynn.mobile.spiritualfasting.util.AlreadyExistsException;
 import com.lynn.mobile.spiritualfasting.util.Resources;
 import com.lynn.mobile.spiritualfasting.R;
 
@@ -38,7 +39,7 @@ public class CreateFastActivity extends BaseActivity {
 	
 	private static TextView startDate;
 	private Spinner fastType;
-	private LinearLayout fastDurationLayout;
+	private LinearLayout customFastLayout;
     private static int day;
     private static int month;
     private static int year;
@@ -47,9 +48,11 @@ public class CreateFastActivity extends BaseActivity {
     private static final int DURATION_PICKER_ID = 1;
     private YourFastDB db;
 	private ArrayList<String> list;
-	private LinearLayout fastNameLayout;
 	private EditText fastName;
 	private EditText fastDuration;
+	private EditText fastPurpose;
+	private EditText fastBackground;
+	private EditText fastDetails;
 
     @Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -70,12 +73,14 @@ public class CreateFastActivity extends BaseActivity {
 		for(Fast f : fasts) 
 			list.add(f.getName());
 		
-		list.add("Custom Fast");
+		list.add("Create a Custom Fast...");
 		
-		fastNameLayout = (LinearLayout) findViewById(R.id.fast_name_layout);
+		customFastLayout = (LinearLayout) findViewById(R.id.custom_fast_layout);
 		fastName = (EditText) findViewById(R.id.start_fast_name);
-		fastDurationLayout = (LinearLayout) findViewById(R.id.fast_duration_layout);
 		fastDuration = (EditText) findViewById(R.id.start_fast_duration);
+		fastPurpose = (EditText) findViewById(R.id.start_fast_purpose);
+		fastBackground = (EditText) findViewById(R.id.start_fast_background);
+		fastDetails = (EditText) findViewById(R.id.start_fast_details);
 		
 		fastDuration.setOnClickListener(new OnClickListener() {		
 			@Override
@@ -91,12 +96,10 @@ public class CreateFastActivity extends BaseActivity {
 			@Override
 			public void onItemSelected(AdapterView<?> parentView, View selectedItemView, 
 					int position, long id) {
-				if(parentView.getSelectedItem().toString().startsWith("Custom Fast")) {
-					fastNameLayout.setVisibility(View.VISIBLE);
-					fastDurationLayout.setVisibility(View.VISIBLE);
+				if(parentView.getSelectedItem().toString().startsWith("Create a Custom Fast")) {
+					customFastLayout.setVisibility(View.VISIBLE);
 				} else {
-					fastNameLayout.setVisibility(View.INVISIBLE);
-					fastDurationLayout.setVisibility(View.INVISIBLE);
+					customFastLayout.setVisibility(View.INVISIBLE);
 				}
 			}
 
@@ -170,15 +173,24 @@ public class CreateFastActivity extends BaseActivity {
 	public void createNewFast() {
 		String name = fastType.getSelectedItem().toString();
 		String date = startDate.getText().toString().trim();
-		Timestamp today = new Timestamp(Calendar.getInstance().getTime().getTime());
+		String newFastName = fastName.getText().toString();
+		int duration = !fastDuration.getText().toString().equals("") 
+				? Integer.valueOf(fastDuration.getText().toString()) : 0;
+		String purpose = fastPurpose.getText().toString();
+		String background = fastBackground.getText().toString();
+		String details = fastDetails.getText().toString();
 		
+		Timestamp today = null; 
 		Timestamp start = null;
 		String todaysDate = null;
+		
 		try {
 
 			if(!date.equals("")) {
-				start = new Timestamp(new SimpleDateFormat("MM/dd/yyyy").parse(date).getTime());
-				todaysDate = new SimpleDateFormat("MM/dd/yyyy").format(new Date (today.getTime())).trim();
+				SimpleDateFormat formater = new SimpleDateFormat("MM/dd/yyyy");
+				start = new Timestamp(formater.parse(date).getTime());
+				today = new Timestamp(formater.parse(formater.format(new Date())).getTime());
+				todaysDate = formater.format(new Date (today.getTime())).trim();
 			} else {
 				throw new Exception();
 			}
@@ -187,11 +199,17 @@ public class CreateFastActivity extends BaseActivity {
 					&& (start.after(today) || date.equals(todaysDate))) {
 				
 				FastDB fastDb = new FastDB(this);
-				if(name.equals("Custom Fast")) {
-					if(!fastName.equals("") && !fastDuration.equals("")) {
-						name = fastName.getText().toString();
-						int duration = Integer.valueOf(fastDuration.getText().toString());
-						fastDb.addItem(new Fast(name, "", duration, "custom_fast.html", true));
+				if(name.equals("Create a Custom Fast...")) {
+					if(!newFastName.equals("") && duration != 0 && !purpose.equals("")) {
+						long rowId = fastDb.addItem(new Fast(newFastName, purpose, duration, 
+								"custom_fast.html", true, background, details));
+						
+						if(rowId == 0) {
+							throw new AlreadyExistsException();
+						}
+						
+						name = newFastName;
+							
 					} else {
 						throw new Exception();
 					}
@@ -234,6 +252,21 @@ public class CreateFastActivity extends BaseActivity {
 			}
 		} catch (ParseException e1) {
 			e1.printStackTrace();
+		} catch(AlreadyExistsException e) {
+			AlertDialog.Builder alert = new AlertDialog.Builder(this);
+			alert.setTitle("Fast already exists");
+			String message = "There is already a fast called " + newFastName + 
+					". Please choose a different name for your fast.";
+			alert.setMessage(message);
+			
+			alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int whichButton) {
+					dialog.cancel();
+				}
+			});
+	    
+			AlertDialog alertDialog = alert.create();
+			alertDialog.show();
 		} catch (Exception e) {
 			AlertDialog.Builder alert = new AlertDialog.Builder(this);
 			alert.setTitle("Some of the required fields are missing.");
@@ -241,12 +274,14 @@ public class CreateFastActivity extends BaseActivity {
 			String message = "";
 			if(name.startsWith("Select a fast"))
 				message += "Please select the type of fast.\n";
-			if(date.equals("") || (start != null && start.before(today))) 
+			if(date.equals("") || (start != null && start.compareTo(today) < 0)) 
 				message += "Please select a valid start date.\n";
-			if(name.startsWith("Custom Fast") && fastName.getText().toString().equals(""))
+			if(name.startsWith("Create a Custom Fast") && fastName.getText().toString().equals(""))
 				message += "Please enter a valid name for the fast.\n";
-			if(name.startsWith("Custom Fast") && fastDuration.getText().toString().equals(""))
+			if(name.startsWith("Create a Custom Fast") && fastDuration.getText().toString().equals(""))
 				message += "Please enter a valid duration for the fast.\n";
+			if(name.startsWith("Create a Custom Fast") && fastPurpose.getText().toString().equals(""))
+				message += "Please enter a purpose for the fast.\n";
 			
 			alert.setMessage(message); 
 

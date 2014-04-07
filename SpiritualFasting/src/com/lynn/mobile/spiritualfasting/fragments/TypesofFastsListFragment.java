@@ -20,10 +20,11 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 
 public class TypesofFastsListFragment extends SherlockListFragment {
+
+	private FastListAdapter adapter;
 
 	public TypesofFastsListFragment() { }
 	
@@ -42,14 +43,19 @@ public class TypesofFastsListFragment extends SherlockListFragment {
 		getSherlockActivity().setTitle(R.string.title_types_of_fasts);
 		getSherlockActivity().setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
 		
-		FastDB db = new FastDB(getSherlockActivity());
-	    List<Fast> fasts = db.getAllItems();
-	    db.close();
-	    
-	    ListAdapter adapter = new FastListAdapter(getSherlockActivity(), R.layout.types_of_fast_list_item, fasts);
-		setListAdapter(adapter);
+		updateAdapter();
 	    
 	    return rootView;
+	}
+
+	public void updateAdapter() {
+		int types = getArguments().getInt(Resources.FAST_TYPE);
+		FastDB db = new FastDB(getSherlockActivity());
+	    List<Fast> fasts = db.getCustomOrOriginalFasts(types);
+	    db.close();
+	    
+	    adapter = new FastListAdapter(getSherlockActivity(), R.layout.types_of_fast_list_item, fasts);
+		setListAdapter(adapter);
 	}
 	
 	@Override
@@ -71,9 +77,23 @@ public class TypesofFastsListFragment extends SherlockListFragment {
     		case R.id.add_fast:
     			Intent intent = new Intent(getSherlockActivity(), CreateFastTypeActivity.class);
     			getSherlockActivity().startActivity(intent);
+				updateAdapter();
+    			if(adapter != null) {
+    				adapter.notifyDataSetChanged();
+    			}
     			return true; 
 		    default:
 		        return super.onOptionsItemSelected(item);
 		}
     }
+    
+    @Override
+	public void onResume() {
+		super.onResume();
+
+		updateAdapter();
+		if(adapter != null) {
+			adapter.notifyDataSetChanged();
+		}
+	}
 }

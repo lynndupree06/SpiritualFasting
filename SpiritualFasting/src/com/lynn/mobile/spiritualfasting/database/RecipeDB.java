@@ -94,7 +94,7 @@ public class RecipeDB extends DatabaseHandler<Recipe> {
 			String start = cursor.getString(cursor.getColumnIndexOrThrow(YourFastDB.KEY_START));
 			String end = cursor.getString(cursor.getColumnIndexOrThrow(YourFastDB.KEY_END));
 			String fastName = cursor.getString(cursor.getColumnIndexOrThrow(FastDB.KEY_NAME));
-			String desc = cursor.getString(cursor.getColumnIndexOrThrow(FastDB.KEY_DESC));
+			String desc = cursor.getString(cursor.getColumnIndexOrThrow(FastDB.KEY_BACKGROUND));
 			int length = cursor.getInt(cursor.getColumnIndexOrThrow(FastDB.KEY_LENGTH));
 			String url = cursor.getString(cursor.getColumnIndexOrThrow(FastDB.KEY_URL));
 			boolean custom = cursor.getInt(cursor.getColumnIndexOrThrow(FastDB.KEY_CUSTOM)) > 0;
@@ -142,7 +142,7 @@ public class RecipeDB extends DatabaseHandler<Recipe> {
     			String start = cursor.getString(cursor.getColumnIndexOrThrow(YourFastDB.KEY_START));
     			String end = cursor.getString(cursor.getColumnIndexOrThrow(YourFastDB.KEY_END));
     			String fastName = cursor.getString(cursor.getColumnIndexOrThrow(FastDB.KEY_NAME));
-    			String desc = cursor.getString(cursor.getColumnIndexOrThrow(FastDB.KEY_DESC));
+    			String desc = cursor.getString(cursor.getColumnIndexOrThrow(FastDB.KEY_BACKGROUND));
     			int length = cursor.getInt(cursor.getColumnIndexOrThrow(FastDB.KEY_LENGTH));
     			String url = cursor.getString(cursor.getColumnIndexOrThrow(FastDB.KEY_URL));
     			boolean custom = cursor.getInt(cursor.getColumnIndexOrThrow(FastDB.KEY_CUSTOM)) > 0;

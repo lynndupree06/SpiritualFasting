@@ -64,7 +64,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/fast_purpose_hint"
-                android:maxLength="20" />
+                android:maxLength="20"
+                android:inputType="text" />
 
         </LinearLayout>
         <LinearLayout
@@ -72,18 +73,18 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content" >
             <TextView
-                android:text="@string/CreateFastTypeForm_DescriptionText"
+                android:text="@string/CreateFastTypeForm_BackgroundText"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 style="@style/FormLabelText" />
 
             <EditText
-                android:id="@+id/add_fast_type_description"
+                android:id="@+id/add_fast_type_background"
                 style="@style/FormInputText"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:height="100dp"
-                android:hint="@string/fast_description_hint"
+                android:hint="@string/fast_background_hint"
                 android:inputType="textMultiLine"
                 android:lines="300" />
 
@@ -93,20 +94,20 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content" >
             <TextView
-                android:text="@string/CreateFastTypeForm_RestrictionsText"
+                android:text="@string/CreateFastTypeForm_DetailsText"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 style="@style/FormLabelText" />
 
             <EditText
-                android:id="@+id/add_fast_type_restrictions"
+                android:id="@+id/add_fast_type_details"
                 style="@style/FormInputText"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:height="100dp"
         		android:lines="300"
         		android:inputType="textMultiLine"
-                android:hint="@string/fast_restrictions_hint" />
+                android:hint="@string/fast_details_hint" />
         </LinearLayout>
 
     </LinearLayout>

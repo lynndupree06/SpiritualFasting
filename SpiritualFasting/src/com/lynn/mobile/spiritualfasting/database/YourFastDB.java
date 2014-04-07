@@ -68,21 +68,28 @@ public class YourFastDB extends DatabaseHandler<YourFast> {
 		SQLiteDatabase db = this.getReadableDatabase();
               
 	    String[] selectionArgs = { String.valueOf(id) };
-	    String sql = "SELECT * FROM " + TABLE
+	    String sql = "SELECT yourFasts.id AS YourFastsID, "
+        		+ KEY_START + ", " + KEY_END + ", " + KEY_FAST_ID + ", "
+        		+ FastDB.KEY_NAME + ", " + FastDB.KEY_PURPOSE + ", " 
+        		+ FastDB.KEY_LENGTH + ", " + FastDB.KEY_URL + ", "
+        		+ FastDB.KEY_CUSTOM + ", " + FastDB.KEY_BACKGROUND + ", " 
+        		+ FastDB.KEY_DETAILS + " FROM " + TABLE
 				+ " LEFT JOIN fasts ON yourFasts." + YourFastDB.KEY_FAST_ID + " = fasts.id"
 				+ " WHERE yourFasts.id = ?";
 		Cursor cursor = db.rawQuery(sql, selectionArgs);
 		
 		YourFast newFast = null;
 		if(cursor.moveToFirst()) {
-			int fastId = cursor.getInt(cursor.getColumnIndexOrThrow(KEY_FAST_ID));
 			String start = cursor.getString(cursor.getColumnIndexOrThrow(KEY_START));
 			String end = cursor.getString(cursor.getColumnIndexOrThrow(KEY_END));
+			int fastId = cursor.getInt(cursor.getColumnIndexOrThrow(KEY_FAST_ID));
 			String name = cursor.getString(cursor.getColumnIndexOrThrow(FastDB.KEY_NAME));
-			String desc = cursor.getString(cursor.getColumnIndexOrThrow(FastDB.KEY_DESC));
+			String purpose = cursor.getString(cursor.getColumnIndexOrThrow(FastDB.KEY_PURPOSE));
 			int length = cursor.getInt(cursor.getColumnIndexOrThrow(FastDB.KEY_LENGTH));
 			String url = cursor.getString(cursor.getColumnIndexOrThrow(FastDB.KEY_URL));
 			boolean custom = cursor.getInt(cursor.getColumnIndexOrThrow(FastDB.KEY_CUSTOM)) > 0;
+			String desc = cursor.getString(cursor.getColumnIndexOrThrow(FastDB.KEY_BACKGROUND));
+			String restrictions = cursor.getString(cursor.getColumnIndexOrThrow(FastDB.KEY_DETAILS));
 	
 			Timestamp startDate = null, endDate = null;
 			
@@ -94,7 +101,7 @@ public class YourFastDB extends DatabaseHandler<YourFast> {
 				e.printStackTrace();
 			}
 
-			Fast fast = new Fast(fastId, name, desc, length, url, custom);			
+			Fast fast = new Fast(fastId, name, purpose, length, url, custom, desc, restrictions);			
 			newFast = new YourFast((Integer) id, fast, startDate, endDate);
 		}
 		return newFast;
@@ -105,10 +112,11 @@ public class YourFastDB extends DatabaseHandler<YourFast> {
 		
         // Select All Query
         String selectQuery = "SELECT yourFasts.id AS YourFastsID, "
-        		+ KEY_FAST_ID + ", " + KEY_START + ", " + KEY_END + ", " 
-        		+ FastDB.KEY_NAME + ", " + FastDB.KEY_DESC + ", " 
+        		+ KEY_START + ", " + KEY_END + ", " + KEY_FAST_ID + ", "
+        		+ FastDB.KEY_NAME + ", " + FastDB.KEY_PURPOSE + ", " 
         		+ FastDB.KEY_LENGTH + ", " + FastDB.KEY_URL + ", "
-        		+ FastDB.KEY_CUSTOM + " FROM " + TABLE
+        		+ FastDB.KEY_CUSTOM + ", " + FastDB.KEY_BACKGROUND + ", " 
+        		+ FastDB.KEY_DETAILS + " FROM " + TABLE
 				+ " LEFT JOIN fasts ON yourFasts." + YourFastDB.KEY_FAST_ID + " = fasts.id";
      
         SQLiteDatabase db = this.getWritableDatabase();
@@ -118,14 +126,16 @@ public class YourFastDB extends DatabaseHandler<YourFast> {
         if (cursor.moveToFirst()) {
             do {
             	int id = cursor.getInt(cursor.getColumnIndexOrThrow("YourFastsID"));
-            	int fastId = cursor.getInt(cursor.getColumnIndexOrThrow(KEY_FAST_ID));
     			String start = cursor.getString(cursor.getColumnIndexOrThrow(KEY_START));
     			String end = cursor.getString(cursor.getColumnIndexOrThrow(KEY_END));
+            	int fastId = cursor.getInt(cursor.getColumnIndexOrThrow(KEY_FAST_ID));
     			String name = cursor.getString(cursor.getColumnIndexOrThrow(FastDB.KEY_NAME));
-    			String desc = cursor.getString(cursor.getColumnIndexOrThrow(FastDB.KEY_DESC));
+    			String purpose = cursor.getString(cursor.getColumnIndexOrThrow(FastDB.KEY_PURPOSE));
     			int length = cursor.getInt(cursor.getColumnIndexOrThrow(FastDB.KEY_LENGTH));
     			String url = cursor.getString(cursor.getColumnIndexOrThrow(FastDB.KEY_URL));
     			boolean custom = cursor.getInt(cursor.getColumnIndexOrThrow(FastDB.KEY_CUSTOM)) > 0;
+    			String desc = cursor.getString(cursor.getColumnIndexOrThrow(FastDB.KEY_BACKGROUND));
+    			String restrictions = cursor.getString(cursor.getColumnIndexOrThrow(FastDB.KEY_DETAILS));
     	
     			Timestamp startDate = null, endDate = null;
     			
@@ -137,7 +147,7 @@ public class YourFastDB extends DatabaseHandler<YourFast> {
     				e.printStackTrace();
     			}
 
-    			Fast fast = new Fast(fastId, name, desc, length, url, custom);			
+    			Fast fast = new Fast(fastId, name, purpose, length, url, custom, desc, restrictions);			
         		YourFast yourFast = new YourFast((Integer) id, fast, startDate, endDate);
                 fastList.add(yourFast);
             } while (cursor.moveToNext());

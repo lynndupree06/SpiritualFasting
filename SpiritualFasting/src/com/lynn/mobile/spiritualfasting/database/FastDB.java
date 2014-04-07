@@ -18,9 +18,11 @@ public class FastDB extends DatabaseHandler<Fast> {
 
 	protected static final String KEY_ID = "id";
     protected static final String KEY_NAME = "name";
-    protected static final String KEY_DESC = "description";
+    protected static final String KEY_PURPOSE = "purpose";
     protected static final String KEY_LENGTH = "length";
     protected static final String KEY_URL = "url";
+    protected static final String KEY_BACKGROUND = "background";
+    protected static final String KEY_DETAILS = "details";
     protected static final String KEY_CUSTOM = "isCustom";
 	private Context context;
 	
@@ -33,9 +35,11 @@ public class FastDB extends DatabaseHandler<Fast> {
 		CREATE_TABLE = "CREATE TABLE " + TABLE + "("
 	            + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
 	            + KEY_NAME + " TEXT," 
-	            + KEY_DESC + " TEXT,"
+	            + KEY_PURPOSE + " TEXT,"
 	            + KEY_LENGTH + " INTEGER,"
 	            + KEY_URL + " TEXT,"
+	    	    + KEY_BACKGROUND + " TEXT,"
+	    	    + KEY_DETAILS + " TEXT,"
 	            + KEY_CUSTOM + " INTEGER)";
 	}
 
@@ -46,9 +50,21 @@ public class FastDB extends DatabaseHandler<Fast> {
         	db.execSQL("DROP TABLE IF EXISTS " + TABLE);
     		db.execSQL(CREATE_TABLE_FAST);
         }
-		
-		Fast fast = new Fast("The Disciple’s Fast", "Breaking Addiction", 7, "disciples_fast.html", false);
+
+		Fast fast = new Fast("The Daniel Fast", "Health & Healing", 21, "daniel_fast.html", false);
 		addItem(fast, db);
+
+		fast = new Fast("The Samuel Fast", "Evangelism & Revival", 6, "samuel_fast.html", false);
+		addItem(fast, db);
+		
+		fast = new Fast("The Disciple’s Fast", "Breaking Addiction", 7, "disciples_fast.html", false);
+		addItem(fast, db);
+		
+		fast = new Fast("The John the Baptist Fast", "For Testimony", 6, "john_baptist_fast.html", false);
+		addItem(fast, db);
+		
+//		fast = new Fast("The Esther Fast", "Protection From the Evil One", 5, "esther_fast.html");
+//		addItem(fast, db);
 		
 //		fast = new Fast("The Ezra Fast", "Solving Problems", 5, "ezra_fast.html");
 //		addItem(fast, db);
@@ -60,18 +76,6 @@ public class FastDB extends DatabaseHandler<Fast> {
 //		addItem(fast, db);
 //		
 //		fast = new Fast("The Saint Paul’s Fast", "Decision Making", 5, "saint_paul_fast.html");
-//		addItem(fast, db);
-		
-		fast = new Fast("The Daniel Fast", "Health & Healing", 21, "daniel_fast.html", false);
-		addItem(fast, db);
-		
-		fast = new Fast("The Samuel Fast", "Evangelism & Revival", 6, "samuel_fast.html", false);
-		addItem(fast, db);
-		
-		fast = new Fast("The John the Baptist Fast", "For Testimony", 6, "john_baptist_fast.html", false);
-		addItem(fast, db);
-		
-//		fast = new Fast("The Esther Fast", "Protection From the Evil One", 5, "esther_fast.html");
 //		addItem(fast, db);
 	}
 	
@@ -121,15 +125,17 @@ public class FastDB extends DatabaseHandler<Fast> {
 			ContentValues values = new ContentValues();
 			values.putNull(KEY_ID);
 			values.put(KEY_NAME, fast.getName());
-			values.put(KEY_DESC, fast.getDescription());
+			values.put(KEY_PURPOSE, fast.getPurpose());
 			values.put(KEY_LENGTH, fast.getLength());
 			values.put(KEY_URL, fast.getUrl());
+			values.put(KEY_BACKGROUND, fast.getBackground());
+			values.put(KEY_DETAILS, fast.getDetails());
 			values.put(KEY_CUSTOM, fast.isCustom());
 	
 			// Insert the new row, returning the primary key value of the new row
 			fastId = db.insert(TABLE, KEY_ID, values);
 			addScriptures(fast.getUrl(), (int)fastId, db);
-		}
+		} 
 		
 		return fastId;
 	}
@@ -174,11 +180,13 @@ public class FastDB extends DatabaseHandler<Fast> {
 		
 		if(cursor.moveToFirst()) {
 			String name = cursor.getString(cursor.getColumnIndexOrThrow(KEY_NAME));
-			String desc = cursor.getString(cursor.getColumnIndexOrThrow(KEY_DESC));
+			String purpose = cursor.getString(cursor.getColumnIndexOrThrow(KEY_PURPOSE));
 			int length = cursor.getInt(cursor.getColumnIndexOrThrow(KEY_LENGTH));
 			String url = cursor.getString(cursor.getColumnIndexOrThrow(KEY_URL));
+			String desc = cursor.getString(cursor.getColumnIndexOrThrow(KEY_BACKGROUND));
+			String restrictions = cursor.getString(cursor.getColumnIndexOrThrow(KEY_DETAILS));
 			boolean custom = cursor.getInt(cursor.getColumnIndexOrThrow(KEY_CUSTOM)) > 0;
-			newFast = new Fast((int) id, name, desc, length, url, custom);
+			newFast = new Fast((int) id, name, purpose, length, url, custom, desc, restrictions);
 		}
 		
 		return newFast;
@@ -194,12 +202,14 @@ public class FastDB extends DatabaseHandler<Fast> {
 		
 		if(cursor.moveToFirst()) {
 			int itemId = cursor.getInt(cursor.getColumnIndexOrThrow(KEY_ID));
-			String desc = cursor.getString(cursor.getColumnIndexOrThrow(KEY_DESC));
+			String purpose = cursor.getString(cursor.getColumnIndexOrThrow(KEY_PURPOSE));
 			int length = cursor.getInt(cursor.getColumnIndexOrThrow(KEY_LENGTH));
 			String url = cursor.getString(cursor.getColumnIndexOrThrow(KEY_URL));
+			String desc = cursor.getString(cursor.getColumnIndexOrThrow(KEY_BACKGROUND));
+			String restrictions = cursor.getString(cursor.getColumnIndexOrThrow(KEY_DETAILS));
 			boolean custom = cursor.getInt(cursor.getColumnIndexOrThrow(KEY_CUSTOM)) > 0;
 			
-			newFast = new Fast(itemId, name, desc, length, url, custom);
+			newFast = new Fast(itemId, name, purpose, length, url, custom, desc, restrictions);
 		}
 		return newFast;
 	}
@@ -219,12 +229,14 @@ public class FastDB extends DatabaseHandler<Fast> {
             do {
                 int id = cursor.getInt(cursor.getColumnIndexOrThrow(KEY_ID));
                 String name = cursor.getString(cursor.getColumnIndexOrThrow(KEY_NAME));
-    			String desc = cursor.getString(cursor.getColumnIndexOrThrow(KEY_DESC));
+    			String purpose = cursor.getString(cursor.getColumnIndexOrThrow(KEY_PURPOSE));
     			int length = cursor.getInt(cursor.getColumnIndexOrThrow(KEY_LENGTH));
     			String url = cursor.getString(cursor.getColumnIndexOrThrow(KEY_URL));
+    			String desc = cursor.getString(cursor.getColumnIndexOrThrow(KEY_BACKGROUND));
+    			String restrictions = cursor.getString(cursor.getColumnIndexOrThrow(KEY_DETAILS));
     			boolean custom = cursor.getInt(cursor.getColumnIndexOrThrow(KEY_CUSTOM)) > 0;
                 
-                Fast fast = new Fast(id, name, desc, length, url, custom);
+                Fast fast = new Fast(id, name, purpose, length, url, custom, desc, restrictions);
                 fastList.add(fast);
             } while (cursor.moveToNext());
         }
@@ -238,9 +250,11 @@ public class FastDB extends DatabaseHandler<Fast> {
 		// New value for one column
 		ContentValues values = new ContentValues();
 		values.put(KEY_NAME, fast.getName());
-		values.put(KEY_DESC, fast.getDescription());
+		values.put(KEY_PURPOSE, fast.getPurpose());
 		values.put(KEY_LENGTH, fast.getLength());
 		values.put(KEY_URL, fast.getUrl());
+		values.put(KEY_BACKGROUND, fast.getBackground());
+		values.put(KEY_DETAILS, fast.getDetails());
 
 		// Which row to update, based on the ID
 		String selection = KEY_ID + " LIKE ?";
@@ -263,12 +277,12 @@ public class FastDB extends DatabaseHandler<Fast> {
 		return result;
 	}
 
-	public List<Fast> getAllOriginalFasts() {
+	public List<Fast> getCustomOrOriginalFasts(int value) {
 		List<Fast> fastList = new ArrayList<Fast>();
 		
         // Select All Query
         String selectQuery = "SELECT  * FROM " + TABLE 
-        		+ " WHERE " + KEY_CUSTOM + " = 0 ORDER BY " + KEY_NAME + " ASC";
+        		+ " WHERE " + KEY_CUSTOM + " = " + value + " ORDER BY " + KEY_NAME + " ASC";
      
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -278,12 +292,14 @@ public class FastDB extends DatabaseHandler<Fast> {
             do {
                 int id = cursor.getInt(cursor.getColumnIndexOrThrow(KEY_ID));
                 String name = cursor.getString(cursor.getColumnIndexOrThrow(KEY_NAME));
-    			String desc = cursor.getString(cursor.getColumnIndexOrThrow(KEY_DESC));
+    			String purpose = cursor.getString(cursor.getColumnIndexOrThrow(KEY_PURPOSE));
     			int length = cursor.getInt(cursor.getColumnIndexOrThrow(KEY_LENGTH));
     			String url = cursor.getString(cursor.getColumnIndexOrThrow(KEY_URL));
     			boolean custom = cursor.getInt(cursor.getColumnIndexOrThrow(KEY_CUSTOM)) > 0;
+    			String background = cursor.getString(cursor.getColumnIndexOrThrow(KEY_BACKGROUND));
+    			String details = cursor.getString(cursor.getColumnIndexOrThrow(KEY_DETAILS));
                 
-                Fast fast = new Fast(id, name, desc, length, url, custom);
+                Fast fast = new Fast(id, name, purpose, length, url, custom, background, details);
                 fastList.add(fast);
             } while (cursor.moveToNext());
         }

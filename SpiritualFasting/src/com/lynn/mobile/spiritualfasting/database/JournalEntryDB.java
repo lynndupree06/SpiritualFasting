@@ -77,40 +77,56 @@ public class JournalEntryDB extends DatabaseHandler<JournalEntry> {
 		JournalEntry newJournalEntry = null;
 		
 	    String[] selectionArgs = { String.valueOf(id) };
-		String sql = "SELECT * FROM " + TABLE 
+		String sql = "SELECT journalEntries.id AS JournalEntryID, "
+				+ KEY_ENTRY + ", " + KEY_DAY + ", " + KEY_DATE + ", "
+        		+ YourFastDB.KEY_START + ", " + YourFastDB.KEY_END + ", " 
+        		+ FastDB.KEY_NAME + ", " + FastDB.KEY_PURPOSE + ", " 
+        		+ FastDB.KEY_LENGTH + ", " + FastDB.KEY_URL + ", "
+        		+ FastDB.KEY_CUSTOM + ", " + FastDB.KEY_BACKGROUND + ", " 
+        		+ FastDB.KEY_DETAILS + " FROM " + TABLE 
 				+ " LEFT JOIN yourFasts ON " + TABLE + "." + KEY_YOUR_FAST_ID + " = yourFasts.id "
         		+ " LEFT JOIN fasts ON yourFasts." + YourFastDB.KEY_FAST_ID + " = fasts.id"
         		+ " WHERE " + TABLE + ".id = ?";
 		Cursor cursor = db.rawQuery(sql, selectionArgs);
 		
 		if(cursor.moveToFirst()) {
-			String entry = cursor.getString(cursor.getColumnIndexOrThrow(KEY_ENTRY));
-			int entryDay = cursor.getInt(cursor.getColumnIndexOrThrow(KEY_DAY));
-			String entryLastUpdated = cursor.getString(cursor.getColumnIndexOrThrow(KEY_DATE));
-			String start = cursor.getString(cursor.getColumnIndexOrThrow(YourFastDB.KEY_START));
-			String end = cursor.getString(cursor.getColumnIndexOrThrow(YourFastDB.KEY_END));
-			String name = cursor.getString(cursor.getColumnIndexOrThrow(FastDB.KEY_NAME));
-			String desc = cursor.getString(cursor.getColumnIndexOrThrow(FastDB.KEY_DESC));
-			int length = cursor.getInt(cursor.getColumnIndexOrThrow(FastDB.KEY_LENGTH));
-			String url = cursor.getString(cursor.getColumnIndexOrThrow(FastDB.KEY_URL));
-			boolean custom = cursor.getInt(cursor.getColumnIndexOrThrow(FastDB.KEY_CUSTOM)) > 0;
-			
-			Timestamp startDate = null, endDate = null, date = null;
-				
-			try {
-				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS", Locale.US);
-				startDate = new Timestamp(sdf.parse(start).getTime());
-				endDate = new Timestamp(sdf.parse(end).getTime());
-				date = new Timestamp(sdf.parse(entryLastUpdated).getTime());
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
-			
-			Fast fast = new Fast(name, desc, length, url, custom);
-			YourFast yourFast = new YourFast(fast, startDate, endDate);
-			newJournalEntry = new JournalEntry(id, entry, yourFast, entryDay, date);
+			newJournalEntry = getJournalEntryData(cursor);
 		}
 		
+		return newJournalEntry;
+	}
+
+	public JournalEntry getJournalEntryData(Cursor cursor) {
+		JournalEntry newJournalEntry;
+		
+		int id = cursor.getInt(cursor.getColumnIndexOrThrow("JournalEntryID"));
+		String entry = cursor.getString(cursor.getColumnIndexOrThrow(KEY_ENTRY));
+		int entryDay = cursor.getInt(cursor.getColumnIndexOrThrow(KEY_DAY));
+		String entryLastUpdated = cursor.getString(cursor.getColumnIndexOrThrow(KEY_DATE));
+		String start = cursor.getString(cursor.getColumnIndexOrThrow(YourFastDB.KEY_START));
+		String end = cursor.getString(cursor.getColumnIndexOrThrow(YourFastDB.KEY_END));
+		String name = cursor.getString(cursor.getColumnIndexOrThrow(FastDB.KEY_NAME));
+		String purpose = cursor.getString(cursor.getColumnIndexOrThrow(FastDB.KEY_PURPOSE));
+		int length = cursor.getInt(cursor.getColumnIndexOrThrow(FastDB.KEY_LENGTH));
+		String url = cursor.getString(cursor.getColumnIndexOrThrow(FastDB.KEY_URL));
+		boolean custom = cursor.getInt(cursor.getColumnIndexOrThrow(FastDB.KEY_CUSTOM)) > 0;
+		String desc = cursor.getString(cursor.getColumnIndexOrThrow(FastDB.KEY_BACKGROUND));
+		String restrictions = cursor.getString(cursor.getColumnIndexOrThrow(FastDB.KEY_DETAILS));
+		
+		Timestamp startDate = null, endDate = null, date = null;
+			
+		try {
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS", Locale.US);
+			startDate = new Timestamp(sdf.parse(start).getTime());
+			endDate = new Timestamp(sdf.parse(end).getTime());
+			date = new Timestamp(sdf.parse(entryLastUpdated).getTime());
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		
+		Fast fast = new Fast(name, purpose, length, url, custom, desc, restrictions);
+		YourFast yourFast = new YourFast(fast, startDate, endDate);
+		newJournalEntry = new JournalEntry(id, entry, yourFast, entryDay, date);
 		return newJournalEntry;
 	}
 
@@ -121,8 +137,9 @@ public class JournalEntryDB extends DatabaseHandler<JournalEntry> {
         String selectQuery = "SELECT " + TABLE + ".id AS JournalEntryID, "
         		+ KEY_ENTRY + ", " + KEY_DAY + ", " + KEY_DATE + ", " 
         		+ "yourFasts.id, " + YourFastDB.KEY_START + ", " + YourFastDB.KEY_END + ", "
-        		+ FastDB.KEY_NAME + ", " + FastDB.KEY_DESC + ", " 
-        		+ FastDB.KEY_LENGTH + ", " + FastDB.KEY_URL + ", " + FastDB.KEY_CUSTOM
+        		+ FastDB.KEY_NAME + ", " + FastDB.KEY_PURPOSE + ", " 
+        		+ FastDB.KEY_LENGTH + ", " + FastDB.KEY_URL + ", " 
+        		+ FastDB.KEY_CUSTOM + ", " + FastDB.KEY_BACKGROUND + ", " + FastDB.KEY_DETAILS
         		+ " FROM " + TABLE
         		+ " LEFT JOIN yourFasts ON " + TABLE + "." + KEY_YOUR_FAST_ID + " = yourFasts.id "
         		+ " LEFT JOIN fasts ON yourFasts." + YourFastDB.KEY_FAST_ID + " = fasts.id";
@@ -141,10 +158,12 @@ public class JournalEntryDB extends DatabaseHandler<JournalEntry> {
     			String start = cursor.getString(cursor.getColumnIndexOrThrow(YourFastDB.KEY_START));
     			String end = cursor.getString(cursor.getColumnIndexOrThrow(YourFastDB.KEY_END));
     			String name = cursor.getString(cursor.getColumnIndexOrThrow(FastDB.KEY_NAME));
-    			String desc = cursor.getString(cursor.getColumnIndexOrThrow(FastDB.KEY_DESC));
+    			String purpose = cursor.getString(cursor.getColumnIndexOrThrow(FastDB.KEY_PURPOSE));
     			int length = cursor.getInt(cursor.getColumnIndexOrThrow(FastDB.KEY_LENGTH));
     			String url = cursor.getString(cursor.getColumnIndexOrThrow(FastDB.KEY_URL));
     			boolean custom = cursor.getInt(cursor.getColumnIndexOrThrow(FastDB.KEY_CUSTOM)) > 0;
+    			String desc = cursor.getString(cursor.getColumnIndexOrThrow(FastDB.KEY_BACKGROUND));
+    			String restrictions = cursor.getString(cursor.getColumnIndexOrThrow(FastDB.KEY_DETAILS));
     			
     			Timestamp startDate = null, endDate = null, date = null;
     				
@@ -157,7 +176,7 @@ public class JournalEntryDB extends DatabaseHandler<JournalEntry> {
     				e.printStackTrace();
     			}
     			
-    			Fast fast = new Fast(name, desc, length, url, custom);
+    			Fast fast = new Fast(name, purpose, length, url, custom, desc, restrictions);
     			YourFast yourFast = new YourFast(yourFastId, fast, startDate, endDate);
                 JournalEntry journalEntry = new JournalEntry(id, entry, yourFast, entryDay, date);
                 fastList.add(journalEntry);
@@ -210,5 +229,27 @@ public class JournalEntryDB extends DatabaseHandler<JournalEntry> {
 	protected void init(SQLiteDatabase db) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public JournalEntry getEntryByFastAndDay(int yourFastId, int day) {
+		SQLiteDatabase db = this.getReadableDatabase();
+		
+	    String[] selectionArgs = { String.valueOf(yourFastId), String.valueOf(day) };
+		String sql = "SELECT " + TABLE + ".id AS JournalEntryID, "
+        		+ KEY_ENTRY + ", " + KEY_DAY + ", " + KEY_DATE + ", " 
+        		+ "yourFasts.id, " + YourFastDB.KEY_START + ", " + YourFastDB.KEY_END + ", "
+        		+ FastDB.KEY_NAME + ", " + FastDB.KEY_PURPOSE + ", " 
+        		+ FastDB.KEY_LENGTH + ", " + FastDB.KEY_URL + ", " 
+        		+ FastDB.KEY_CUSTOM + ", " + FastDB.KEY_BACKGROUND + ", " + FastDB.KEY_DETAILS
+        		+ " FROM " + TABLE 
+				+ " LEFT JOIN yourFasts ON " + TABLE + "." + KEY_YOUR_FAST_ID + " = yourFasts.id "
+        		+ " LEFT JOIN fasts ON yourFasts." + YourFastDB.KEY_FAST_ID + " = fasts.id"
+        		+ " WHERE yourFasts.id = ? AND " + KEY_DAY + " = ?";
+		Cursor cursor = db.rawQuery(sql, selectionArgs);
+		
+		if(cursor.moveToFirst()) {
+			return getJournalEntryData(cursor);
+		}
+		return null;
 	}
 }

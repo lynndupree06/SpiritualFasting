@@ -80,15 +80,7 @@ public class BaseActivity extends SlidingFragmentActivity {
 				FastDatePickerDialog picker = new FastDatePickerDialog(this, CreateFastActivity.datePickerListener, 
                         year, month,day);
 				
-				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-					picker.getDatePicker().setMinDate(calendar.getTime().getTime());
-				}
-				
-				
 			    return picker;
-			//case DURATION_DIALOG_ID:
-				//NumberPicker numberPicker = new NumberPicker(this);
-				//return numberPicker.get;
 		}
 		return null;
 	}

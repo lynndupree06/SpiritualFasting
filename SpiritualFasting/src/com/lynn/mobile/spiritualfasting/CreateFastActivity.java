@@ -195,8 +195,7 @@ public class CreateFastActivity extends BaseActivity {
 				throw new Exception();
 			}
 			
-			if(!name.equals("Select a fast...") && !date.equals("") 
-					&& (start.after(today) || date.equals(todaysDate))) {
+			if(!name.equals("Select a fast...") && !date.equals("")) {
 				
 				FastDB fastDb = new FastDB(this);
 				if(name.equals("Create a Custom Fast...")) {
@@ -233,12 +232,25 @@ public class CreateFastActivity extends BaseActivity {
 				if(fastStartDate.equals(todaysDate)) {
 					intent.putExtra(Resources.PROGRESS, "Day 1 of " + newFast.getFast().getLength());
 					intent.putExtra(Resources.DAY, 1);
-				} else {
+				} else if(start.after(today)) {
 					long diffTime = newFast.getStartDate().getTime() - Calendar.getInstance().getTime().getTime();
 					long diffDays = diffTime / (1000 * 60 * 60 * 24);
 					String dayText = (diffDays + 1 > 1) ? " days" : " day";
 					intent.putExtra(Resources.PROGRESS, "Set to start in " + (diffDays + 1) + dayText);
 					intent.putExtra(Resources.DAY, 0);
+				} else if(start.before(today)) {
+					long diffTime = Calendar.getInstance().getTime().getTime() - newFast.getStartDate().getTime();
+					long diffDays = diffTime / (1000 * 60 * 60 * 24);
+					
+					if(diffDays < newFast.getFast().getLength()) {
+						long dayInFast = newFast.getFast().getLength() - (diffDays + 1);
+						intent.putExtra(Resources.PROGRESS, "Day " 
+								+ dayInFast  
+								+ " of " + newFast.getFast().getLength());
+						intent.putExtra(Resources.DAY, dayInFast);
+					} else {
+						throw new Exception();
+					}
 				}
 					
 				intent.putExtra(Resources.FAST_NAME, fast.getName());

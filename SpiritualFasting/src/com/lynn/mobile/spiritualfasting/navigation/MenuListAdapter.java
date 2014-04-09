@@ -1,6 +1,8 @@
 package com.lynn.mobile.spiritualfasting.navigation;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +21,7 @@ public class MenuListAdapter<T> extends ArrayAdapter<T>
 
 	public T[] MenuItems;
 	public Context AdapterContext;
+	private Typeface font;
 
 	public MenuListAdapter (Context context, int resourceId, T[] objects)
 	{
@@ -27,6 +30,7 @@ public class MenuListAdapter<T> extends ArrayAdapter<T>
 		Inflater = LayoutInflater.from(context);
 		Ctx = context;
 		MenuItems = objects;
+		font = Typeface.createFromAsset(Ctx.getAssets(), "fonts/fontawesome-webfont.ttf");
 	}
 	
 	@Override
@@ -46,49 +50,44 @@ public class MenuListAdapter<T> extends ArrayAdapter<T>
 	
 	@Override
 	public View getView (int position, View convertView, ViewGroup parent)
-	{
+	{		
 		convertView = (ViewGroup)Inflater.inflate (ResourceId, null);
 
 		TextView txtName = (TextView)convertView.findViewById (R.id.menu_item_text);
 		txtName.setText((String)MenuItems [position]);
-
-		ImageView menu_image = (ImageView)convertView.findViewById (R.id.menu_item_image);
-		String uri = "";
-
-		int imageResource;
-		Drawable image = null;
+		
+		TextView txtImage = (TextView)convertView.findViewById(R.id.menu_item_image);
+		txtImage.setTypeface(font);
 		
 		switch (position) {
 			case 0: 
-				image = Ctx.getResources().getDrawable(R.drawable.home_icon);
+				txtImage.setText(resources().getString(R.string.icon_home));
 				break;
 			case 1: 
-				uri = "drawable/ic_menu_star";
-				imageResource = Ctx.getResources().getIdentifier(uri, null, "android");
-				image = Ctx.getResources().getDrawable(imageResource);
+				txtImage.setText(resources().getString(R.string.icon_your_fasts));
 				break;
 			case 2: 
-				image = Ctx.getResources().getDrawable(R.drawable.list_icon);
+				txtImage.setText(resources().getString(R.string.icon_types));
 				break;
 			case 3:
-				uri = "drawable/ic_menu_help";
-				imageResource = Ctx.getResources().getIdentifier(uri, null, "android");
-				image = Ctx.getResources().getDrawable(imageResource);
+				txtImage.setText(resources().getString(R.string.icon_why));
 				break;
 			case 4:
-				image = Ctx.getResources().getDrawable(R.drawable.info_icon);
+				txtImage.setText(resources().getString(R.string.icon_info));
 				break;
 			case 5:
-				image = Ctx.getResources().getDrawable(R.drawable.terms_icon);
+				txtImage.setText(resources().getString(R.string.icon_terms));
 				break;
 			case 6:
-				image = Ctx.getResources().getDrawable(R.drawable.share_icon);
+				txtImage.setText(resources().getString(R.string.icon_share));
 				break;	
 		}
 
-		menu_image.setImageDrawable(image);
-
 		return convertView;
+	}
+
+	private Resources resources() {
+		return Ctx.getResources();
 	}
 	
 	@Override

@@ -48,6 +48,14 @@
 	<string name="dialog_exit">Do you want to save before you exit?</string>
 	<string name="yes">Yes</string>
 	<string name="no">No</string>
+	
+	<string name="icon_home">&#xf015;</string>
+	<string name="icon_your_fasts">&#xf0ae;</string>
+	<string name="icon_types">&#xf00a;</string>
+	<string name="icon_why">&#xf059;</string>
+	<string name="icon_info">&#xf05a;</string>
+	<string name="icon_terms">&#xf016;</string>
+	<string name="icon_share">&#xf045;</string>
     
     <string-array name="navigation">
         <item>Home</item>

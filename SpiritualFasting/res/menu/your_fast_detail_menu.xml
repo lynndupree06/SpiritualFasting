@@ -7,25 +7,5 @@
     <item
         android:id="@+id/fast_detail"
         android:title="@string/fast_detail_button_text" android:showAsAction="always"/>
-    
-    <item android:showAsAction="always" android:icon="@drawable/abs__ic_menu_moreoverflow_holo_dark">
-           <menu>
-               <item android:id="@+id/terms_of_service" android:title="service"/>
-               <item android:id="@+id/privacy_policy" android:title="policy"/>
-               <item android:id="@+id/help" android:title="help"/>
-           </menu>
-       </item>
-    
-    <!-- <item
-        android:id="@+id/edit_fast"
-        android:showAsAction="collapseActionView"
-        android:title="" >
-        <menu>
-            <item
-                android:id="@+id/journal_entries"
-        		android:showAsAction="never" 
-        		android:title="@string/journal_entries_menu_item"  />
-       </menu>
-	</item> -->
 
 </menu>

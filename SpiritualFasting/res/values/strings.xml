@@ -56,6 +56,7 @@
 	<string name="icon_info">&#xf05a;</string>
 	<string name="icon_terms">&#xf016;</string>
 	<string name="icon_share">&#xf045;</string>
+	<string name="icon_calendar">&#xf073;</string>
     
     <string-array name="navigation">
         <item>Home</item>

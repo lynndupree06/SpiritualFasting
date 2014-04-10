@@ -13,6 +13,7 @@ import com.lynn.mobile.spiritualfasting.R;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.util.SparseBooleanArray;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,10 +23,14 @@ import android.widget.TextView;
 
 public class YourFastListAdapter extends IFastListAdapter<YourFast> {
 	private SparseBooleanArray mSelectedItemsIds;
+	private Typeface font;
+	private Context context;
 	
 	public YourFastListAdapter(Context context, int resourceId, List<YourFast> objects) {
 		super(context, resourceId, objects);
 		mSelectedItemsIds = new SparseBooleanArray();
+		this.context = context;
+		font = Typeface.createFromAsset(context.getAssets(), "fonts/fontawesome-webfont.ttf");
 	}
 
 	@Override
@@ -35,7 +40,8 @@ public class YourFastListAdapter extends IFastListAdapter<YourFast> {
 		YourFast yourFast = Items.get(position);
 		
 		TextView name = (TextView)convertView.findViewById (R.id.type_of_fast_title);
-		name.setText(yourFast.getFast().getName()); 
+		name.setTypeface(font);
+		name.setText(context.getResources().getString(R.string.icon_calendar) + " " + yourFast.getFast().getName()); 
 	
 		TextView progress = (TextView)convertView.findViewById (R.id.progress_subtitle);
 		ProgressBar progressBar = (ProgressBar)convertView.findViewById(R.id.progress_bar);

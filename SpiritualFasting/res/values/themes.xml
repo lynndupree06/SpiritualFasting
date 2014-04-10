@@ -106,6 +106,7 @@
 	<style name="FastListItem_Title">
 	    <item name="android:textSize">20sp</item>
 	    <item name="android:textStyle">bold</item>
+	    <item name="android:paddingBottom">10dp</item>
 	</style>
 	<style name="FastListItem_Subtitle">
 	    <item name="android:textSize">14sp</item>

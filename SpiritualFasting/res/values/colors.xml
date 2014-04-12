@@ -6,11 +6,11 @@
     <color name="complementary_color">#FFAE00</color>
     
     <color name="background_color">#efece3</color>
-    <color name="actionbar_background">#ff282828</color>
+    <color name="actionbar_background">#282828</color>
     <color name="actionbar_text">#ffffff</color>
     <color name="actionbar_pressed_background">#062170</color>
     
-    <color name="navigation_menu_background">#5E5E5E</color>
+    <color name="navigation_menu_background">#282828</color>
     <color name="navigation_menu_text">#FFFFFF</color>
     <color name="navigation_menu_item_pressed_background">#FFAE00</color>
     <color name="list_item_pressed_background">#6D87D6</color>

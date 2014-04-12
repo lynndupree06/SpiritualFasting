@@ -1,17 +1,49 @@
 @font-face {
-    font-family: "fontawesome";
-    src: url('../fonts/fontawesome-webfont.ttf');
+    font-family: "JosefinSlab";
+    src: url('../fonts/JosefinSlab-Regular.ttf');
+}
+
+@font-face {
+    font-family: "JosefinSlab";
+    src: url('../fonts/JosefinSlab-Bold.ttf');
+    font-weight: bold;
+}
+
+@font-face {
+    font-family: "JosefinSlab";
+    src: url('../fonts/JosefinSlab-Light.ttf');
+    font-weight: lighter;
+}
+
+@font-face {
+    font-family: "JosefinSlab";
+    src: url('../fonts/JosefinSlab-LightItalic.ttf');
+    font-weight: lighter;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: "JosefinSlab";
+    src: url('../fonts/JosefinSlab-BoldItalic.ttf');
+    font-weight: bold;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: "JosefinSlab";
+    src: url('../fonts/JosefinSlab-Italic.ttf');
+    font-style: italic;
 }
 
 body {
-    font-family: "fontawesome",sans-serif;
+    font-family: "JosefinSlab",sans-serif;
 	background: #efece3;
-	font-size: 18px;
+	font-size: 20px;
 	color: #3C0470;
 	margin: 10px;
 }
 
-#define {
+.define {
 	color: #FFAE00;
 	text-transform: uppercase;
 	font-weight: bold;
@@ -32,23 +64,31 @@ a {
 	padding: 3px;
 }
 
-#welcome-scripture i {
+.scripture-block {
+    margin-bottom: 10px;
+    color: black;
+}
+
+.scripture-block i {
     float: left;
     width: 5%;
     color: grey;
 }
 
-#welcome-scripture div {
+.scripture-block div {
     font-size: 18px;
     margin-bottom: 0;
     float: right;
     width: 90%;
-    color: black;
+    font-weight: bold;
 }
 
-#welcome-scripture p {
-    color: grey;
+.scripture-block p {
     font-size: 14px;
-    font-weight: bold;
     margin-top: 0;
+}
+
+.clear {
+    height: 10px;
+    clear: both;
 }

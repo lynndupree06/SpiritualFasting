@@ -85,7 +85,7 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
         // If you want to hide the notification after it was selected, do the code below
         mNotification.flags |= Notification.FLAG_AUTO_CANCEL;
 
-        notificationManager.notify(0, mNotification);
+        notificationManager.notify(fast.getId(), mNotification);
     }
 
     public void setAlarm(Context context, long newFastId)

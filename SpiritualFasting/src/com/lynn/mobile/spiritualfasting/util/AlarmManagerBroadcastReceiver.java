@@ -59,7 +59,8 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
 
         Intent intent = new Intent(context, YourFastDetailActivity.class);
         intent.putExtra(Resources.FAST_NAME, fast.getFast().getName());
-        intent.putExtra(Resources.YOUR_FAST_ID, fast.getId());
+        intent.putExtra(Resources.YOUR_FAST_ID, (int)fast.getId());
+
         long dayInFast = fast.getFast().getLength() - (diffDays + 1);
         intent.putExtra(Resources.PROGRESS, "Day "
                 + dayInFast
@@ -72,7 +73,7 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
                 .setContentTitle("Reminder")
                 .setSmallIcon(R.drawable.icon)
                 .setContentIntent(pIntent)
-                .setSound(soundUri)
+                .setDefaults(Notification.DEFAULT_ALL)
 
                 .addAction(R.drawable.ic_action_go_to_today, "View", pIntent)
                 .setStyle(new Notification.BigTextStyle()
@@ -84,21 +85,19 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
 
         // If you want to hide the notification after it was selected, do the code below
         mNotification.flags |= Notification.FLAG_AUTO_CANCEL;
-
         notificationManager.notify(fast.getId(), mNotification);
     }
 
-    public void setAlarm(Context context, long newFastId)
+    public void setAlarm(Context context)
     {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, 4);
-        calendar.set(Calendar.MINUTE, 21);
+        calendar.set(Calendar.HOUR_OF_DAY, 8);
+        calendar.set(Calendar.MINUTE, 0);
 
         AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(context, AlarmManagerBroadcastReceiver.class);
         intent.putExtra(ONE_TIME, Boolean.FALSE);
-        intent.putExtra("FastId", (int)newFastId);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
         alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
                 AlarmManager.INTERVAL_FIFTEEN_MINUTES, pendingIntent);

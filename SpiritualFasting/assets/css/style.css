@@ -1,6 +1,12 @@
+@font-face {
+    font-family: "fontawesome";
+    src: url('../fonts/fontawesome-webfont.ttf');
+}
+
 body {
+    font-family: "fontawesome",sans-serif;
 	background: #efece3;
-	font-size: 16px;
+	font-size: 18px;
 	color: #3C0470;
 	margin: 10px;
 }

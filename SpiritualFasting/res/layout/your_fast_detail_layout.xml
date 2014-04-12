@@ -17,7 +17,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:contentDescription="previous"
-            android:src="@drawable/abs__ic_ab_back_holo_light" />
+            android:src="@drawable/ic_action_previous_item"
+            style="@style/YourFastDetail_ImageButton" />
         
         <ImageButton
             android:id="@+id/next"
@@ -25,7 +26,8 @@
             android:layout_height="wrap_content"
             android:contentDescription="next"
             android:layout_alignParentRight="true"
-            android:src="@drawable/abs__ic_ab_forward_holo_light" />
+            android:src="@drawable/ic_action_next_item"
+            style="@style/YourFastDetail_ImageButton"/>
 
     </RelativeLayout>
 

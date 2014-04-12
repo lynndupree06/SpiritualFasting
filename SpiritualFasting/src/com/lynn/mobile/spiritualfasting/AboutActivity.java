@@ -1,7 +1,5 @@
 package com.lynn.mobile.spiritualfasting;
 
-import com.lynn.mobile.spiritualfasting.R;
-
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.webkit.WebView;
@@ -13,7 +11,6 @@ public class AboutActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView (R.layout.webview_layout);
 		setupMenu();
-//		setSlidingActionBarEnabled(false);
 		
 		getSupportActionBar().setHomeButtonEnabled(true);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(false);

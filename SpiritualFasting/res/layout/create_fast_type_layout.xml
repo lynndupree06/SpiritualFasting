@@ -16,13 +16,13 @@
             android:orientation="vertical"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content" >
-            <TextView
+            <com.lynn.mobile.spiritualfasting.extensibility.CustomTextView
                 android:text="@string/CreateFastForm_NameText"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 style="@style/FormLabelText" />
 
-            <EditText
+            <com.lynn.mobile.spiritualfasting.extensibility.CustomEditText
                 android:id="@+id/add_fast_type_name"
                 style="@style/FormInputText"
                 android:layout_width="fill_parent"
@@ -34,13 +34,13 @@
             android:orientation="vertical"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content" >
-            <TextView
+            <com.lynn.mobile.spiritualfasting.extensibility.CustomTextView
                 android:text="@string/CreateFastForm_DurationText"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 style="@style/FormLabelText" />
 
-            <EditText
+            <com.lynn.mobile.spiritualfasting.extensibility.CustomEditText
                 android:id="@+id/add_fast_type_duration"
                 style="@style/FormInputText"
                 android:layout_width="fill_parent"
@@ -52,13 +52,13 @@
             android:orientation="vertical"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content" >
-            <TextView
+            <com.lynn.mobile.spiritualfasting.extensibility.CustomTextView
                 android:text="@string/CreateFastTypeForm_PurposeText"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 style="@style/FormLabelText" />
 
-            <EditText
+            <com.lynn.mobile.spiritualfasting.extensibility.CustomEditText
                 android:id="@+id/add_fast_type_purpose"
                 style="@style/FormInputText"
                 android:layout_width="fill_parent"
@@ -72,13 +72,13 @@
             android:orientation="vertical"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content" >
-            <TextView
+            <com.lynn.mobile.spiritualfasting.extensibility.CustomTextView
                 android:text="@string/CreateFastTypeForm_BackgroundText"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 style="@style/FormLabelText" />
 
-            <EditText
+            <com.lynn.mobile.spiritualfasting.extensibility.CustomEditText
                 android:id="@+id/add_fast_type_background"
                 style="@style/FormInputText"
                 android:layout_width="fill_parent"
@@ -93,13 +93,13 @@
             android:orientation="vertical"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content" >
-            <TextView
+            <com.lynn.mobile.spiritualfasting.extensibility.CustomTextView
                 android:text="@string/CreateFastTypeForm_DetailsText"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 style="@style/FormLabelText" />
 
-            <EditText
+            <com.lynn.mobile.spiritualfasting.extensibility.CustomEditText
                 android:id="@+id/add_fast_type_details"
                 style="@style/FormInputText"
                 android:layout_width="fill_parent"

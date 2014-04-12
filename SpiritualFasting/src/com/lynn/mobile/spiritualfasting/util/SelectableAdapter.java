@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.TextView;
+import com.lynn.mobile.spiritualfasting.extensibility.CustomTextView;
 
 public class SelectableAdapter extends ArrayAdapter<String> {
 	private SparseBooleanArray mSelectedItemsIds;
@@ -52,7 +52,7 @@ public class SelectableAdapter extends ArrayAdapter<String> {
 		    LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		    convertView = inflater.inflate(android.R.layout.simple_list_item_1, null);
 		}           
-		((TextView) convertView).setText(getItem(position));    
+		((CustomTextView) convertView).setText(getItem(position));
 		//change background color if list item is selected
 		convertView.setBackgroundColor(mSelectedItemsIds.get(position)? 0x9934B5E4: Color.TRANSPARENT);         
 		             

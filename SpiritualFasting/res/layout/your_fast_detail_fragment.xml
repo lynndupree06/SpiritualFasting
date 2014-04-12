@@ -1,11 +1,11 @@
 
 	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	    android:layout_width="match_parent"
-		android:layout_height="wrap_content"
+		android:layout_height="match_parent"
 		android:orientation="vertical" >
 		
 	    
-		    <TextView
+		    <com.lynn.mobile.spiritualfasting.extensibility.CustomTextView
 		        android:id="@+id/fast_activity_title"
 		        style="@style/FastLayout_Title"
 		        android:layout_width="wrap_content"
@@ -19,7 +19,7 @@
 		        android:layout_marginRight="40dp"
 		        android:background="@color/primary_color" />
 		
-		    <TextView
+		    <com.lynn.mobile.spiritualfasting.extensibility.CustomTextView
 		        android:id="@+id/fast_activity_subtitle"
 		        style="@style/FastLayout_Subtitle"
 		        android:layout_width="wrap_content"

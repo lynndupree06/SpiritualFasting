@@ -1,16 +1,16 @@
 package com.lynn.mobile.spiritualfasting.util;
 
-import java.util.List;
-
-import com.lynn.mobile.spiritualfasting.model.Fast;
-import com.lynn.mobile.spiritualfasting.R;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import com.lynn.mobile.spiritualfasting.R;
+import com.lynn.mobile.spiritualfasting.extensibility.CustomTextView;
+import com.lynn.mobile.spiritualfasting.model.Fast;
+
+import java.util.List;
 
 public class IFastListAdapter<T> extends ArrayAdapter<T> {
 	
@@ -29,7 +29,7 @@ public class IFastListAdapter<T> extends ArrayAdapter<T> {
 	public View getView (int position, View convertView, ViewGroup parent)
 	{
 		convertView = (ViewGroup)Inflater.inflate (ResourceId, null);
-		TextView name = (TextView)convertView.findViewById (R.id.type_of_fast_title);
+		TextView name = (CustomTextView)convertView.findViewById (R.id.type_of_fast_title);
 		name.setText(((Fast) Items.get(position)).getName()); 
 		return convertView;
 	}

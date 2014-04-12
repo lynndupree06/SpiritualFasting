@@ -3,15 +3,13 @@ package com.lynn.mobile.spiritualfasting.navigation;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.lynn.mobile.spiritualfasting.R;
+import com.lynn.mobile.spiritualfasting.extensibility.CustomTextView;
 
 public class MenuListAdapter<T> extends ArrayAdapter<T>
 {
@@ -53,10 +51,10 @@ public class MenuListAdapter<T> extends ArrayAdapter<T>
 	{		
 		convertView = (ViewGroup)Inflater.inflate (ResourceId, null);
 
-		TextView txtName = (TextView)convertView.findViewById (R.id.menu_item_text);
+		TextView txtName = (CustomTextView)convertView.findViewById (R.id.menu_item_text);
 		txtName.setText((String)MenuItems [position]);
 		
-		TextView txtImage = (TextView)convertView.findViewById(R.id.menu_item_image);
+		TextView txtImage = (CustomTextView)convertView.findViewById(R.id.menu_item_image);
 		txtImage.setTypeface(font);
 		
 		switch (position) {

@@ -1,25 +1,19 @@
 package com.lynn.mobile.spiritualfasting.util;
 
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-
-import com.lynn.mobile.spiritualfasting.model.YourFast;
-import com.lynn.mobile.spiritualfasting.R;
-
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.util.SparseBooleanArray;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.TextView;
+import com.lynn.mobile.spiritualfasting.R;
+import com.lynn.mobile.spiritualfasting.extensibility.CustomTextView;
+import com.lynn.mobile.spiritualfasting.model.YourFast;
+
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class YourFastListAdapter extends IFastListAdapter<YourFast> {
 	private SparseBooleanArray mSelectedItemsIds;
@@ -36,14 +30,14 @@ public class YourFastListAdapter extends IFastListAdapter<YourFast> {
 	@Override
 	public View getView (int position, View convertView, ViewGroup parent)
 	{
-		convertView = (ViewGroup)Inflater.inflate (ResourceId, null);
+		convertView = Inflater.inflate (ResourceId, null);
 		YourFast yourFast = Items.get(position);
 		
-		TextView name = (TextView)convertView.findViewById (R.id.type_of_fast_title);
+		CustomTextView name = (CustomTextView)convertView.findViewById (R.id.type_of_fast_title);
 		name.setTypeface(font);
-		name.setText(context.getResources().getString(R.string.icon_calendar) + " " + yourFast.getFast().getName()); 
-	
-		TextView progress = (TextView)convertView.findViewById (R.id.progress_subtitle);
+		name.setText(context.getResources().getString(R.string.icon_calendar) + " " + yourFast.getFast().getName());
+
+        CustomTextView progress = (CustomTextView)convertView.findViewById (R.id.progress_subtitle);
 		ProgressBar progressBar = (ProgressBar)convertView.findViewById(R.id.progress_bar);
 		Date date = Calendar.getInstance().getTime();
         Timestamp dateToday = new Timestamp(date.getTime());

@@ -1,18 +1,17 @@
 package com.lynn.mobile.spiritualfasting.database;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-
 import com.lynn.mobile.spiritualfasting.model.Fast;
 import com.lynn.mobile.spiritualfasting.model.Scripture;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FastDB extends DatabaseHandler<Fast> {
 
@@ -57,7 +56,7 @@ public class FastDB extends DatabaseHandler<Fast> {
 		fast = new Fast("The Samuel Fast", "Evangelism & Revival", 6, "samuel_fast.html", false);
 		addItem(fast, db);
 		
-		fast = new Fast("The DiscipleÕs Fast", "Breaking Addiction", 7, "disciples_fast.html", false);
+		fast = new Fast("The Disciple's Fast", "Breaking Addiction", 7, "disciples_fast.html", false);
 		addItem(fast, db);
 		
 		fast = new Fast("The John the Baptist Fast", "For Testimony", 6, "john_baptist_fast.html", false);
@@ -72,10 +71,10 @@ public class FastDB extends DatabaseHandler<Fast> {
 //		fast = new Fast("The Elijah Fast", "Solving Emotional Problems", 5, "elijah_fast.html");
 //		addItem(fast, db);
 //		
-//		fast = new Fast("The WidowÕs Fast", "Humanitarian Needs", 5, "widow_fast.html");
+//		fast = new Fast("The Widowï¿½s Fast", "Humanitarian Needs", 5, "widow_fast.html");
 //		addItem(fast, db);
 //		
-//		fast = new Fast("The Saint PaulÕs Fast", "Decision Making", 5, "saint_paul_fast.html");
+//		fast = new Fast("The Saint Paulï¿½s Fast", "Decision Making", 5, "saint_paul_fast.html");
 //		addItem(fast, db);
 	}
 	

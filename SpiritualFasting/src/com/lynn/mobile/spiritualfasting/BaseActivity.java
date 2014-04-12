@@ -1,32 +1,29 @@
 package com.lynn.mobile.spiritualfasting;
 
-import java.util.Calendar;
-
 import android.annotation.SuppressLint;
 import android.app.Dialog;
-import android.os.Build;
+import android.graphics.Typeface;
 import android.view.KeyEvent;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.NumberPicker;
-
 import com.actionbarsherlock.view.MenuItem;
 import com.lynn.mobile.spiritualfasting.navigation.MenuListAdapter;
 import com.lynn.mobile.spiritualfasting.navigation.OnMenuItemClickListener;
 import com.lynn.mobile.spiritualfasting.util.FastDatePickerDialog;
-import com.lynn.mobile.spiritualfasting.R;
 import com.slidingmenu.lib.SlidingMenu;
 import com.slidingmenu.lib.app.SlidingFragmentActivity;
 
+import java.util.Calendar;
+
 @SuppressLint("NewApi")
 public class BaseActivity extends SlidingFragmentActivity {
-	private static final int DATE_DIALOG_ID = 0;
-	private static final int DURATION_DIALOG_ID = 1;
 	protected SlidingMenu menu;
+    protected Typeface font;
+	private static final int DATE_DIALOG_ID = 0;
 	private int year;
 	private int month;
 	private int day;
-	
+
 	public void setupMenu() {
 		setBehindContentView(R.layout.navigation_menu_layout);
 		menu = getSlidingMenu();

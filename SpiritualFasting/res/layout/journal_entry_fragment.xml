@@ -5,7 +5,7 @@
     android:orientation="vertical"
     style="@style/FragmentLayout">
 
-    <EditText
+    <com.lynn.mobile.spiritualfasting.extensibility.CustomEditText
         android:id="@+id/journal_entry_text"
         android:layout_width="match_parent"
         android:layout_height="fill_parent"

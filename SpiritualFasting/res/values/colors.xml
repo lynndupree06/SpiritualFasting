@@ -6,7 +6,7 @@
     <color name="complementary_color">#FFAE00</color>
     
     <color name="background_color">#efece3</color>
-    <color name="actionbar_background">#2B4181</color>
+    <color name="actionbar_background">#ff282828</color>
     <color name="actionbar_text">#ffffff</color>
     <color name="actionbar_pressed_background">#062170</color>
     

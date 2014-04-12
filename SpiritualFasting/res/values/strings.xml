@@ -70,7 +70,7 @@
     <string-array name="types_of_fasts">
         <item>Select a fast&#8230;</item>
 		<item>The Daniel Fast</item>
-		<item>The Disciple’s Fast</item>
+		<item>The Disciple\'s Fast</item>
 		<!-- <item>The Elijah Fast</item>
 		<item>The Esther Fast</item>
 		<item>The Ezra Fast</item>-->

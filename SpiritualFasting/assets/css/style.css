@@ -25,3 +25,24 @@ a {
 	float: right;
 	padding: 3px;
 }
+
+#welcome-scripture i {
+    float: left;
+    width: 5%;
+    color: grey;
+}
+
+#welcome-scripture div {
+    font-size: 18px;
+    margin-bottom: 0;
+    float: right;
+    width: 90%;
+    color: black;
+}
+
+#welcome-scripture p {
+    color: grey;
+    font-size: 14px;
+    font-weight: bold;
+    margin-top: 0;
+}

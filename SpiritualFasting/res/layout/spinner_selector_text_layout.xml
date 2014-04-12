@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.lynn.mobile.spiritualfasting.extensibility.CustomTextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/spinnerSelectorTextView"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"

@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical" >
 
-    <TextView
+    <com.lynn.mobile.spiritualfasting.extensibility.CustomTextView
         android:id="@+id/type_of_fast_title"
         style="@style/FastListItem_Title"
         android:layout_width="fill_parent"
@@ -21,7 +21,7 @@
         android:layout_marginRight="5dp"
         android:progress="0" />
 
-    <TextView
+    <com.lynn.mobile.spiritualfasting.extensibility.CustomTextView
         android:id="@+id/progress_subtitle"
         style="@style/FastListItem_Subtitle"
         android:layout_width="fill_parent"

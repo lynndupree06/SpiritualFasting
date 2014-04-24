@@ -8,8 +8,6 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.media.RingtoneManager;
-import android.net.Uri;
 import android.os.Build;
 import android.os.PowerManager;
 import com.lynn.mobile.spiritualfasting.R;
@@ -51,9 +49,6 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     private void setNotification(Context context, YourFast fast) {
-        // define sound URI, the sound to be played when there's a notification
-        Uri soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-
         long diffTime = Calendar.getInstance().getTime().getTime() - fast.getStartDate().getTime();
         long diffDays = diffTime / (1000 * 60 * 60 * 24);
 
@@ -67,11 +62,11 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
                 + " of " + fast.getFast().getLength());
         intent.putExtra(Resources.DAY, dayInFast);
 
-        PendingIntent pIntent = PendingIntent.getActivity(context, 0, intent, 0);
+        PendingIntent pIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_ONE_SHOT);
 
         Notification mNotification = new Notification.Builder(context)
                 .setContentTitle("Reminder")
-                .setSmallIcon(R.drawable.icon)
+                .setSmallIcon(R.drawable.bible_icon)
                 .setContentIntent(pIntent)
                 .setDefaults(Notification.DEFAULT_ALL)
 

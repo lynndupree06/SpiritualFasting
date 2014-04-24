@@ -1,12 +1,10 @@
 package com.lynn.mobile.spiritualfasting;
 
-import com.lynn.mobile.spiritualfasting.database.FastDB;
-import com.lynn.mobile.spiritualfasting.fragments.*;
-import com.lynn.mobile.spiritualfasting.util.FragmentNames;
-import com.lynn.mobile.spiritualfasting.R;
-
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import com.lynn.mobile.spiritualfasting.database.FastDB;
+import com.lynn.mobile.spiritualfasting.fragments.HomeFragment;
+import com.lynn.mobile.spiritualfasting.util.FragmentNames;
 
 public class MainActivity extends BaseActivity {
 	
@@ -14,6 +12,8 @@ public class MainActivity extends BaseActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView (R.layout.main_layout);
+        //AlarmManagerBroadcastReceiver receiver = new AlarmManagerBroadcastReceiver();
+        //receiver.setAlarm(getApplicationContext());
 		
 		getSupportActionBar().setHomeButtonEnabled(true);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(false);
@@ -49,4 +49,10 @@ public class MainActivity extends BaseActivity {
 		fastDB.init(db);
 		fastDB.close();
 	}
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
 }

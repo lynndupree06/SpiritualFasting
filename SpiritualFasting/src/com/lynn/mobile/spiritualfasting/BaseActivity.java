@@ -3,14 +3,12 @@ package com.lynn.mobile.spiritualfasting;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.graphics.Typeface;
-import android.os.Bundle;
 import android.view.KeyEvent;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import com.actionbarsherlock.view.MenuItem;
 import com.lynn.mobile.spiritualfasting.navigation.MenuListAdapter;
 import com.lynn.mobile.spiritualfasting.navigation.OnMenuItemClickListener;
-import com.lynn.mobile.spiritualfasting.util.AlarmManagerBroadcastReceiver;
 import com.lynn.mobile.spiritualfasting.util.FastDatePickerDialog;
 import com.slidingmenu.lib.SlidingMenu;
 import com.slidingmenu.lib.app.SlidingFragmentActivity;
@@ -25,14 +23,6 @@ public class BaseActivity extends SlidingFragmentActivity {
 	private int year;
 	private int month;
 	private int day;
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        AlarmManagerBroadcastReceiver receiver = new AlarmManagerBroadcastReceiver();
-        receiver.cancelAlarm(getApplicationContext());
-        receiver.setAlarm(getApplicationContext());
-    }
 
     public void setupMenu() {
 		setBehindContentView(R.layout.navigation_menu_layout);

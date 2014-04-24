@@ -1,23 +1,15 @@
 package com.lynn.mobile.spiritualfasting;
 
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager.OnBackStackChangedListener;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
-
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.MenuItem;
 import com.lynn.mobile.spiritualfasting.database.FastDB;
@@ -28,8 +20,14 @@ import com.lynn.mobile.spiritualfasting.model.Fast;
 import com.lynn.mobile.spiritualfasting.model.YourFast;
 import com.lynn.mobile.spiritualfasting.util.Resources;
 import com.lynn.mobile.spiritualfasting.util.ScreenSlidePagerAdapter;
-import com.lynn.mobile.spiritualfasting.R;
 import com.slidingmenu.lib.SlidingMenu;
+
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 public class YourFastDetailActivity extends BaseActivity {
 	private String fastName;
@@ -81,7 +79,6 @@ public class YourFastDetailActivity extends BaseActivity {
     		
     		fastDb.close();
     		wireButtons();
-//    		getSupportFragmentManager().addOnBackStackChangedListener(getListener());
         }
 	}
 
@@ -94,26 +91,6 @@ public class YourFastDetailActivity extends BaseActivity {
 				fragments);
 		getmPager().setAdapter(mPagerAdapter);
 		yourFastDb.close();
-	}
-	
-	private OnBackStackChangedListener getListener() {
-		OnBackStackChangedListener result = new OnBackStackChangedListener()
-        {
-            public void onBackStackChanged() 
-            {   
-//            	finish();
-//                int day = getIntent().getExtras().getInt(Resources.DAY);
-//                YourFastDetailFragment currentFragment = (YourFastDetailFragment)fragments.get(day - 1);
-//                currentFragment.onFragmentResume();
-//                getmPager().invalidate();
-                //updateAdapter();
-//                getmPager().getAdapter().notifyDataSetChanged();                 
-//                getmPager().invalidate();
-//                getmPager().refreshDrawableState();
-            }
-        };
-
-        return result;
 	}
 
 	/**
@@ -200,7 +177,12 @@ public class YourFastDetailActivity extends BaseActivity {
 	    	if(getSupportFragmentManager().popBackStackImmediate()) {
 	    		toggleNavigationButtons(View.VISIBLE);
 	    	} else {
-		    	finish();
+                if(this.isTaskRoot()) {
+                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                    finish();
+                } else {
+                    finish();
+                }
 	    	}
     	}
 	}

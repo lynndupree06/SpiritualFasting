@@ -13,7 +13,7 @@
     <color name="navigation_menu_background">#282828</color>
     <color name="navigation_menu_text">#FFFFFF</color>
     <color name="navigation_menu_item_pressed_background">#FFAE00</color>
-    <color name="list_item_pressed_background">#6D87D6</color>
+    <color name="list_item_pressed_background">#FFAE00</color>
     <color name="action_button_background">#FFAE00</color>
     <color name="action_button_text">#FFFFFF</color>
     <color name="action_button_pressed_background">#A67100</color>
